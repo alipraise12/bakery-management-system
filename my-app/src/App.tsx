@@ -1,0 +1,56 @@
+
+
+
+
+import { Routes, Route } from "react-router-dom"
+import Login from "./Login"
+import Register from "./Register"
+import Guarantor from "./Guarantor"
+import ForgotPassword from "./ForgotPassword"
+import AdminRegister from "./AdminRegister"
+import Dashboard from "./Dashboard"
+import Profile from "./profile"
+import Inventory from "./inventory"
+import ScanQR from "./ScannerQR"
+import Production from "./Production"
+import Sales from "./Sales"
+import Customers from "./Customers"
+import Productions from "./Productions"
+import CustomerLedger from "./ledger"
+import Dispatch from "./Dispatch"
+import CustomerInfo from "./CustomerInfo"
+
+function App() {
+  return (
+    <Routes>
+      
+      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/guarantor" element={<Guarantor />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/admin-register" element={<AdminRegister />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/inventory" element={<Inventory />} />
+      <Route path="/attendance" element={<ScanQR />} />
+      <Route path="/production" element={<Production />} />
+      <Route path="/sales" element={<Sales />} />
+      <Route path="/customers" element={<Customers />} />
+      <Route path="/productions" element={<Productions />} />
+      <Route path="/customer-ledger/:id" element={<CustomerLedger />}/>
+      <Route path="/dispatch" element={<Dispatch />}/>
+      <Route path="/customer-info" element={<CustomerInfo />}/>
+    
+      <Route path="*" element={<h1>Page Not Found</h1>} />
+
+
+    </Routes>
+  )
+}
+
+export default App
+
+
+
+
+

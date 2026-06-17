@@ -1,0 +1,147 @@
+/* CONTAINER */
+.admin-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6f9;
+}
+
+/* CARD */
+.admin-card {
+  width: 340px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+/* TITLE */
+.admin-card h2 {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+/* ERROR */
+.admin-error {
+  color: red;
+  text-align: center;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+/* BACK BUTTON */
+.admin-back {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* IMAGE */
+.admin-image-section {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.admin-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ddd;
+  margin: auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.admin-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-file {
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+/* SELECT */
+.admin-select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  font-size: 14px;
+}
+
+/* INPUTS */
+.admin-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* PASSWORD */
+.admin-password-wrapper {
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.admin-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* BUTTON */
+.admin-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  background-color: #1e3a8a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.admin-button:hover {
+  background-color: #162d6b;
+}
+
+
+.admin-spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

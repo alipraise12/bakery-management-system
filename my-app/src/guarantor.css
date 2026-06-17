@@ -1,0 +1,95 @@
+.guarantor-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6f9;
+}
+
+.guarantor-card {
+  width: 380px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.guarantor-card h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.guarantor-error {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.guarantor-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* PASSWORD */
+.guarantor-password-wrapper {
+  position: relative;
+}
+
+.guarantor-password-wrapper span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 12px;
+  color: gray;
+}
+
+/* BUTTON */
+.guarantor-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1e3a8a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guarantor-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* SPINNER */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* BACK LINK */
+.guarantor-back {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.guarantor-back a {
+  color: red;
+  text-decoration: none;
+}

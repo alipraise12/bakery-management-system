@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+
+# Django
+db.sqlite3
+*.sqlite3
+media/
+
+# JSON exports
+data.json
+data_utf8.json
+data_clean.json
+
+# Reports
+*.xlsx
+
+# Logs
+import_error.txt
+
+# Google credentials
+credentials.json
+
+# Environment
+.env
+.env.*
+
+# Node
+node_modules/
+dist/
+
+# VS Code
+.vscode/

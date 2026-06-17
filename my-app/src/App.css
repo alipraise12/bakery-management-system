@@ -1,0 +1,165 @@
+/* Optional global reset */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* .login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f9;
+}
+
+.login-card {
+  width: 350px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.login-error {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+
+.login-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1e3a8a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #162d6b;
+}
+
+
+.login-forgot {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.login-register {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.login-card a {
+  text-decoration: none;
+  color: #1e3a8a;
+  font-size: 13px;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .card {
+  width: 350px;
+  background: white;
+  border: 2px solid red;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+}
+
+.profile {
+  margin: 20px 0;
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  overflow: hidden;
+}
+
+.circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+input {
+  width: 100%;
+  margin: 12px 0;
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  outline: none;
+}
+
+input:focus {
+  border-bottom: 1px solid red;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: darkred;
+} */

@@ -1,0 +1,36 @@
+.customers-container {
+  padding: 20px;
+}
+
+.add-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-box input {
+  padding: 8px;
+}
+
+.add-box button {
+  background: green;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+}
+
+.search-box {
+  padding: 8px;
+  width: 300px;
+  margin-bottom: 15px;
+}
+
+.customers-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customers-table th, .customers-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}

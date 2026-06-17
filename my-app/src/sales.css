@@ -1,0 +1,511 @@
+/* ================= GLOBAL ================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #eef2f7;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #1e293b;
+}
+
+/* ================= MAIN CONTAINER ================= */
+
+.sales-container {
+  width: 96%;
+  max-width: 1450px;
+  margin: 20px auto;
+  min-height: 100vh;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 22px;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+}
+
+/* ================= TITLE ================= */
+
+.sales-container h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 24px;
+}
+
+/* ================= CUSTOMER SECTION ================= */
+
+.customer-box {
+  background: #f8fbff;
+  padding: 22px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  border: 1px solid #dce6f5;
+}
+
+.customer-box label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.customer-select {
+  width: 100%;
+  max-width: 420px;
+  height: 50px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #d7dfec;
+  font-size: 15px;
+  outline: none;
+  background: white;
+  transition: 0.25s ease;
+}
+
+.customer-select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+/* ================= INVOICE BOX ================= */
+
+.invoice-box {
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+  color: white;
+  padding: 20px 24px;
+  border-radius: 18px;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.22);
+}
+
+.invoice-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* ================= TABLE ================= */
+
+.sales-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background: white;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
+}
+
+/* ================= TABLE HEADER ================= */
+
+.sales-table thead {
+  background: linear-gradient(
+    135deg,
+    #172554,
+    #1e3a8a
+  );
+}
+
+.sales-table th {
+  color: white;
+  padding: 18px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* ================= TABLE BODY ================= */
+
+.sales-table tbody tr {
+  background: white;
+  transition: 0.2s ease;
+}
+
+.sales-table tbody tr:nth-child(even) {
+  background: #f8fbff;
+}
+
+.sales-table tbody tr:hover {
+  background: #eef4ff;
+}
+
+.sales-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid #e5edf8;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+}
+
+/* ================= INPUTS ================= */
+
+.sales-table select,
+.sales-table input {
+  width: 100%;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid #d7dfec;
+  background: white;
+  padding: 0 12px;
+  font-size: 14px;
+  transition: 0.25s ease;
+}
+
+.sales-table select:focus,
+.sales-table input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* PRODUCT SELECT */
+
+.sales-table select {
+  min-width: 180px;
+}
+
+/* QUANTITY INPUT */
+
+.sales-table input {
+  max-width: 90px;
+  margin: auto;
+  text-align: center;
+}
+
+/* ================= PRICE & TOTAL ================= */
+
+.price-text {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.total-text {
+  font-weight: 700;
+  color: #16a34a;
+}
+
+/* ================= BUTTONS ================= */
+
+.add-btn,
+.save-btn,
+.invoice-btn,
+.new-btn,
+.ledger-btn,
+.delete-btn {
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+/* ================= ADD BUTTON ================= */
+
+.add-btn {
+  margin-top: 18px;
+  margin-bottom: 24px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+  color: white;
+  font-size: 15px;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+}
+
+/* ================= DELETE BUTTON ================= */
+
+.delete-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #ef4444;
+  color: white;
+  font-size: 16px;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+/* ================= SUMMARY SECTION ================= */
+
+.summary-section {
+  margin-top: 30px;
+  background: #f8fbff;
+  border: 1px solid #dce6f5;
+  border-radius: 20px;
+  padding: 25px;
+}
+
+.summary-section h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 24px;
+}
+
+/* ================= SUMMARY GRID ================= */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(220px, 1fr)
+  );
+  gap: 20px;
+}
+
+/* ================= SUMMARY ITEM ================= */
+
+.summary-item {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid #e5edf8;
+  transition: 0.25s ease;
+}
+
+.summary-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.summary-item label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* ================= SUMMARY INPUTS ================= */
+
+.summary-item input,
+.summary-item select {
+  width: 100%;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid #d7dfec;
+  padding: 0 12px;
+  font-size: 15px;
+  background: #f8fafc;
+  transition: 0.25s ease;
+}
+
+.summary-item input:focus,
+.summary-item select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* READ ONLY */
+
+.summary-item input[readonly] {
+  background: #eff6ff;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+/* ================= BUTTON GROUP ================= */
+
+.button-group {
+  margin-top: 28px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ================= SAVE BUTTON ================= */
+
+.save-btn {
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #16a34a,
+    #15803d
+  );
+  color: white;
+  font-size: 15px;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(22, 163, 74, 0.25);
+}
+
+/* ================= INVOICE BUTTON ================= */
+
+
+
+/* ================= INVOICE BOX ================= */
+
+.invoice-box {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+  color: white;
+  padding: 10px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 16px rgba(37, 99, 235, 0.18);
+}
+
+.invoice-box h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+ .invoice-btn {
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #ea580c,
+    #c2410c
+  );
+  color: white;
+  font-size: 15px;
+}
+
+.invoice-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(234, 88, 12, 0.25);
+} 
+
+/* ================= NEW BUTTON ================= */
+
+.new-btn {
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #475569,
+    #334155
+  );
+  color: white;
+  font-size: 15px;
+}
+
+.new-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(71, 85, 105, 0.25);
+}
+
+/* ================= LEDGER BUTTON ================= */
+
+.ledger-btn {
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #6d28d9
+  );
+  color: white;
+  font-size: 15px;
+}
+
+.ledger-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(124, 58, 237, 0.25);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1200px) {
+
+  .summary-grid {
+    grid-template-columns: repeat(
+      2,
+      1fr
+    );
+  }
+
+}
+
+@media (max-width: 900px) {
+
+  .sales-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .save-btn,
+  .invoice-btn,
+  .new-btn,
+  .ledger-btn {
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .sales-container {
+    padding: 16px;
+  }
+
+  .customer-select {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .sales-container h2 {
+    font-size: 25px;
+  }
+
+  .customer-box,
+  .summary-section,
+  .invoice-box {
+    padding: 18px;
+  }
+
+  .summary-section h3 {
+    font-size: 21px;
+  }
+
+}
