@@ -70,7 +70,7 @@ function Dashboard() {
             <img
               src={
                 user.picture
-                  ? `http://127.0.0.1:8000${user.picture}`
+                  ? `http://159.65.94.152${user.picture}`
                   : "https://via.placeholder.com/80"
               }
               alt="profile"
@@ -187,7 +187,7 @@ export default Dashboard
 //           <img
 //             src={
 //               user.picture
-//                 ? `http://127.0.0.1:8000${user.picture}`
+//                 ? `http://159.65.94.152${user.picture}`
 //                 : "https://via.placeholder.com/80"
 //             }
 //             alt="profile"
@@ -282,7 +282,7 @@ export default Dashboard
 //           <img
 //             src={
 //               user.picture
-//                 ? `http://127.0.0.1:8000${user.picture}`
+//                 ? `http://159.65.94.152${user.picture}`
 //                 : "https://via.placeholder.com/80"
 //             }
 //             alt="profile"
@@ -368,7 +368,7 @@ export default Dashboard
 //           </div>
 
 //           <img
-//             src={`http://127.0.0.1:8000${user.image}`}
+//             src={`http://159.65.94.152${user.image}`}
 //             alt="profile"
 //             className="avatar"
 //           />

@@ -17,7 +17,7 @@ function Inventory() {
   // 🔷 FETCH HISTORY
   const fetchHistory = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/inventory/");
+      const res = await axios.get("http://159.65.94.152/api/inventory/");
       
       // ✅ Force update (important)
       setHistory([...res.data]);
@@ -74,7 +74,7 @@ function Inventory() {
 
       console.log("Saving date:", formattedDate);
 
-      await axios.post("http://127.0.0.1:8000/api/inventory/save/", {
+      await axios.post("http://159.65.94.152/api/inventory/save/", {
         date: formattedDate,
         rows
       });
@@ -287,7 +287,7 @@ export default Inventory;
 //   // 🔷 FETCH HISTORY
 //   const fetchHistory = async () => {
 //     try {
-//       const res = await axios.get("http://127.0.0.1:8000/api/inventory/");
+//       const res = await axios.get("http://159.65.94.152/api/inventory/");
 //       setHistory(res.data);
 //     } catch (err) {
 //       console.log(err);
@@ -336,7 +336,7 @@ export default Inventory;
 //   // 🔷 SAVE DATA (🔥 FIXED CARRY FORWARD)
 //   const saveData = async () => {
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/inventory/save/", {
+//       await axios.post("http://159.65.94.152/api/inventory/save/", {
 //         date,
 //         rows
 //       });
@@ -548,7 +548,7 @@ export default Inventory;
 
 //   // 🔷 FETCH HISTORY
 //   const fetchHistory = async () => {
-//     const res = await axios.get("http://127.0.0.1:8000/api/inventory/");
+//     const res = await axios.get("http://159.65.94.152/api/inventory/");
 //     setHistory(res.data);
 //   };
 
@@ -587,7 +587,7 @@ export default Inventory;
 //   // 🔷 SAVE DATA
 //   const saveData = async () => {
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/inventory/save/", {
+//       await axios.post("http://159.65.94.152/api/inventory/save/", {
 //         date,
 //         rows
 //       });
@@ -786,7 +786,7 @@ export default Inventory;
 
 //   // 🔷 FETCH HISTORY
 //   const fetchHistory = async () => {
-//     const res = await axios.get("http://127.0.0.1:8000/api/inventory/");
+//     const res = await axios.get("http://159.65.94.152/api/inventory/");
 //     setHistory(res.data);
 //   };
 
@@ -823,7 +823,7 @@ export default Inventory;
 //   // 🔷 SAVE (FIXED LOGIC)
 //   const saveData = async () => {
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/inventory/save/", {
+//       await axios.post("http://159.65.94.152/api/inventory/save/", {
 //         date,
 //         rows
 //       });
@@ -1032,7 +1032,7 @@ export default Inventory;
 //   // 🔷 FETCH HISTORY
 //   const fetchHistory = async () => {
 //     try {
-//       const res = await axios.get("http://127.0.0.1:8000/api/inventory/");
+//       const res = await axios.get("http://159.65.94.152/api/inventory/");
 //       setHistory(res.data);
 //     } catch (err) {
 //       console.log(err);
@@ -1073,7 +1073,7 @@ export default Inventory;
 //   // 🔷 SAVE
 //   const saveData = async () => {
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/inventory/save/", {
+//       await axios.post("http://159.65.94.152/api/inventory/save/", {
 //         date: date,
 //         rows: rows
 //       });
@@ -1302,7 +1302,7 @@ export default Inventory;
 //   // 🔷 FETCH HISTORY FROM BACKEND
 //   const fetchHistory = async () => {
 //     try {
-//       const res = await axios.get("http://127.0.0.1:8000/api/inventory/");
+//       const res = await axios.get("http://159.65.94.152/api/inventory/");
 //       setHistory(res.data);
 //     } catch (err) {
 //       console.log(err);
@@ -1343,7 +1343,7 @@ export default Inventory;
 //   // 🔷 SAVE TO BACKEND
 //   const saveData = async () => {
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/inventory/save/", {
+//       await axios.post("http://159.65.94.152/api/inventory/save/", {
 //         date: date,
 //         rows: rows
 //       });
@@ -1373,7 +1373,7 @@ export default Inventory;
 //   const searchByDate = async () => {
 //     try {
 //       const res = await axios.get(
-//         `http://127.0.0.1:8000/api/inventory/?date=${date}`
+//         `http://159.65.94.152/api/inventory/?date=${date}`
 //       );
 //       setHistory(res.data);
 //     } catch (err) {

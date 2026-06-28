@@ -43,7 +43,7 @@ function CustomerLedger() {
 
     axios
       .get(
-        `http://127.0.0.1:8000/api/customer-sales/${customerId}/`
+        `/api/customer-sales/${customerId}/`
       )
       .then((res) => {
 
@@ -64,7 +64,7 @@ function CustomerLedger() {
 
     axios
       .get(
-        "http://127.0.0.1:8000/api/customers/"
+        "http://159.65.94.152/api/customers/"
       )
       .then((res) => {
 
@@ -173,7 +173,7 @@ function CustomerLedger() {
     try {
 
       await axios.post(
-        `http://127.0.0.1:8000/api/pay-debt/${selectedSale.id}/`,
+        `http://159.65.94.152/api/pay-debt/${selectedSale.id}/`,
         {
           amount,
         }
@@ -829,7 +829,7 @@ export default CustomerLedger;
 
 //     axios
 //       .get(
-//         `http://127.0.0.1:8000/api/customer-sales/${customerId}/`
+//         `http://159.65.94.152/api/customer-sales/${customerId}/`
 //       )
 //       .then((res) => {
 
@@ -850,7 +850,7 @@ export default CustomerLedger;
 
 //     axios
 //       .get(
-//         "http://127.0.0.1:8000/api/customers/"
+//         "http://159.65.94.152/api/customers/"
 //       )
 //       .then((res) => {
 
@@ -945,7 +945,7 @@ export default CustomerLedger;
 
 //     axios
 //       .post(
-//         `http://127.0.0.1:8000/api/pay-debt/${selectedSale.id}/`,
+//         `http://159.65.94.152/api/pay-debt/${selectedSale.id}/`,
 //         {
 //           amount: Number(
 //             paymentAmount
@@ -1507,14 +1507,14 @@ export default CustomerLedger;
 //   // ================= FETCH CUSTOMERS =================
 //   useEffect(() => {
 //     axios
-//       .get("http://127.0.0.1:8000/api/customers/")
+//       .get("http://159.65.94.152/api/customers/")
 //       .then((res) => setCustomers(res.data));
 //   }, []);
 
 //   // ================= FETCH SALES =================
 //   const fetchCustomerSales = (customerId: any) => {
 //     axios
-//       .get(`http://127.0.0.1:8000/api/customer-sales/${customerId}/`)
+//       .get(`http://159.65.94.152/api/customer-sales/${customerId}/`)
 //       .then((res) => {
 //         setSales(res.data);
 //       })
@@ -1551,7 +1551,7 @@ export default CustomerLedger;
 //     }
 
 //     axios
-//       .post(`http://127.0.0.1:8000/api/pay-debt/${selectedSale.id}/`, {
+//       .post(`http://159.65.94.152/api/pay-debt/${selectedSale.id}/`, {
 //         amount: Number(paymentAmount),
 //       })
 //       .then(() => {
@@ -1787,7 +1787,7 @@ export default CustomerLedger;
 
 //     axios
 //       .get(
-//         "http://127.0.0.1:8000/api/customers/"
+//         "http://159.65.94.152/api/customers/"
 //       )
 //       .then((res) =>
 //         setCustomers(res.data)
@@ -1803,7 +1803,7 @@ export default CustomerLedger;
 
 //     axios
 //       .get(
-//         `http://127.0.0.1:8000/api/customer-sales/${customerId}/`
+//         `http://159.65.94.152/api/customer-sales/${customerId}/`
 //       )
 //       .then((res) => {
 
@@ -1877,7 +1877,7 @@ export default CustomerLedger;
 
 //     axios
 //       .post(
-//         `http://127.0.0.1:8000/api/pay-debt/${selectedSale.id}/`,
+//         `http://159.65.94.152/api/pay-debt/${selectedSale.id}/`,
 //         {
 //           amount:
 //             Number(paymentAmount),

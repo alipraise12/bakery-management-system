@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import axios from "axios"
-import "./dispatch.css"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./dispatch.css";
 
 function Dispatch() {
 
@@ -9,49 +9,42 @@ function Dispatch() {
   // STATES
   // =========================
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [packagedBread, setPackagedBread] =
-    useState<any[]>([])
+    useState<any[]>([]);
 
   const [originalPackagedBread, setOriginalPackagedBread] =
-    useState<any[]>([])
+    useState<any[]>([]);
 
   const [pendingSales, setPendingSales] =
-    useState<any[]>([])
+    useState<any[]>([]);
 
   const [selectedSale, setSelectedSale] =
-    useState("")
-
-  // =========================
-  // SEARCH STATE
-  // =========================
+    useState("");
 
   const [searchTerm, setSearchTerm] =
-    useState("")
+    useState("");
 
   const [customerOrders, setCustomerOrders] =
-    useState<any[]>([])
+    useState<any[]>([]);
 
   const [summary, setSummary] =
     useState({
-
       total_received: 0,
-
       total_given: 0,
-
-      total_remaining: 0
-    })
+      total_remaining: 0,
+    });
 
   // =========================
-  // FILTERED SALES
+  // FILTER SALES
   // =========================
 
   const filteredSales =
     pendingSales.filter((sale: any) => {
 
       const search =
-        searchTerm.toLowerCase()
+        searchTerm.toLowerCase();
 
       return (
 
@@ -71,8 +64,10 @@ function Dispatch() {
           sale.phone &&
           sale.phone.includes(search)
         )
-      )
-    })
+
+      );
+
+    });
 
   // =========================
   // FETCH SUMMARY
@@ -82,17 +77,20 @@ function Dispatch() {
 
     try {
 
-      const res = await axios.get(
-        "http://127.0.0.1:8000/api/dispatch-summary/"
-      )
+      const res =
+        await axios.get(
+          "http://159.65.94.152/api/dispatch-summary/"
+        );
 
-      setSummary(res.data)
+      setSummary(res.data);
 
     } catch (err) {
 
-      console.log(err)
+      console.log(err);
+
     }
-  }
+
+  };
 
   // =========================
   // FETCH PACKAGED BREAD
@@ -102,16 +100,17 @@ function Dispatch() {
 
     try {
 
-      const res = await axios.get(
-        "http://127.0.0.1:8000/api/packaged-bread/"
-      )
+      const res =
+        await axios.get(
+          "http://159.65.94.152/api/packaged-bread/"
+        );
 
-      const merged: any = {}
+      const merged: any = {};
 
       res.data.forEach((item: any) => {
 
         const bread =
-          item.bread_type
+          item.bread_type;
 
         if (!merged[bread]) {
 
@@ -123,36 +122,43 @@ function Dispatch() {
               Number(item.packaged),
 
             confirmed:
-              item.confirmed
-          }
+              item.confirmed,
+
+          };
 
         } else {
 
           merged[bread].packaged +=
-            Number(item.packaged)
+            Number(item.packaged);
+
         }
-      })
+
+      });
 
       const mergedArray =
-        Object.values(merged)
+        Object.values(merged);
 
       setPackagedBread(
         mergedArray
-      )
+      );
 
       setOriginalPackagedBread(
+
         JSON.parse(
           JSON.stringify(
             mergedArray
           )
         )
-      )
+
+      );
 
     } catch (err) {
 
-      console.log(err)
+      console.log(err);
+
     }
-  }
+
+  };
 
   // =========================
   // FETCH PENDING SALES
@@ -162,17 +168,22 @@ function Dispatch() {
 
     try {
 
-      const res = await axios.get(
-        "http://127.0.0.1:8000/api/pending-dispatches/"
-      )
+      const res =
+        await axios.get(
+          "http://159.65.94.152/api/pending-dispatches/"
+        );
 
-      setPendingSales(res.data)
+      setPendingSales(
+        res.data
+      );
 
     } catch (err) {
 
-      console.log(err)
+      console.log(err);
+
     }
-  }
+
+  };
 
   // =========================
   // FETCH CUSTOMER ORDER
@@ -184,16 +195,18 @@ function Dispatch() {
 
     if (!saleId) {
 
-      setCustomerOrders([])
+      setCustomerOrders([]);
 
-      return
+      return;
+
     }
 
     try {
 
-      const res = await axios.get(
-        `http://127.0.0.1:8000/api/customer-order/${saleId}/`
-      )
+      const res =
+        await axios.get(
+          `http://159.65.94.152/api/customer-order/${saleId}/`
+        );
 
       const formatted =
         res.data.map((item: any) => ({
@@ -206,18 +219,24 @@ function Dispatch() {
             Number(item.ordered),
 
           status:
-            item.status || "Pending"
-        }))
+            item.status || "Pending",
 
-      setCustomerOrders(formatted)
+        }));
+
+      setCustomerOrders(
+        formatted
+      );
 
     } catch (err) {
 
-      console.log(err)
-    }
-  }
+      console.log(err);
 
-  // =========================
+    }
+
+  };
+
+
+    // =========================
   // CONFIRM PACKAGED BREAD
   // =========================
 
@@ -228,7 +247,7 @@ function Dispatch() {
     try {
 
       await axios.post(
-        "http://127.0.0.1:8000/api/confirm-packaged-bread/",
+        "http://159.65.94.152/api/confirm-packaged-bread/",
         {
 
           bread_type:
@@ -236,35 +255,43 @@ function Dispatch() {
 
           quantity:
             item.packaged
+
         }
-      )
+      );
 
       alert(
         `${item.bread_type} confirmed`
-      )
+      );
 
-      await fetchPackagedBread()
+      await fetchPackagedBread();
 
-      await fetchSummary()
+      await fetchSummary();
 
     } catch (err: any) {
 
-      console.log(err)
+      console.log(err);
 
       if (err.response) {
 
         alert(
+
           err.response.data.error ||
+
           err.response.data.message ||
+
           "Confirmation failed"
-        )
+
+        );
 
       } else {
 
-        alert("Confirmation failed")
+        alert("Confirmation failed");
+
       }
+
     }
-  }
+
+  };
 
   // =========================
   // HANDLE GIVING
@@ -276,30 +303,29 @@ function Dispatch() {
   ) => {
 
     const updated =
-      [...customerOrders]
+      [...customerOrders];
 
     const giving =
-      Number(value) || 0
+      Number(value) || 0;
 
     const ordered =
-      Number(
-        updated[index].ordered
-      )
+      Number(updated[index].ordered);
 
     if (giving > ordered) {
 
       alert(
         "Cannot exceed ordered quantity"
-      )
+      );
 
-      return
+      return;
+
     }
 
     updated[index].giving =
-      giving
+      giving;
 
     updated[index].owing =
-      ordered - giving
+      ordered - giving;
 
     const totalGiving =
       updated.reduce(
@@ -310,7 +336,8 @@ function Dispatch() {
           Number(item.giving || 0),
 
         0
-      )
+
+      );
 
     setSummary((prev) => ({
 
@@ -322,19 +349,20 @@ function Dispatch() {
       total_remaining:
         prev.total_received -
         totalGiving
-    }))
+
+    }));
 
     let refreshedBread =
       JSON.parse(
         JSON.stringify(
           originalPackagedBread
         )
-      )
+      );
 
     updated.forEach((order: any) => {
 
       const giveQty =
-        Number(order.giving || 0)
+        Number(order.giving || 0);
 
       refreshedBread =
         refreshedBread.map(
@@ -351,25 +379,35 @@ function Dispatch() {
 
                 packaged:
                   Math.max(
+
                     0,
+
                     Number(
                       bread.packaged
                     ) - giveQty
+
                   )
-              }
+
+              };
+
             }
 
-            return bread
+            return bread;
+
           }
-        )
-    })
+        );
+
+    });
 
     setPackagedBread(
       refreshedBread
-    )
+    );
 
-    setCustomerOrders(updated)
-  }
+    setCustomerOrders(
+      updated
+    );
+
+  };
 
   // =========================
   // NEXT CUSTOMER
@@ -384,24 +422,26 @@ function Dispatch() {
 
           alert(
             "Select customer invoice"
-          )
+          );
 
-          return
+          return;
+
         }
 
         const validOrders =
           customerOrders.filter(
             (item) =>
               Number(item.giving) > 0
-          )
+          );
 
         if (validOrders.length === 0) {
 
           alert(
             "Enter quantity to give"
-          )
+          );
 
-          return
+          return;
+
         }
 
         const currentSale =
@@ -409,21 +449,22 @@ function Dispatch() {
             (sale) =>
               String(sale.sale_id) ===
               selectedSale
-          )
+          );
 
         if (!currentSale) {
 
           alert(
             "Customer not found"
-          )
+          );
 
-          return
+          return;
+
         }
 
         for (const item of validOrders) {
 
           await axios.post(
-            "http://127.0.0.1:8000/api/give-bread/",
+            "http://159.65.94.152/api/give-bread/",
             {
 
               sale_item_id:
@@ -434,8 +475,10 @@ function Dispatch() {
 
               receiver:
                 "Customer"
+
             }
-          )
+          );
+
         }
 
         const dispatchItems =
@@ -453,12 +496,13 @@ function Dispatch() {
 
               quantity_owing:
                 Number(item.owing)
-            })
-          )
 
-        const saveRes =
+            }))
+
+
+                    const saveRes =
           await axios.post(
-            "http://127.0.0.1:8000/api/save-dispatch/",
+            "http://159.65.94.152/api/save-dispatch/",
             {
 
               customer:
@@ -469,13 +513,14 @@ function Dispatch() {
 
               items:
                 dispatchItems
+
             }
-          )
+          );
 
         localStorage.setItem(
           "latest_dispatch_id",
           saveRes.data.id
-        )
+        );
 
         await Promise.all([
 
@@ -484,15 +529,16 @@ function Dispatch() {
           fetchPackagedBread(),
 
           fetchPendingSales()
-        ])
+
+        ]);
 
         alert(
           "Customer dispatch completed"
-        )
+        );
 
       } catch (err: any) {
 
-        console.log(err)
+        console.log(err);
 
         if (err.response) {
 
@@ -503,82 +549,95 @@ function Dispatch() {
             err.response.data.message ||
 
             "Dispatch failed"
-          )
+
+          );
 
         } else {
 
-          alert("Dispatch failed")
+          alert(
+            "Dispatch failed"
+          );
+
         }
+
       }
-    }
+
+    };
 
   // =========================
   // COMPLETE DAY DISPATCH
   // =========================
 
-  const completeDispatch = async () => {
+  const completeDispatch =
+    async () => {
 
-    try {
+      try {
 
-      if (
-        !window.confirm(
-          "This will clear ALL dispatch data for today. Continue?"
-        )
-      ) {
+        if (
+          !window.confirm(
+            "This will clear ALL dispatch data for today. Continue?"
+          )
+        ) {
 
-        return
-      }
+          return;
 
-      await axios.post(
-        "http://127.0.0.1:8000/api/complete-day-dispatch/"
-      )
+        }
 
-      setCustomerOrders([])
+        await axios.post(
+          "http://159.65.94.152/api/complete-day-dispatch/"
+        );
 
-      setSelectedSale("")
+        setCustomerOrders([]);
 
-      setPackagedBread([])
+        setSelectedSale("");
 
-      setOriginalPackagedBread([])
+        setPackagedBread([]);
 
-      setPendingSales([])
+        setOriginalPackagedBread([]);
 
-      setSummary({
+        setPendingSales([]);
 
-        total_received: 0,
+        setSummary({
 
-        total_given: 0,
+          total_received: 0,
 
-        total_remaining: 0
-      })
+          total_given: 0,
 
-      alert(
-        "Dispatch day completed successfully"
-      )
+          total_remaining: 0
 
-    } catch (err: any) {
-
-      console.log(err)
-
-      if (err.response) {
+        });
 
         alert(
+          "Dispatch day completed successfully"
+        );
 
-          err.response.data.error ||
+      } catch (err: any) {
 
-          err.response.data.message ||
+        console.log(err);
 
-          "Failed to complete dispatch day"
-        )
+        if (err.response) {
 
-      } else {
+          alert(
 
-        alert(
-          "Failed to complete dispatch day"
-        )
+            err.response.data.error ||
+
+            err.response.data.message ||
+
+            "Failed to complete dispatch day"
+
+          );
+
+        } else {
+
+          alert(
+            "Failed to complete dispatch day"
+          );
+
+        }
+
       }
-    }
-  }
+
+    };
 
   // =========================
   // CUSTOMER INFO
@@ -590,19 +649,21 @@ function Dispatch() {
       const dispatchId =
         localStorage.getItem(
           "latest_dispatch_id"
-        )
+        );
 
       if (!dispatchId) {
 
         alert(
           "No customer dispatch found"
-        )
+        );
 
-        return
+        return;
+
       }
 
-      navigate("/customer-info")
-    }
+      navigate("/customer-info");
+
+    };
 
   // =========================
   // LOAD PAGE
@@ -610,17 +671,18 @@ function Dispatch() {
 
   useEffect(() => {
 
-    fetchPackagedBread()
+    fetchPackagedBread();
 
-    fetchPendingSales()
+    fetchPendingSales();
 
-    fetchSummary()
+    fetchSummary();
 
-  }, [])
+  }, []);
 
   return (
 
-    <div className="dispatch-page">
+
+        <div className="dispatch-page">
 
       {/* HEADER */}
 
@@ -739,48 +801,50 @@ function Dispatch() {
               {packagedBread.map(
                 (item, index) => (
 
-                <tr key={index}>
+                  <tr key={index}>
 
-                  <td>
-                    {item.bread_type}
-                  </td>
+                    <td>
+                      {item.bread_type}
+                    </td>
 
-                  <td>
-                    {item.packaged}
-                  </td>
+                    <td>
+                      {item.packaged}
+                    </td>
 
-                  <td>
+                    <td>
 
-                    <button
+                      <button
 
-                      disabled={
-                        item.confirmed
-                      }
+                        disabled={
+                          item.confirmed
+                        }
 
-                      className={
-                        item.confirmed
+                        className={
+                          item.confirmed
+                            ? "confirmed-btn"
+                            : "confirm-btn"
+                        }
 
-                        ? "confirmed-btn"
+                        onClick={() =>
+                          confirmPackagedBread(item)
+                        }
 
-                        : "confirm-btn"
-                      }
+                      >
 
-                      onClick={() =>
-                        confirmPackagedBread(item)
-                      }
-                    >
+                        {
+                          item.confirmed
+                            ? "Confirmed"
+                            : "Confirm"
+                        }
 
-                      {item.confirmed
+                      </button>
 
-                        ? "Confirmed"
+                    </td>
 
-                        : "Confirm"}
-                    </button>
+                  </tr>
 
-                  </td>
-
-                </tr>
-              ))}
+                ))
+              }
 
             </tbody>
 
@@ -823,6 +887,7 @@ function Dispatch() {
             }
 
             className="search-input"
+
           />
 
           <select
@@ -832,16 +897,18 @@ function Dispatch() {
             onChange={(e) => {
 
               const saleId =
-                e.target.value
+                e.target.value;
 
               setSelectedSale(
                 saleId
-              )
+              );
 
               fetchCustomerOrder(
                 saleId
-              )
+              );
+
             }}
+
           >
 
             <option value="">
@@ -855,17 +922,21 @@ function Dispatch() {
                 key={sale.sale_id}
 
                 value={sale.sale_id}
+
               >
 
                 {sale.invoice_number}
                 {" - "}
                 {sale.customer}
 
-                {sale.received
-                  ? " ✅ RECEIVED"
-                  : ""}
+                {
+                  sale.received
+                    ? " ✅ RECEIVED"
+                    : ""
+                }
 
               </option>
+
             ))}
 
           </select>
@@ -880,33 +951,22 @@ function Dispatch() {
 
               <tr>
 
-                <th>
-                  Bread Type
-                </th>
+                <th>Bread Type</th>
 
-                <th>
-                  Ordered
-                </th>
+                <th>Ordered</th>
 
-                <th>
-                  Giving
-                </th>
+                <th>Giving</th>
 
-                <th>
-                  Owing
-                </th>
+                <th>Owing</th>
 
-                <th>
-                  Status
-                </th>
+                <th>Status</th>
 
               </tr>
 
             </thead>
 
             <tbody>
-
-              {customerOrders.length === 0 ? (
+                            {customerOrders.length === 0 ? (
 
                 <tr>
 
@@ -914,9 +974,7 @@ function Dispatch() {
                     colSpan={5}
                     className="empty"
                   >
-
                     No customer order
-
                   </td>
 
                 </tr>
@@ -944,13 +1002,9 @@ function Dispatch() {
 
                           min="0"
 
-                          max={
-                            item.ordered
-                          }
+                          max={item.ordered}
 
-                          value={
-                            item.giving
-                          }
+                          value={item.giving}
 
                           onChange={(e) =>
                             handleGivingChange(
@@ -960,6 +1014,7 @@ function Dispatch() {
                           }
 
                           className="qty-input"
+
                         />
 
                       </td>
@@ -970,27 +1025,23 @@ function Dispatch() {
 
                           type="number"
 
-                          value={
-                            item.owing
-                          }
+                          value={item.owing}
 
                           readOnly
 
                           className={
                             item.owing > 0
-
-                            ? "owing-input"
-
-                            : "cleared-input"
+                              ? "owing-input"
+                              : "cleared-input"
                           }
+
                         />
 
                       </td>
 
                       <td>
 
-                        {item.status ===
-                        "Settled" ? (
+                        {item.status === "Settled" ? (
 
                           <span className="settled-indicator">
 
@@ -1011,7 +1062,9 @@ function Dispatch() {
                       </td>
 
                     </tr>
+
                   )
+
                 )
 
               )}
@@ -1024,17 +1077,14 @@ function Dispatch() {
 
         {/* BUTTONS */}
 
-        <div
-          className="button-group"
-        >
+        <div className="button-group">
 
           <button
 
             className="confirm-btn"
 
-            onClick={
-              completeDispatch
-            }
+            onClick={completeDispatch}
+
           >
 
             Complete Day
@@ -1045,9 +1095,8 @@ function Dispatch() {
 
             className="confirm-btn"
 
-            onClick={
-              nextCustomer
-            }
+            onClick={nextCustomer}
+
           >
 
             Next Customer
@@ -1058,9 +1107,8 @@ function Dispatch() {
 
             className="confirm-btn"
 
-            onClick={
-              customerInfo
-            }
+            onClick={customerInfo}
+
           >
 
             Customer Info
@@ -1072,18 +1120,39 @@ function Dispatch() {
       </div>
 
     </div>
-  )
+
+  );
+
 }
 
-export default Dispatch
+export default Dispatch;
+            
+            
+
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // import { useEffect, useState } from "react"
 // import { useNavigate } from "react-router-dom"
 // import axios from "axios"
 // import "./dispatch.css"
-
-
 
 // function Dispatch() {
 
@@ -1125,9 +1194,7 @@ export default Dispatch
 //       total_remaining: 0
 //     })
 
-
-
-//       // =========================
+//   // =========================
 //   // FILTERED SALES
 //   // =========================
 
@@ -1156,11 +1223,9 @@ export default Dispatch
 //           sale.phone.includes(search)
 //         )
 //       )
-//   })
+//     })
 
-
-
-//     // =========================
+//   // =========================
 //   // FETCH SUMMARY
 //   // =========================
 
@@ -1169,7 +1234,7 @@ export default Dispatch
 //     try {
 
 //       const res = await axios.get(
-//         "http://127.0.0.1:8000/api/dispatch-summary/"
+//         "/api/dispatch-summary/"
 //       )
 
 //       setSummary(res.data)
@@ -1180,8 +1245,7 @@ export default Dispatch
 //     }
 //   }
 
-
-//     // =========================
+//   // =========================
 //   // FETCH PACKAGED BREAD
 //   // =========================
 
@@ -1190,7 +1254,7 @@ export default Dispatch
 //     try {
 
 //       const res = await axios.get(
-//         "http://127.0.0.1:8000/api/packaged-bread/"
+//         "http://159.65.94.152/api/packaged-bread/"
 //       )
 
 //       const merged: any = {}
@@ -1241,8 +1305,7 @@ export default Dispatch
 //     }
 //   }
 
-
-//     // =========================
+//   // =========================
 //   // FETCH PENDING SALES
 //   // =========================
 
@@ -1251,7 +1314,7 @@ export default Dispatch
 //     try {
 
 //       const res = await axios.get(
-//         "http://127.0.0.1:8000/api/pending-dispatches/"
+//         "http://159.65.94.152/api/pending-dispatches/"
 //       )
 
 //       setPendingSales(res.data)
@@ -1261,7 +1324,6 @@ export default Dispatch
 //       console.log(err)
 //     }
 //   }
-
 
 //   // =========================
 //   // FETCH CUSTOMER ORDER
@@ -1281,7 +1343,7 @@ export default Dispatch
 //     try {
 
 //       const res = await axios.get(
-//         `http://127.0.0.1:8000/api/customer-order/${saleId}/`
+//         `http://159.65.94.152/api/customer-order/${saleId}/`
 //       )
 
 //       const formatted =
@@ -1292,7 +1354,10 @@ export default Dispatch
 //           giving: 0,
 
 //           owing:
-//             Number(item.ordered)
+//             Number(item.ordered),
+
+//           status:
+//             item.status || "Pending"
 //         }))
 
 //       setCustomerOrders(formatted)
@@ -1303,8 +1368,7 @@ export default Dispatch
 //     }
 //   }
 
-
-//     // =========================
+//   // =========================
 //   // CONFIRM PACKAGED BREAD
 //   // =========================
 
@@ -1315,7 +1379,7 @@ export default Dispatch
 //     try {
 
 //       await axios.post(
-//         "http://127.0.0.1:8000/api/confirm-packaged-bread/",
+//         "http://159.65.94.152/api/confirm-packaged-bread/",
 //         {
 
 //           bread_type:
@@ -1353,8 +1417,6 @@ export default Dispatch
 //     }
 //   }
 
-
-
 //   // =========================
 //   // HANDLE GIVING
 //   // =========================
@@ -1375,10 +1437,6 @@ export default Dispatch
 //         updated[index].ordered
 //       )
 
-//     // =========================
-//     // VALIDATE
-//     // =========================
-
 //     if (giving > ordered) {
 
 //       alert(
@@ -1393,10 +1451,6 @@ export default Dispatch
 
 //     updated[index].owing =
 //       ordered - giving
-
-//     // =========================
-//     // UPDATE TOTAL GIVEN
-//     // =========================
 
 //     const totalGiving =
 //       updated.reduce(
@@ -1421,20 +1475,12 @@ export default Dispatch
 //         totalGiving
 //     }))
 
-//     // =========================
-//     // RESET STOCK
-//     // =========================
-
 //     let refreshedBread =
 //       JSON.parse(
 //         JSON.stringify(
 //           originalPackagedBread
 //         )
 //       )
-
-//     // =========================
-//     // MANUAL SUBTRACTION
-//     // =========================
 
 //     updated.forEach((order: any) => {
 
@@ -1476,9 +1522,7 @@ export default Dispatch
 //     setCustomerOrders(updated)
 //   }
 
-
-
-//     // =========================
+//   // =========================
 //   // NEXT CUSTOMER
 //   // =========================
 
@@ -1496,10 +1540,6 @@ export default Dispatch
 //           return
 //         }
 
-//         // =========================
-//         // VALIDATE INPUT
-//         // =========================
-
 //         const validOrders =
 //           customerOrders.filter(
 //             (item) =>
@@ -1514,10 +1554,6 @@ export default Dispatch
 
 //           return
 //         }
-
-//         // =========================
-//         // GET CURRENT SALE
-//         // =========================
 
 //         const currentSale =
 //           pendingSales.find(
@@ -1535,14 +1571,10 @@ export default Dispatch
 //           return
 //         }
 
-//         // =========================
-//         // GIVE BREAD
-//         // =========================
-
 //         for (const item of validOrders) {
 
 //           await axios.post(
-//             "http://127.0.0.1:8000/api/give-bread/",
+//             "http://159.65.94.152/api/give-bread/",
 //             {
 
 //               sale_item_id:
@@ -1556,10 +1588,6 @@ export default Dispatch
 //             }
 //           )
 //         }
-
-//         // =========================
-//         // SAVE DISPATCH
-//         // =========================
 
 //         const dispatchItems =
 //           customerOrders.map(
@@ -1581,7 +1609,7 @@ export default Dispatch
 
 //         const saveRes =
 //           await axios.post(
-//             "http://127.0.0.1:8000/api/save-dispatch/",
+//             "http://159.65.94.152/api/save-dispatch/",
 //             {
 
 //               customer:
@@ -1595,18 +1623,10 @@ export default Dispatch
 //             }
 //           )
 
-//         // =========================
-//         // SAVE CUSTOMER INFO
-//         // =========================
-
 //         localStorage.setItem(
 //           "latest_dispatch_id",
 //           saveRes.data.id
 //         )
-
-//         // =========================
-//         // REFRESH DATA
-//         // =========================
 
 //         await Promise.all([
 
@@ -1643,9 +1663,7 @@ export default Dispatch
 //       }
 //     }
 
-
-
-//       // =========================
+//   // =========================
 //   // COMPLETE DAY DISPATCH
 //   // =========================
 
@@ -1663,7 +1681,7 @@ export default Dispatch
 //       }
 
 //       await axios.post(
-//         "http://127.0.0.1:8000/api/complete-day-dispatch/"
+//         "http://159.65.94.152/api/complete-day-dispatch/"
 //       )
 
 //       setCustomerOrders([])
@@ -1713,9 +1731,7 @@ export default Dispatch
 //     }
 //   }
 
-
-
-//     // =========================
+//   // =========================
 //   // CUSTOMER INFO
 //   // =========================
 
@@ -1739,8 +1755,7 @@ export default Dispatch
 //       navigate("/customer-info")
 //     }
 
-
-//       // =========================
+//   // =========================
 //   // LOAD PAGE
 //   // =========================
 
@@ -1754,9 +1769,7 @@ export default Dispatch
 
 //   }, [])
 
-
-
-//     return (
+//   return (
 
 //     <div className="dispatch-page">
 
@@ -1836,9 +1849,7 @@ export default Dispatch
 
 //       </div>
 
-
-
-//             {/* PACKAGED BREAD */}
+//       {/* PACKAGED BREAD */}
 
 //       <div className="dispatch-card">
 
@@ -1930,9 +1941,7 @@ export default Dispatch
 
 //       </div>
 
-
-
-//             {/* CUSTOMER ORDER */}
+//       {/* CUSTOMER ORDER */}
 
 //       <div className="dispatch-card">
 
@@ -1949,8 +1958,6 @@ export default Dispatch
 //           <label>
 //             Select Customer Invoice
 //           </label>
-
-//           {/* SEARCH INPUT */}
 
 //           <input
 
@@ -2016,10 +2023,7 @@ export default Dispatch
 
 //         </div>
 
-
-
-
-//                 <div className="table-wrapper">
+//         <div className="table-wrapper">
 
 //           <table>
 
@@ -2043,6 +2047,10 @@ export default Dispatch
 //                   Owing
 //                 </th>
 
+//                 <th>
+//                   Status
+//                 </th>
+
 //               </tr>
 
 //             </thead>
@@ -2054,7 +2062,7 @@ export default Dispatch
 //                 <tr>
 
 //                   <td
-//                     colSpan={4}
+//                     colSpan={5}
 //                     className="empty"
 //                   >
 
@@ -2130,6 +2138,29 @@ export default Dispatch
 
 //                       </td>
 
+//                       <td>
+
+//                         {item.status ===
+//                         "Settled" ? (
+
+//                           <span className="settled-indicator">
+
+//                             ● Settled
+
+//                           </span>
+
+//                         ) : (
+
+//                           <span className="pending-indicator">
+
+//                             ● Pending
+
+//                           </span>
+
+//                         )}
+
+//                       </td>
+
 //                     </tr>
 //                   )
 //                 )
@@ -2142,8 +2173,7 @@ export default Dispatch
 
 //         </div>
 
-
-//                 {/* BUTTONS */}
+//         {/* BUTTONS */}
 
 //         <div
 //           className="button-group"
@@ -2190,14 +2220,14 @@ export default Dispatch
 
 //         </div>
 
-
-//               </div>
+//       </div>
 
 //     </div>
 //   )
 // }
 
 // export default Dispatch
+
 
 
 

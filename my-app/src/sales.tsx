@@ -124,7 +124,7 @@ function Sales() {
 
     axios
       .get(
-        "http://127.0.0.1:8000/api/products/"
+        "http://159.65.94.152/api/products/"
       )
       .then((res) =>
         setProducts(res.data)
@@ -132,7 +132,7 @@ function Sales() {
 
     axios
       .get(
-        "http://127.0.0.1:8000/api/customers/"
+        "http://159.65.94.152/api/customers/"
       )
       .then((res) =>
         setCustomers(res.data)
@@ -344,7 +344,7 @@ function Sales() {
 
     axios
       .post(
-        "http://127.0.0.1:8000/api/sales/",
+        "http://159.65.94.152/api/sales/",
         {
 
           customer_id:

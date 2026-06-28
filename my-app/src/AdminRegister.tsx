@@ -54,7 +54,7 @@ function AdminRegister() {
       formData.append("picture", picture)
 
       await axios.post(
-        "http://127.0.0.1:8000/api/admin/register/",
+        "http://159.65.94.152/api/admin/register/",
         formData
       )
 

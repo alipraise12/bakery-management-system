@@ -43,7 +43,7 @@ function CustomerInfo() {
     try {
 
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/customer-dispatch-list/"
+        "http://159.65.94.152/api/customer-dispatch-list/"
       );
 
       setDispatches(response.data);
@@ -68,7 +68,7 @@ function CustomerInfo() {
       setLoading(true);
 
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/customer-ledger/${dispatchId}/`
+        `http://159.65.94.152/api/customer-ledger/${dispatchId}/`
       );
 
       setCustomerData(response.data);
@@ -125,7 +125,7 @@ function CustomerInfo() {
     try {
 
       await axios.post(
-        "http://127.0.0.1:8000/api/settle-customer-bread/",
+        "http://159.65.94.152/api/settle-customer-bread/",
         {
 
           customer_id:
@@ -852,7 +852,7 @@ export default CustomerInfo;
 //     try {
 
 //       const response = await axios.get(
-//         "http://127.0.0.1:8000/api/customer-dispatch-list/"
+//         "http://159.65.94.152/api/customer-dispatch-list/"
 //       );
 
 //       setDispatches(response.data);
@@ -877,7 +877,7 @@ export default CustomerInfo;
 //       setLoading(true);
 
 //       const response = await axios.get(
-//         `http://127.0.0.1:8000/api/customer-ledger/${dispatchId}/`
+//         `http://159.65.94.152/api/customer-ledger/${dispatchId}/`
 //       );
 
 //       setCustomerData(response.data);
@@ -934,7 +934,7 @@ export default CustomerInfo;
 //     try {
 
 //       await axios.post(
-//         "http://127.0.0.1:8000/api/settle-customer-bread/",
+//         "http://159.65.94.152/api/settle-customer-bread/",
 //         {
 
 //           customer_id:

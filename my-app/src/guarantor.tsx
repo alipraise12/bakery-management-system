@@ -60,7 +60,7 @@ function Guarantor() {
       formData.append("password", password)
 
       await axios.post(
-  "http://127.0.0.1:8000/api/staff/register/",
+  "/api/staff/register/",
   formData,
   {
     headers: {
@@ -265,7 +265,7 @@ export default Guarantor
 //       // ✅ PASSWORD
 //       formData.append("password", password)
 
-//       await axios.post("http://127.0.0.1:8000/api/register/", formData)
+//       await axios.post("http://159.65.94.152/api/register/", formData)
 
 //       alert("Registration Complete ✅")
 

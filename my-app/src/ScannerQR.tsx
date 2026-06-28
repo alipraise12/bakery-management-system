@@ -20,7 +20,7 @@ function ScanQR() {
   // ✅ FETCH ATTENDANCE
   const fetchAttendance = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/attendance/");
+      const res = await axios.get("http://159.65.94.152/api/attendance/");
       setRecords(res.data);
     } catch (err) {
       console.log(err);
@@ -75,7 +75,7 @@ function ScanQR() {
                 setScanning(false);
                 startCooldown();
 
-                axios.post("http://127.0.0.1:8000/api/scan/", {
+                axios.post("http://159.65.94.152/api/scan/", {
                   token: data[0].rawValue,
                   email: user?.email
                 })
@@ -223,7 +223,7 @@ export default ScanQR;
 //   // ✅ FETCH ATTENDANCE
 //   const fetchAttendance = async () => {
 //     try {
-//       const res = await axios.get("http://127.0.0.1:8000/api/attendance/");
+//       const res = await axios.get("http://159.65.94.152/api/attendance/");
 //       setRecords(res.data);
 //     } catch (err) {
 //       console.log(err);
@@ -283,7 +283,7 @@ export default ScanQR;
 //                 setScanning(false);
 //                 startCooldown();
 
-//                 axios.post("http://127.0.0.1:8000/api/scan/", {
+//                 axios.post("http://159.65.94.152/api/scan/", {
 //                   token: data[0].rawValue,
 //                   email: user?.email
 //                 })
@@ -418,7 +418,7 @@ export default ScanQR;
 //   // ✅ FETCH ATTENDANCE LIST
 //   const fetchAttendance = async () => {
 //     try {
-//       const res = await axios.get("http://127.0.0.1:8000/api/attendance/");
+//       const res = await axios.get("http://159.65.94.152/api/attendance/");
 //       setRecords(res.data);
 //     } catch (err) {
 //       console.log("Error fetching attendance", err);
@@ -453,7 +453,7 @@ export default ScanQR;
 //               if (data && data.length > 0) {
 //                 setScanning(false); // prevent multiple scans
 
-//                 axios.post("http://127.0.0.1:8000/api/scan/", {
+//                 axios.post("http://159.65.94.152/api/scan/", {
 //                   token: data[0].rawValue,
 //                   email: user?.email
 //                 })

@@ -52,7 +52,7 @@ function Production() {
       // FETCH YIELDS
       const yieldRes =
         await axios.get(
-          "http://127.0.0.1:8000/api/yields/"
+          "http://159.65.94.152/api/yields/"
         );
 
       setStandards(yieldRes.data);
@@ -60,7 +60,7 @@ function Production() {
       // FETCH PRODUCTION
       const productionRes =
         await axios.get(
-          "http://127.0.0.1:8000/api/latest-production/"
+          "http://159.65.94.152/api/latest-production/"
         );
 
       const data =
@@ -188,7 +188,7 @@ function Production() {
       try {
 
         await axios.post(
-          "http://127.0.0.1:8000/api/confirm-production/"
+          "http://159.65.94.152/api/confirm-production/"
         );
 
         alert(
@@ -698,7 +698,7 @@ export default Production;
 
 //   // ================= FETCH STANDARDS =================
 //   useEffect(() => {
-//     axios.get("http://127.0.0.1:8000/api/yields/")
+//     axios.get("http://159.65.94.152/api/yields/")
 //       .then(res => setStandards(res.data));
 //   }, []);
 
@@ -860,13 +860,13 @@ export default Production;
 
 //   // ================= FETCH DATA =================
 //   const fetchAll = () => {
-//     axios.get("http://127.0.0.1:8000/api/yields/")
+//     axios.get("http://159.65.94.152/api/yields/")
 //       .then(res => setStandards(res.data));
 
-//     axios.get("http://127.0.0.1:8000/api/yield-records/")
+//     axios.get("http://159.65.94.152/api/yield-records/")
 //       .then(res => setYieldHistory(res.data));
 
-//     axios.get("http://127.0.0.1:8000/api/dispatch/")
+//     axios.get("http://159.65.94.152/api/dispatch/")
 //       .then(res => setDispatchHistory(res.data));
 //   };
 
@@ -890,7 +890,7 @@ export default Production;
 //     try {
 //       await Promise.all(
 //         standards.map((item) =>
-//           axios.put(`http://127.0.0.1:8000/api/yields/${item.id}/`, {
+//           axios.put(`http://159.65.94.152/api/yields/${item.id}/`, {
 //             standard: item.standard,
 //           })
 //         )
@@ -913,7 +913,7 @@ export default Production;
 //     setLoading(true);
 
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/yield-records/", {
+//       await axios.post("http://159.65.94.152/api/yield-records/", {
 //         bread_type: breadType,
 //         bags,
 //         actual,
@@ -943,7 +943,7 @@ export default Production;
 //     setLoading(true);
 
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/dispatch/", {
+//       await axios.post("http://159.65.94.152/api/dispatch/", {
 //         bread_type: breadType,
 //         actual,
 //         packaged,
@@ -1144,13 +1144,13 @@ export default Production;
 
 //   // ================= FETCH DATA =================
 //   const fetchAll = () => {
-//     axios.get("http://127.0.0.1:8000/api/yields/")
+//     axios.get("http://159.65.94.152/api/yields/")
 //       .then(res => setStandards(res.data));
 
-//     axios.get("http://127.0.0.1:8000/api/yield-records/")
+//     axios.get("http://159.65.94.152/api/yield-records/")
 //       .then(res => setYieldHistory(res.data));
 
-//     axios.get("http://127.0.0.1:8000/api/dispatch/")
+//     axios.get("http://159.65.94.152/api/dispatch/")
 //       .then(res => setDispatchHistory(res.data));
 //   };
 
@@ -1179,7 +1179,7 @@ export default Production;
 //     setLoading(true);
 
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/yield-records/", {
+//       await axios.post("http://159.65.94.152/api/yield-records/", {
 //         bread_type: breadType,
 //         bags,
 //         actual,
@@ -1209,7 +1209,7 @@ export default Production;
 //     setLoading(true);
 
 //     try {
-//       await axios.post("http://127.0.0.1:8000/api/dispatch/", {
+//       await axios.post("http://159.65.94.152/api/dispatch/", {
 //         bread_type: breadType,
 //         actual,
 //         packaged,
