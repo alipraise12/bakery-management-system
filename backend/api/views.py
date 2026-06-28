@@ -1120,6 +1120,31 @@ def today_summary(request):
 
 
 
+
+
+from django.http import FileResponse, Http404
+import os
+from django.conf import settings
+
+def download_qr(request, filename):
+    file_path = os.path.join(
+        settings.MEDIA_ROOT,
+        "qrcodes",
+        filename
+    )
+
+    if not os.path.exists(file_path):
+        raise Http404("QR code not found")
+
+    return FileResponse(
+        open(file_path, "rb"),
+        as_attachment=True,
+        filename=filename
+    )
+
+
+
+
 # @api_view(['POST'])
 # def save_daily_production(request):
 

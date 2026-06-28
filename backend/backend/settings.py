@@ -182,6 +182,9 @@ MEDIA_ROOT = 'media'
 ALLOWED_HOSTS = ["*"]
 
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://159.65.94.152",
+]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
