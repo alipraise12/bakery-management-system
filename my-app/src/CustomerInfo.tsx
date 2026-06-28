@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
-import "./customerinfo.css";
+import "./CustomerInfo.css";
 
 function CustomerInfo() {
 
