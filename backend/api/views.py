@@ -60,6 +60,9 @@ def hello(request):
 # ✅ REGISTER STAFF
 @api_view(['POST'])
 def register_staff(request):
+    print("FILES:", request.FILES)
+    print("DATA:", request.data)
+
     print("📥 Incoming Data (STAFF):", request.data)
 
     serializer = StaffSerializer(data=request.data)
@@ -85,6 +88,8 @@ def register_staff(request):
 # ✅ REGISTER ADMIN
 @api_view(['POST'])
 def register_admin(request):
+    print("FILES:", request.FILES)
+    print("DATA:", request.data)
     print("📥 Incoming Data (ADMIN):", request.data)
 
     data = request.data.copy()
