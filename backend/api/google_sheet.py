@@ -523,7 +523,83 @@ def save_attendance_to_sheet(
         traceback.print_exc()
 
 
+# =====================================
+# PRODUCTION
+# =====================================
 
+def save_production_to_sheet(
+
+    bread_type,
+
+    bags,
+
+    expected,
+
+    actual_yield,
+
+    packaged,
+
+    difference,
+
+    dispatch_difference,
+
+    comment
+
+):
+
+    try:
+
+        scope = [
+
+            "https://spreadsheets.google.com/feeds",
+
+            "https://www.googleapis.com/auth/drive"
+
+        ]
+
+        creds = (
+            ServiceAccountCredentials
+            .from_json_keyfile_name(
+                "credentials.json",
+                scope
+            )
+        )
+
+        client = gspread.authorize(creds)
+
+        spreadsheet = client.open(
+            "Bakery management systems"
+        )
+
+        production_sheet = spreadsheet.worksheet(
+            "Productions"
+        )
+
+        production_sheet.append_row([
+
+            bread_type,
+
+            bags,
+
+            packaged,
+
+            str(datetime.now())
+
+        ])
+
+        print(
+            "PRODUCTION SAVED TO GOOGLE SHEET"
+        )
+
+    except Exception as e:
+
+        import traceback
+
+        print(
+            "PRODUCTION GOOGLE SHEET ERROR"
+        )
+
+        traceback.print_exc()
 
 
 

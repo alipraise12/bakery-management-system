@@ -707,150 +707,143 @@ function Sales() {
       </div>
 
       {/* TABLE */}
+<div className="sales-table-wrapper">
 
-      <table className="sales-table">
+  <table className="sales-table">
 
-        <thead>
+    <thead>
+      <tr>
+        <th className="sn-col">#</th>
+        <th className="product-col">Product</th>
+        <th className="price-col">Price</th>
+        <th className="qty-col">Qty</th>
+        <th className="total-col">Total</th>
+        <th className="action-col">🗑</th>
+      </tr>
+    </thead>
 
-          <tr>
-            <th>S/N</th>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Action</th>
-          </tr>
+    <tbody>
 
-        </thead>
+      {rows.map((row, i) => (
 
-        <tbody>
+        <tr key={i}>
 
-          {rows.map(
-            (row, i) => (
+          {/* SERIAL NUMBER */}
+          <td className="sn-col">
+            {i + 1}
+          </td>
 
-              <tr key={i}>
+          {/* PRODUCT */}
+          <td className="product-col">
 
-                <td>
-                  {i + 1}
-                </td>
+            <select
+              value={row.productId}
+              onChange={(e) =>
+                selectProduct(
+                  i,
+                  e.target.value
+                )
+              }
+            >
 
-                <td>
+              <option value="">
+                Select Product
+              </option>
 
-                  <select
-                    value={
-                      row.productId
-                    }
-                    onChange={(e) =>
-                      selectProduct(
-                        i,
-                        e.target.value
-                      )
-                    }
-                  >
+              {products.map((p) => (
 
-                    <option value="">
-                      Select Product
-                    </option>
+                <option
+                  key={p.id}
+                  value={p.id}
+                >
+                  {p.name}
+                </option>
 
-                    {products.map(
-                      (p) => (
+              ))}
 
-                        <option
-                          key={p.id}
-                          value={p.id}
-                        >
-                          {p.name}
-                        </option>
+            </select>
 
-                      )
-                    )}
+          </td>
 
-                  </select>
+          {/* PRICE */}
+          <td className="price-col">
 
-                </td>
+            <input
+              type="number"
+              value={row.price}
+              onChange={(e) =>
+                handlePriceChange(
+                  i,
+                  e.target.value
+                )
+              }
+            />
 
-                {/* EDITABLE PRICE */}
+          </td>
 
-                <td>
+          {/* QUANTITY */}
+          <td className="qty-col">
 
-                  <input
-                    type="number"
-                    value={row.price}
-                    onChange={(e) =>
-                      handlePriceChange(
-                        i,
-                        e.target.value
-                      )
-                    }
-                  />
+            <input
+              ref={(el) =>
+                (
+                  inputRefs.current[i] = el
+                )
+              }
+              type="number"
+              value={row.quantity}
+              onChange={(e) =>
+                handleChange(
+                  i,
+                  e.target.value
+                )
+              }
+              onKeyDown={(e) =>
+                handleKeyDown(
+                  e,
+                  i
+                )
+              }
+            />
 
-                </td>
+          </td>
 
-                <td>
+          {/* TOTAL */}
+          <td className="total-col">
+            ₦
+            {formatMoney(
+              row.price *
+              (
+                Number(
+                  row.quantity
+                ) || 0
+              )
+            )}
+          </td>
 
-                  <input
-                    ref={(el) =>
-                      (
-                        inputRefs.current[
-                          i
-                        ] = el
-                      )
-                    }
-                    type="number"
-                    value={
-                      row.quantity
-                    }
-                    onChange={(e) =>
-                      handleChange(
-                        i,
-                        e.target.value
-                      )
-                    }
-                    onKeyDown={(e) =>
-                      handleKeyDown(
-                        e,
-                        i
-                      )
-                    }
-                  />
+          {/* DELETE */}
+          <td className="action-col">
 
-                </td>
+            <button
+              className="delete-btn"
+              onClick={() =>
+                removeRow(i)
+              }
+            >
+              ❌
+            </button>
 
-                <td>
+          </td>
 
-                  ₦
-                  {formatMoney(
-                    row.price *
-                    (
-                      Number(
-                        row.quantity
-                      ) || 0
-                    )
-                  )}
+        </tr>
 
-                </td>
+      ))}
 
-                <td>
+    </tbody>
 
-                  <button
-                    className="delete-btn"
-                    onClick={() =>
-                      removeRow(i)
-                    }
-                  >
-                    ❌
-                  </button>
+  </table>
 
-                </td>
-
-              </tr>
-
-            )
-          )}
-
-        </tbody>
-
-      </table>
+</div>
 
       {/* ADD BUTTON */}
 

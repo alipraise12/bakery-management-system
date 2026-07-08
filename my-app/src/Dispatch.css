@@ -637,112 +637,355 @@ tbody td {
    RESPONSIVE
 ========================================= */
 
-@media (max-width: 992px) {
-
-  .dispatch-page {
-
-    padding: 22px;
-  }
-
-  .dispatch-header h1 {
-
-    font-size: 32px;
-  }
-
-  .summary-card {
-
-    padding: 24px;
-  }
-
-  .dispatch-card {
-
-    padding: 22px;
-  }
-}
-
+/* =========================================
+   MOBILE DISPATCH DESIGN
+========================================= */
 
 @media (max-width: 768px) {
 
-  .summary-grid {
-
-    grid-template-columns: 1fr;
+  /* PAGE */
+  .dispatch-page {
+    padding: 14px;
   }
 
+  /* HEADER */
   .dispatch-header {
-
-    align-items: flex-start;
+    margin-bottom: 20px;
   }
 
   .dispatch-header h1 {
-
     font-size: 28px;
+    font-weight: 800;
   }
 
-  .card-header h2 {
-
-    font-size: 20px;
-  }
-
-  thead th,
-  tbody td {
-
-    padding: 14px;
-
+  .dispatch-header p {
     font-size: 13px;
   }
 
-  .confirm-btn,
-  .confirmed-btn {
+  /* =====================================
+     SUMMARY CARDS
+  ===================================== */
 
-    width: 100%;
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
   }
+
+  .summary-card {
+    padding: 16px;
+    border-radius: 18px;
+    min-height: 95px;
+  }
+
+  .summary-card h2 {
+    font-size: 11px;
+    margin-bottom: 8px;
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .summary-card h1 {
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  /* =====================================
+     MAIN CARD
+  ===================================== */
+
+  .dispatch-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .card-header h2 {
+    font-size: 20px;
+  }
+
+  /* =====================================
+     SEARCH INPUT
+  ===================================== */
+
+  .search-input {
+    height: 46px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  .dispatch-select select {
+    height: 48px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  /* =====================================
+     TABLE
+  ===================================== */
+
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 18px;
+  }
+
+  table {
+    min-width: 600px;
+  }
+
+  thead th {
+    padding: 12px;
+    font-size: 11px;
+  }
+
+  tbody td {
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  /* INPUTS */
 
   .qty-input,
   .owing-input,
   .cleared-input {
+    width: 75px;
+    height: 40px;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  /* =====================================
+     BUTTON GROUP
+  ===================================== */
+
+  .action-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .action-buttons button,
+  .confirm-btn,
+  .confirmed-btn {
 
     width: 100%;
+    height: 46px;
+
+    padding: 0 8px;
+
+    border-radius: 14px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
   }
+
 }
 
+/* =========================================
+   EXTRA SMALL DEVICES
+========================================= */
 
-@media (max-width: 480px) {
+@media (max-width: 420px) {
 
   .dispatch-page {
-
-    padding: 15px;
+    padding: 12px;
   }
 
   .dispatch-header h1 {
-
     font-size: 24px;
   }
 
+  .dispatch-header p {
+    font-size: 12px;
+  }
+
+  /* Smaller cards */
+
+  .summary-card {
+    padding: 14px;
+    min-height: 85px;
+  }
+
+  .summary-card h2 {
+    font-size: 10px;
+  }
+
   .summary-card h1 {
-
-    font-size: 28px;
+    font-size: 24px;
   }
 
-  .dispatch-card {
+  /* Smaller buttons */
 
-    padding: 18px;
+  .action-buttons {
+    gap: 8px;
   }
+
+  .action-buttons button,
+  .confirm-btn,
+  .confirmed-btn {
+
+    height: 42px;
+    font-size: 11px;
+    padding: 0 4px;
+  }
+
+  /* Smaller inputs */
+
+  .qty-input,
+  .owing-input,
+  .cleared-input {
+    width: 65px;
+    height: 36px;
+    font-size: 11px;
+  }
+
+  table {
+    min-width: 520px;
+  }
+
 }
 
 
-.search-input {
 
-  width: 100%;
+/* =====================================
+   MOBILE DISPATCH
+===================================== */
 
-  padding: 12px;
+@media (max-width: 768px) {
 
-  border-radius: 10px;
+  .dispatch-page{
+    padding:12px;
+  }
 
-  border: 1px solid #ccc;
+  .dispatch-header h1{
+    font-size:28px;
+  }
 
-  margin-top: 10px;
+  .dispatch-header p{
+    font-size:13px;
+  }
 
-  margin-bottom: 15px;
+  /* ---------- SUMMARY ---------- */
 
-  font-size: 16px;
+  .summary-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:16px;
+  }
+
+  .summary-card{
+    padding:14px;
+    min-height:90px;
+    border-radius:16px;
+  }
+
+  .summary-card h2{
+    font-size:11px;
+    margin-bottom:6px;
+  }
+
+  .summary-card h1{
+    font-size:28px;
+  }
+
+  /* ---------- CARDS ---------- */
+
+  .dispatch-card{
+    padding:16px;
+    border-radius:20px;
+    margin-bottom:16px;
+  }
+
+  /* ---------- INPUTS ---------- */
+
+  .search-input,
+  .dispatch-select select{
+    width:100%;
+    height:46px;
+    font-size:14px;
+    border-radius:12px;
+  }
+
+  /* ---------- TABLE ---------- */
+
+  .table-wrapper{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    margin-top:12px;
+  }
+
+  .table-wrapper table{
+    min-width:550px;
+  }
+
+  .table-wrapper th{
+    font-size:11px;
+    padding:10px;
+  }
+
+  .table-wrapper td{
+    font-size:12px;
+    padding:10px;
+  }
+
+  .qty-input,
+  .owing-input,
+  .cleared-input{
+    width:70px;
+    height:38px;
+    text-align:center;
+  }
+
+  /* ---------- BUTTONS ---------- */
+
+  .button-group{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:12px;
+  }
+
+  .button-group button{
+    height:42px;
+    padding:0 6px;
+    font-size:11px;
+    border-radius:12px;
+    white-space:nowrap;
+  }
+
+  .confirm-btn,
+  .confirmed-btn{
+    width:100%;
+    height:38px;
+    font-size:11px;
+    padding:0 10px;
+  }
+
+}
+
+/* EXTRA SMALL PHONES */
+
+@media (max-width:420px){
+
+  .summary-card h1{
+    font-size:22px;
+  }
+
+  .summary-card h2{
+    font-size:10px;
+  }
+
+  .button-group button{
+    font-size:10px;
+    height:38px;
+  }
+
+  .table-wrapper table{
+    min-width:500px;
+  }
 }

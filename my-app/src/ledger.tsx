@@ -60,42 +60,38 @@ function CustomerLedger() {
 
   // ================= FETCH CUSTOMERS =================
 
-  useEffect(() => {
+ useEffect(() => {
 
-    axios
-      .get(
-        "http://159.65.94.152/api/customers/"
-      )
-      .then((res) => {
+  axios
+    .get("http://159.65.94.152/api/customers/")
+    .then((res) => {
 
-        setCustomers(res.data);
+      setCustomers(res.data);
 
-        // ================= AUTO SELECT CUSTOMER =================
+      if (id) {
 
-        if (id) {
+        const selected = res.data.find(
+          (c: any) => c.id == id
+        );
 
-          const selected =
-            res.data.find(
-              (c: any) =>
-                c.id == id
-            );
+        if (selected) {
 
-          if (selected) {
+          setCustomer(selected);
 
-            setCustomer(
-              selected
-            );
+          fetchCustomerSales(selected.id);
 
-            fetchCustomerSales(
-              selected.id
-            );
-
-          }
         }
 
-      });
+      }
 
-  }, [id]);
+    })
+    .catch((err) => {
+
+      console.log(err);
+
+    });
+
+}, [id]);
 
   // ================= SELECT CUSTOMER =================
 
@@ -122,27 +118,25 @@ function CustomerLedger() {
 
   // ================= TOTAL DEBT =================
 
-  const totalDebt =
-    sales.reduce(
-      (sum, sale) =>
-        sum +
-        Number(
-          sale.balance || 0
-        ),
-      0
-    );
+ const totalDebt =
+  Array.isArray(sales)
+    ? sales.reduce(
+        (sum, sale) =>
+          sum + Number(sale.balance || 0),
+        0
+      )
+    : 0;
 
   // ================= SEARCH =================
 
-  const filteredSales =
-    sales.filter((sale) =>
-      sale.invoice_number
-        .toLowerCase()
-        .includes(
-          searchInvoice.toLowerCase()
-        )
-    );
-
+ const filteredSales =
+  Array.isArray(sales)
+    ? sales.filter((sale) =>
+        sale.invoice_number
+          .toLowerCase()
+          .includes(searchInvoice.toLowerCase())
+      )
+    : [];
   // ================= PAY DEBT =================
 
   const payDebt = async () => {

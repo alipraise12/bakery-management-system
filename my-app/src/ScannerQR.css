@@ -1,0 +1,724 @@
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f4f7fc;
+    font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+    color:#1e293b;
+}
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.attendance-page{
+
+    max-width:1400px;
+
+    margin:auto;
+
+    padding:30px;
+
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.attendance-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+}
+
+.attendance-title{
+
+    font-size:36px;
+
+    color:#1e3a8a;
+
+    font-weight:700;
+
+}
+
+.attendance-subtitle{
+
+    margin-top:8px;
+
+    font-size:16px;
+
+    color:#64748b;
+
+}
+
+.attendance-date{
+
+    background:white;
+
+    padding:14px 20px;
+
+    border-radius:14px;
+
+    box-shadow:0 6px 18px rgba(15,23,42,.08);
+
+    font-weight:600;
+
+    color:#2563eb;
+
+}
+
+/* =====================================================
+   TOP SECTION
+===================================================== */
+
+.attendance-top{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+
+    margin-bottom:35px;
+
+}
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.scanner-card,
+
+.result-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:0 8px 22px rgba(15,23,42,.08);
+
+}
+
+/* =====================================================
+   CARD TITLE
+===================================================== */
+
+.card-title{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#1e3a8a;
+
+    margin-bottom:20px;
+
+}
+
+/* =====================================================
+   SCANNER
+===================================================== */
+
+.scanner-box{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:380px;
+
+    border:2px dashed #2563eb;
+
+    border-radius:18px;
+
+    background:#f8fbff;
+
+}
+
+/* =====================================================
+   RESULT CARD
+===================================================== */
+
+.result-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-start;
+
+}
+
+.success-icon{
+
+    width:80px;
+
+    height:80px;
+
+    margin:0 auto 25px;
+
+    border-radius:50%;
+
+    background:#dcfce7;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:40px;
+
+}
+
+.result-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px 0;
+
+    border-bottom:1px solid #e5e7eb;
+
+    gap:20px;
+
+}
+
+.result-row:last-of-type{
+
+    border-bottom:none;
+
+}
+
+.result-row span{
+
+    color:#64748b;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+.result-row strong{
+
+    color:#0f172a;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    text-align:right;
+
+}
+
+.status-success{
+
+    color:#16a34a !important;
+
+}
+
+/* =====================================================
+   WAITING CARD
+===================================================== */
+
+.waiting-card{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:300px;
+
+    text-align:center;
+
+}
+
+.waiting-icon{
+
+    font-size:70px;
+
+    margin-bottom:20px;
+
+}
+
+.waiting-card p{
+
+    color:#64748b;
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+/* =====================================================
+   SCAN BUTTON
+===================================================== */
+
+.scan-again-btn{
+
+    width:100%;
+
+    margin-top:25px;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.scan-again-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 20px rgba(37,99,235,.25);
+
+}
+
+/* =====================================================
+   SUCCESS FLASH
+===================================================== */
+
+.success-flash{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(34,197,94,.18);
+
+    pointer-events:none;
+
+    animation:flashSuccess .5s ease;
+
+    z-index:9999;
+
+}
+
+@keyframes flashSuccess{
+
+    0%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:0;
+
+    }
+
+}
+
+
+/* =====================================================
+   ATTENDANCE TABLE
+===================================================== */
+
+.attendance-table-card{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:0 8px 22px rgba(15,23,42,.08);
+
+}
+
+.table-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+}
+
+.table-header h2{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#1e3a8a;
+
+}
+
+.table-date{
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    -webkit-overflow-scrolling:touch;
+
+}
+
+.attendance-table{
+
+    width:100%;
+
+    min-width:700px;
+
+    border-collapse:collapse;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+}
+
+.attendance-table thead{
+
+    background:linear-gradient(
+        135deg,
+        #1d4ed8,
+        #2563eb
+    );
+
+}
+
+.attendance-table thead th{
+
+    color:#ffffff;
+
+    padding:16px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    text-align:center;
+
+    white-space:nowrap;
+
+}
+
+.attendance-table tbody tr{
+
+    transition:.25s;
+
+}
+
+.attendance-table tbody tr:nth-child(even){
+
+    background:#f8fafc;
+
+}
+
+.attendance-table tbody tr:hover{
+
+    background:#eef4ff;
+
+}
+
+.attendance-table td{
+
+    padding:15px;
+
+    text-align:center;
+
+    border-bottom:1px solid #e5e7eb;
+
+    font-size:14px;
+
+}
+
+.no-records{
+
+    padding:40px !important;
+
+    color:#64748b;
+
+    font-size:16px;
+
+    font-weight:600;
+
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width:992px){
+
+.attendance-top{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+
+@media (max-width:768px){
+
+.attendance-page{
+
+    padding:15px;
+
+}
+
+.attendance-header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+}
+
+.attendance-title{
+
+    font-size:28px;
+
+}
+
+.attendance-subtitle{
+
+    font-size:14px;
+
+}
+
+.attendance-date{
+
+    width:100%;
+
+    text-align:center;
+
+}
+
+.scanner-card,
+
+.result-card,
+
+.attendance-table-card{
+
+    padding:18px;
+
+}
+
+.card-title{
+
+    font-size:20px;
+
+}
+
+.scanner-box{
+
+    min-height:280px;
+
+}
+
+.success-icon{
+
+    width:65px;
+
+    height:65px;
+
+    font-size:32px;
+
+}
+
+.result-row{
+
+    gap:12px;
+
+}
+
+.result-row span{
+
+    font-size:13px;
+
+}
+
+.result-row strong{
+
+    font-size:14px;
+
+}
+
+.scan-again-btn{
+
+    width:100%;
+
+    height:48px;
+
+    font-size:15px;
+
+}
+
+.table-header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+}
+
+.table-header h2{
+
+    font-size:20px;
+
+}
+
+.table-date{
+
+    width:100%;
+
+    text-align:center;
+
+}
+
+.attendance-table{
+
+    min-width:600px;
+
+}
+
+.attendance-table th{
+
+    padding:12px;
+
+    font-size:13px;
+
+}
+
+.attendance-table td{
+
+    padding:12px;
+
+    font-size:13px;
+
+}
+
+}
+
+@media (max-width:480px){
+
+.attendance-page{
+
+    padding:12px;
+
+}
+
+.attendance-title{
+
+    font-size:24px;
+
+}
+
+.scanner-box{
+
+    min-height:240px;
+
+}
+
+.card-title{
+
+    font-size:18px;
+
+}
+
+.success-icon{
+
+    width:55px;
+
+    height:55px;
+
+    font-size:28px;
+
+}
+
+.scan-again-btn{
+
+    height:45px;
+
+    font-size:14px;
+
+}
+
+.attendance-table{
+
+    min-width:550px;
+
+}
+
+}

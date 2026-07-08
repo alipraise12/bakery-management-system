@@ -1,12 +1,12 @@
+/* ================= DESKTOP ================= */
+
 /* PAGE CENTERING */
 .inventory-page {
   min-height: 100vh;
   background: #f4f6fb;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 20px;
 }
 
@@ -15,10 +15,8 @@
   background: #ffffff;
   padding: 35px;
   border-radius: 15px;
-
   width: 85%;
   max-width: 1100px;
-
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
@@ -26,17 +24,25 @@
 .inventory-box h2 {
   text-align: center;
   margin-bottom: 20px;
+  color: #2c3e90;
 }
 
 /* DATE */
 .date-box {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .date-box input {
   width: 250px;
-  padding: 8px;
+  padding: 10px;
   margin-left: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper {
+  width: 100%;
 }
 
 /* TABLE */
@@ -48,7 +54,7 @@ table {
 th {
   background: #2c3e90;
   color: white;
-  padding: 10px;
+  padding: 12px;
 }
 
 td {
@@ -60,9 +66,9 @@ td {
 /* INPUT */
 input {
   width: 100%;
-  padding: 6px;
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 /* AVAILABLE */
@@ -73,100 +79,29 @@ input {
 
 /* DELETE BUTTON */
 .delete-btn {
-  background: red;
+  background: linear-gradient(135deg, #ff4d4d, #ff7676);
   color: white;
   border: none;
-  padding: 6px;
-  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
 /* ADD BUTTON */
 .add-btn {
-  margin-top: 10px;
-  padding: 10px;
-  background: green;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #2146d0, #315efb);
   color: white;
   border: none;
+  border-radius: 12px;
   cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(49,94,251,.25);
 }
 
 /* ACTION BUTTONS */
-.bottom-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.save-btn {
-  background: #007bff;
-  color: white;
-  padding: 10px;
-}
-
-.edit-btn {
-  background: #ffc107;
-  padding: 10px;
-}
-
-/* HISTORY */
-.history {
-  margin-top: 20px;
-}
-
-.history-toggle {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.history-box {
-  margin-top: 10px;
-  background: #f1f1f1;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.history-item {
-  margin-bottom: 10px;
-}
-
-
-.history-date {
-  margin-top: 15px;
-  background: #2c3e90;
-  color: white;
-  padding: 6px;
-  border-radius: 5px;
-}
-
-
-.history-day {
-  margin-top: 20px;
-}
-
-/* .history-date {
-  background: #2c3e90;
-  color: white;
-  padding: 8px;
-  border-radius: 6px;
-  margin-bottom: 5px;
-} */
-
-
-
-/* .date-box {
-  margin-bottom: 15px;
-}
-
-.add-btn {
-  margin-top: 10px;
-  padding: 8px;
-  background: green;
-  color: white;
-  border: none;
-}
-
 .bottom-actions {
   margin-top: 20px;
   display: flex;
@@ -175,131 +110,264 @@ input {
 }
 
 .bottom-actions button {
-  padding: 10px 15px;
+  padding: 12px 20px;
   border: none;
+  border-radius: 12px;
   cursor: pointer;
+  color: white;
+  font-weight: 600;
 }
 
+.bottom-actions button:first-child {
+  background: linear-gradient(135deg,#2146d0,#315efb);
+}
+
+.bottom-actions button:last-child {
+  background: linear-gradient(135deg,#f59e0b,#fbbf24);
+}
+
+/* HISTORY */
 .history {
   margin-top: 20px;
 }
 
+.history button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#16a34a,#22c55e);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
 .history-box {
-  margin-top: 10px;
+  margin-top: 15px;
   background: #f1f1f1;
-  padding: 10px;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.history-date {
+  margin-top: 15px;
+  background: #2c3e90;
+  color: white;
+  padding: 8px;
   border-radius: 8px;
 }
 
-.history-item {
-  margin-bottom: 10px;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* PAGE BACKGROUND (same soft look as login) 
-
-
-
-
-
-
-
-
-
-.inventory-page {
-  height: 100vh;
-  background: #f4f6fb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.history-day {
+  margin-top: 20px;
 }
 
-/* CARD STYLE (like login box) */
-.inventory-box {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  width: 80%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
 
-.inventory-box h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
 
-/* TABLE */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  /* PAGE */
+  .inventory-page {
+    display: block;
+    padding: 12px;
+    background: #f4f6fb;
+  }
 
-th {
-  background: #2c3e90;
-  color: white;
-  padding: 10px;
-}
+  /* REMOVE DESKTOP CARD EFFECT */
+  .inventory-box {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+  }
 
-td {
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
+  /* TITLE */
+  .inventory-box h2 {
+    font-size: 34px;
+    text-align: left;
+    margin-bottom: 20px;
+    color: #1e3a8a;
+    font-weight: 700;
+  }
 
-/* INPUTS */
-input {
-  width: 100%;
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
+  /* DATE */
+  .date-box {
+    margin-bottom: 20px;
+  }
 
-/* AVAILABLE STOCK */
-.available {
-  font-weight: bold;
-  color: green;
-}
+  .date-box label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
 
-/* ACTION BUTTONS */
-.actions button {
-  margin: 2px;
-  padding: 6px 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
+  .date-box input {
+    width: 100%;
+    height: 48px;
+    padding: 10px;
+    margin-left: 0;
+    border: 1px solid #d6dbe7;
+    border-radius: 12px;
+    box-sizing: border-box;
+    background: white;
+  }
 
-.actions button:nth-child(1) {
-  background: #28a745;
-  color: white;
-}
+  /* TABLE WRAPPER */
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 20px;
+    border-radius: 16px;
+  }
 
-.actions button:nth-child(2) {
-  background: #007bff;
-  color: white;
-}
+  /* MAIN TABLE */
+  .inventory-table {
+    width: 500px;
+    min-width: 500px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+  }
 
-.actions button:nth-child(3) {
-  background: #ffc107;
+  /* HEADER */
+  .inventory-table th {
+    background: linear-gradient(135deg,#2146d0,#315efb);
+    color: white;
+    padding: 14px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* ROWS */
+  .inventory-table td {
+    padding: 12px 6px;
+    border-bottom: 1px solid #edf1f7;
+    text-align: center;
+  }
+
+  /* INPUTS */
+  .inventory-table td input {
+    width: 100%;
+    height: 38px;
+    padding: 6px;
+    font-size: 12px;
+    border: 1px solid #d8deea;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background: #fafbfc;
+  }
+
+  /* COLUMN WIDTHS */
+  .product-col {
+    width: 180px;
+  }
+
+  .stock-in-col {
+    width: 80px;
+  }
+
+  .stock-out-col {
+    width: 80px;
+  }
+
+  .available-col {
+    width: 80px;
+  }
+
+  .delete-col {
+    width: 60px;
+  }
+
+  
+  /* AVAILABLE NUMBER */
+  .available {
+    color: #16a34a;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  /* DELETE BUTTON */
+  .delete-btn {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg,#ef4444,#f87171);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  /* ADD BUTTON */
+  .add-btn {
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg,#2146d0,#315efb);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    box-shadow: 0 6px 18px rgba(49,94,251,.25);
+  }
+
+  /* ACTION BUTTONS */
+  .bottom-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+  }
+
+  .bottom-actions button {
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .bottom-actions button:first-child {
+    background: linear-gradient(135deg,#2146d0,#315efb);
+  }
+
+  .bottom-actions button:last-child {
+    background: linear-gradient(135deg,#f59e0b,#fbbf24);
+  }
+
+  /* HISTORY BUTTON */
+  .history button {
+    width: 100%;
+    height: 52px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg,#16a34a,#22c55e);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .history-box {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 14px;
+    background: white;
+  }
+
+  .history-date {
+    border-radius: 10px;
+  }
 }
