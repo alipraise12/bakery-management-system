@@ -349,10 +349,13 @@ path(
     settle_customer_bread
 ),
 
-]
 
 
 path(
     "download-qr/<str:filename>/",
     download_qr
 ),
+
+
+]
+

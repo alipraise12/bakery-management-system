@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./customers.css";
+import "./Customers.css";
 
 function Customers() {
 
@@ -125,7 +125,7 @@ function Customers() {
 
       </h2>
 
-            {/* ===========================
+      {/* ===========================
           ADD CUSTOMER
       =========================== */}
 
@@ -205,7 +205,7 @@ function Customers() {
       </div>
 
       {/* ===========================
-          DESKTOP TABLE
+          CUSTOMER TABLE
       =========================== */}
 
       <div className="desktop-customers">
@@ -283,85 +283,6 @@ function Customers() {
         </div>
 
       </div>
-
-            {/* ===========================
-          MOBILE CUSTOMER CARDS
-      =========================== */}
-
-      <div className="mobile-customers">
-
-        {filteredCustomers.length > 0 ? (
-
-          filteredCustomers.map(
-            (
-              customer: any,
-              index
-            ) => (
-
-              <div
-                key={customer.id}
-                className="customer-mobile-card"
-              >
-
-                <div className="customer-number">
-
-                  Customer #{index + 1}
-
-                </div>
-
-                <div className="customer-info">
-
-                  <div className="customer-row">
-
-                    <span className="label">
-                      👤 Name
-                    </span>
-
-                    <span className="value">
-                      {customer.name}
-                    </span>
-
-                  </div>
-
-                  <div className="customer-row">
-
-                    <span className="label">
-                      📞 Phone
-                    </span>
-
-                    <span className="value">
-                      {customer.phone}
-                    </span>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            )
-          )
-
-        ) : (
-
-          <div className="empty-customers">
-
-            <h3>No Customers Found</h3>
-
-            <p>
-              There are currently no customers
-              matching your search.
-            </p>
-
-          </div>
-
-        )}
-
-      </div>
-
-            {/* ===========================
-          END PAGE
-      =========================== */}
 
     </div>
 
