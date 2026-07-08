@@ -195,3 +195,13 @@ EMAIL_HOST_USER = "alipraise60@gmail.com"
 EMAIL_HOST_PASSWORD = "guyv myaw qamk cbyv"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+}
