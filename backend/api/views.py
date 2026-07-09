@@ -1305,23 +1305,19 @@ def save_daily_production(request):
     print("SAVE DAILY PRODUCTION RUNNING")
 
     # =====================================
-# PREVENT DUPLICATE SAVE
-# =====================================
+    # PREVENT DUPLICATE SAVE
+    # =====================================
+    if DailyProduction.objects.filter(
+        confirmed=False
+    ).exists():
 
-if DailyProduction.objects.filter(
-    confirmed=False
-).exists():
-
-    return Response({
-
-        "success": False,
-
-        "message": (
-            "Production has already been saved. "
-            "Click Confirm or New before saving again."
-        )
-
-    }, status=400)
+        return Response({
+            "success": False,
+            "message": (
+                "Production has already been saved. "
+                "Click New before saving again."
+            )
+        }, status=400)
 
     try:
 
@@ -1329,118 +1325,60 @@ if DailyProduction.objects.filter(
 
         for item in data:
 
-            # =========================
-            # SAVE PRODUCTION
-            # =========================
-
             production = DailyProduction.objects.create(
 
                 bread_type=item['bread_type'],
-
                 bags=item['bags'],
-
                 expected=item['expected'],
-
                 actual_yield=item['actual_yield'],
-
                 packaged=item['packaged'],
-
                 difference=item['difference'],
-
                 dispatch_difference=item['dispatch_difference'],
-
                 comment=item['comment']
             )
 
             print("PRODUCTION SAVED TO DATABASE")
 
-            # =========================
-            # AUTO SEND TO DISPATCH
-            # =========================
-
-            stock, created = (
-                DispatchStock.objects.get_or_create(
-                    bread_type=item['bread_type']
-                )
+            stock, created = DispatchStock.objects.get_or_create(
+                bread_type=item['bread_type']
             )
 
-            stock.quantity_received += int(
-                item['packaged']
-            )
-
-            stock.quantity_remaining += int(
-                item['packaged']
-            )
-
+            stock.quantity_received += int(item['packaged'])
+            stock.quantity_remaining += int(item['packaged'])
             stock.confirmed = True
-
             stock.save()
 
             print("DISPATCH STOCK UPDATED")
 
-            # =========================
-            # SAVE TO GOOGLE SHEET
-            # =========================
-
             print("CALLING GOOGLE SHEET FUNCTION")
 
             save_production_to_sheet(
-
-                bread_type=
-                    item['bread_type'],
-
-                bags=
-                    item['bags'],
-
-                expected=
-                    item['expected'],
-
-                actual_yield=
-                    item['actual_yield'],
-
-                packaged=
-                    item['packaged'],
-
-                difference=
-                    item['difference'],
-
-                dispatch_difference=
-                    item['dispatch_difference'],
-
-                comment=
-                    item['comment']
+                bread_type=item['bread_type'],
+                bags=item['bags'],
+                expected=item['expected'],
+                actual_yield=item['actual_yield'],
+                packaged=item['packaged'],
+                difference=item['difference'],
+                dispatch_difference=item['dispatch_difference'],
+                comment=item['comment']
             )
 
             print("GOOGLE SHEET FUNCTION FINISHED")
 
         return Response({
-
             "success": True,
-
-            "message":
-                "Production saved successfully"
+            "message": "Production saved successfully"
         })
 
     except Exception as e:
 
         import traceback
-
-        print("===================================")
-
-        print("SAVE DAILY PRODUCTION ERROR")
-
-        print("===================================")
-
         traceback.print_exc()
 
         return Response({
-
             "success": False,
-
             "error": str(e)
-
         }, status=400)
-
 
 
 
