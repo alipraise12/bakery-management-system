@@ -28,7 +28,8 @@ from .google_sheet import (
     save_dispatch_to_sheet,
     save_inventory_to_sheet,
     save_customer_to_sheet,
-    save_attendance_to_sheet
+    save_attendance_to_sheet,
+    save_production_to_sheet,
 
 
 )
@@ -1302,6 +1303,25 @@ def download_qr(request, filename):
 def save_daily_production(request):
 
     print("SAVE DAILY PRODUCTION RUNNING")
+
+    # =====================================
+# PREVENT DUPLICATE SAVE
+# =====================================
+
+if DailyProduction.objects.filter(
+    confirmed=False
+).exists():
+
+    return Response({
+
+        "success": False,
+
+        "message": (
+            "Production has already been saved. "
+            "Click Confirm or New before saving again."
+        )
+
+    }, status=400)
 
     try:
 
