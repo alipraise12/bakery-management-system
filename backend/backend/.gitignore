@@ -1,6 +1,8 @@
 # Python
 __pycache__/
 *.pyc
+venv/
+backend/venv/
 
 # Django
 db.sqlite3

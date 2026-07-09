@@ -28,6 +28,8 @@ function Productions() {
   const [columns, setColumns] =
     useState<string[]>(defaultColumns)
 
+  const [isSaved, setIsSaved] = useState(false)
+
   const [rows, setRows] =
     useState<RowData[]>([
       createDefaultRow(),
@@ -190,6 +192,8 @@ function Productions() {
     setPackaged([0, 0, 0])
 
     setComment("")
+
+    setIsSaved(false)
   }
 
   // ================= TOTALS =================
@@ -239,6 +243,10 @@ function Productions() {
 
   // ================= SAVE =================
   const handleSave = async () => {
+      if (isSaved) {
+        alert("This production has already been saved.")
+        return
+    }
 
     try {
 
@@ -272,16 +280,13 @@ function Productions() {
 
       console.log(payload)
 
-      await axios.post(
-        "/api/daily-production/",
-        payload
-      )
+     await axios.post(
+    "http://159.65.94.152/api/daily-production/",
+    payload
+)
+      setIsSaved(true)
 
-      alert(
-        "Production Saved Successfully"
-      )
-
-      handleNew()
+      alert("Production Saved Successfully")
 
     } catch (error) {
 
@@ -304,13 +309,13 @@ function Productions() {
 
         <div className="top-actions">
 
-          <button
+         <button
             className="btn success"
             onClick={handleSave}
-          >
-            Save
-          </button>
-
+            disabled={isSaved}
+>
+             {isSaved ? "Saved ✓" : "Save"}
+        </button>
           <button
             className="btn warning"
             onClick={handleNew}
