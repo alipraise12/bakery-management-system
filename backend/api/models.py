@@ -144,7 +144,9 @@ class DailyProduction(models.Model):
     session = models.ForeignKey(
         ProductionSession,
         on_delete=models.CASCADE,
-        related_name="productions"
+        related_name="productions",
+        null=True,
+        blank=True,
     )
 
     bread_type = models.CharField(max_length=100)
