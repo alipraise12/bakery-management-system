@@ -15,7 +15,7 @@ from .serializers import YieldRecordSerializer, DispatchRecordSerializer
 from .models import Product, Customer
 from .models import Sale
 from .models import SaleItem
-from .models import DailyProduction
+from .models import DailyProduction, ProductionSession
 from .serializers import DailyProductionSerializer
 from .models import Sale, DebtPayment
 from django.shortcuts import get_object_or_404
@@ -1299,6 +1299,93 @@ def download_qr(request, filename):
 
 
 
+# @api_view(['POST'])
+# def save_daily_production(request):
+
+#     print("SAVE DAILY PRODUCTION RUNNING")
+
+#     # =====================================
+#     # PREVENT DUPLICATE SAVE
+#     # =====================================
+#     if DailyProduction.objects.filter(
+#         confirmed=False
+#     ).exists():
+
+#         return Response({
+#             "success": False,
+#             "message": (
+#                 "Production has already been saved. "
+#                 "Click New before saving again."
+#             )
+#         }, status=400)
+
+#     try:
+
+#         data = request.data
+
+#         session = ProductionSession.objects.create()
+
+
+#         for item in data:
+
+#             production = DailyProduction.objects.create(
+
+#                 session=session,
+
+#                 bread_type=item['bread_type'],
+#                 bags=item['bags'],
+#                 expected=item['expected'],
+#                 actual_yield=item['actual_yield'],
+#                 packaged=item['packaged'],
+#                 difference=item['difference'],
+#                 dispatch_difference=item['dispatch_difference'],
+#                 comment=item['comment']
+#             )
+
+#             print("PRODUCTION SAVED TO DATABASE")
+
+#             stock, created = DispatchStock.objects.get_or_create(
+#                 bread_type=item['bread_type']
+#             )
+
+#             stock.quantity_received += int(item['packaged'])
+#             stock.quantity_remaining += int(item['packaged'])
+#             stock.confirmed = True
+#             stock.save()
+
+#             print("DISPATCH STOCK UPDATED")
+
+#             print("CALLING GOOGLE SHEET FUNCTION")
+
+#             save_production_to_sheet(
+#                 bread_type=item['bread_type'],
+#                 bags=item['bags'],
+#                 expected=item['expected'],
+#                 actual_yield=item['actual_yield'],
+#                 packaged=item['packaged'],
+#                 difference=item['difference'],
+#                 dispatch_difference=item['dispatch_difference'],
+#                 comment=item['comment']
+#             )
+
+#             print("GOOGLE SHEET FUNCTION FINISHED")
+
+#         return Response({
+#             "success": True,
+#             "message": "Production saved successfully"
+#         })
+
+#     except Exception as e:
+
+#         import traceback
+#         traceback.print_exc()
+
+#         return Response({
+#             "success": False,
+#             "error": str(e)
+#         }, status=400)
+
+
 @api_view(['POST'])
 def save_daily_production(request):
 
@@ -1307,81 +1394,185 @@ def save_daily_production(request):
     # =====================================
     # PREVENT DUPLICATE SAVE
     # =====================================
-    if DailyProduction.objects.filter(
-        confirmed=False
-    ).exists():
+
+    open_session = ProductionSession.objects.filter(
+        completed=False
+    ).first()
+
+    if open_session:
 
         return Response({
+
             "success": False,
-            "message": (
-                "Production has already been saved. "
-                "Click New before saving again."
-            )
+
+            "message":
+                "Production has already been saved. Click New before saving again."
+
         }, status=400)
 
     try:
 
         data = request.data
 
+        # =====================================
+        # CREATE A NEW PRODUCTION SESSION
+        # =====================================
+
+        session = ProductionSession.objects.create()
+
         for item in data:
+
+            # =========================
+            # SAVE PRODUCTION
+            # =========================
 
             production = DailyProduction.objects.create(
 
+                session=session,
+
                 bread_type=item['bread_type'],
+
                 bags=item['bags'],
+
                 expected=item['expected'],
+
                 actual_yield=item['actual_yield'],
+
                 packaged=item['packaged'],
+
                 difference=item['difference'],
+
                 dispatch_difference=item['dispatch_difference'],
+
                 comment=item['comment']
+
             )
 
             print("PRODUCTION SAVED TO DATABASE")
 
+            # =========================
+            # UPDATE DISPATCH STOCK
+            # =========================
+
             stock, created = DispatchStock.objects.get_or_create(
+
                 bread_type=item['bread_type']
+
             )
 
             stock.quantity_received += int(item['packaged'])
+
             stock.quantity_remaining += int(item['packaged'])
+
             stock.confirmed = True
+
             stock.save()
 
             print("DISPATCH STOCK UPDATED")
 
+            # =========================
+            # SAVE TO GOOGLE SHEET
+            # =========================
+
             print("CALLING GOOGLE SHEET FUNCTION")
 
             save_production_to_sheet(
+
                 bread_type=item['bread_type'],
+
                 bags=item['bags'],
+
                 expected=item['expected'],
+
                 actual_yield=item['actual_yield'],
+
                 packaged=item['packaged'],
+
                 difference=item['difference'],
+
                 dispatch_difference=item['dispatch_difference'],
+
                 comment=item['comment']
+
             )
 
             print("GOOGLE SHEET FUNCTION FINISHED")
 
         return Response({
+
             "success": True,
+
             "message": "Production saved successfully"
+
         })
 
     except Exception as e:
 
         import traceback
+
+        print("===================================")
+        print("SAVE DAILY PRODUCTION ERROR")
+        print("===================================")
+
         traceback.print_exc()
 
         return Response({
+
             "success": False,
+
             "error": str(e)
+
         }, status=400)
 
 
 
+@api_view(['POST'])
+def new_production(request):
+
+    try:
+
+        session = ProductionSession.objects.filter(
+            completed=False
+        ).first()
+
+        if session:
+
+            session.completed = True
+            session.save()
+
+            return Response({
+
+                "success": True,
+
+                "message": "Production session closed. Ready for a new production."
+
+            })
+
+        # No open session, but that's okay.
+        return Response({
+
+            "success": True,
+
+            "message": "Ready for a new production."
+
+        })
+
+    except Exception as e:
+
+        import traceback
+
+        traceback.print_exc()
+
+        return Response({
+
+            "success": False,
+
+            "error": str(e)
+
+        }, status=400)
+    
+
+    
 @api_view(['GET'])
 def latest_production(request):
 

@@ -117,11 +117,35 @@ class ExpectedYield(models.Model):
     def __str__(self):
         return f"{self.bread_type} - {self.standard}"
 
+    
+
+# =====================================
+# PRODUCTION SESSION
+# =====================================
+
+class ProductionSession(models.Model):
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    completed = models.BooleanField(default=False)
+
+    confirmed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Production Session {self.id}"
+
 
 # =========================
 # DAILY PRODUCTION
 # =========================
+
 class DailyProduction(models.Model):
+
+    session = models.ForeignKey(
+        ProductionSession,
+        on_delete=models.CASCADE,
+        related_name="productions"
+    )
 
     bread_type = models.CharField(max_length=100)
 
@@ -144,7 +168,34 @@ class DailyProduction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.bread_type} - {self.created_at}"
+        return f"{self.bread_type} - Session {self.session.id}"
+
+
+
+# class DailyProduction(models.Model):
+
+#     bread_type = models.CharField(max_length=100)
+
+#     bags = models.IntegerField(default=0)
+
+#     expected = models.IntegerField(default=0)
+
+#     actual_yield = models.IntegerField(default=0)
+
+#     packaged = models.IntegerField(default=0)
+
+#     difference = models.IntegerField(default=0)
+
+#     dispatch_difference = models.IntegerField(default=0)
+
+#     comment = models.TextField(blank=True)
+
+#     confirmed = models.BooleanField(default=False)
+
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f"{self.bread_type} - {self.created_at}"
 
 
 # =========================

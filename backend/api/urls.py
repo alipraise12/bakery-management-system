@@ -79,7 +79,8 @@ from .views import (
     customer_ledger,
     clear_customer,
     settle_customer_bread,
-    download_qr
+    download_qr,
+    new_production,
 )
 
 # =========================
@@ -354,6 +355,12 @@ path(
 path(
     "download-qr/<str:filename>/",
     download_qr
+),
+
+
+path(
+    "new-production/",
+     new_production,
 ),
 
 
