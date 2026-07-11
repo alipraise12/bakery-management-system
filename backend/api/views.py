@@ -302,23 +302,44 @@ def scan_qr(request):
 
             attendance.save()
 
+            print("ATTENDANCE TIME IN SAVED TO DATABASE")
+
             # =========================
             # SAVE TO GOOGLE SHEET
+            # (DO NOT STOP DATABASE SAVE)
             # =========================
 
-            save_attendance_to_sheet(
+            try:
 
-                staff_name=
-                    f"{staff.first_name} {staff.last_name}",
+                save_attendance_to_sheet(
 
-                phone=
-                    staff.phone,
+                    staff_name=
+                        f"{staff.first_name} {staff.last_name}",
 
-                time_in=
-                    attendance.time_in,
+                    phone=
+                        staff.phone,
 
-                time_out=""
-            )
+                    time_in=
+                        attendance.time_in,
+
+                    time_out=""
+                )
+
+                print("TIME IN SAVED TO GOOGLE SHEET")
+
+            except Exception as e:
+
+                import traceback
+
+                print("===================================")
+                print("ATTENDANCE GOOGLE SHEET FAILED")
+                print("===================================")
+
+                traceback.print_exc()
+
+                print(
+                    "Attendance was saved successfully to the database."
+                )
 
             return Response({
 
@@ -345,24 +366,45 @@ def scan_qr(request):
 
             attendance.save()
 
+            print("ATTENDANCE TIME OUT SAVED TO DATABASE")
+
             # =========================
             # SAVE TO GOOGLE SHEET
+            # (DO NOT STOP DATABASE SAVE)
             # =========================
 
-            save_attendance_to_sheet(
+            try:
 
-                staff_name=
-                    f"{staff.first_name} {staff.last_name}",
+                save_attendance_to_sheet(
 
-                phone=
-                    staff.phone,
+                    staff_name=
+                        f"{staff.first_name} {staff.last_name}",
 
-                time_in=
-                    attendance.time_in,
+                    phone=
+                        staff.phone,
 
-                time_out=
-                    attendance.time_out
-            )
+                    time_in=
+                        attendance.time_in,
+
+                    time_out=
+                        attendance.time_out
+                )
+
+                print("TIME OUT SAVED TO GOOGLE SHEET")
+
+            except Exception as e:
+
+                import traceback
+
+                print("===================================")
+                print("ATTENDANCE GOOGLE SHEET FAILED")
+                print("===================================")
+
+                traceback.print_exc()
+
+                print(
+                    "Attendance was saved successfully to the database."
+                )
 
             return Response({
 
@@ -400,7 +442,6 @@ def scan_qr(request):
                 "Invalid QR Code"
 
         }, status=404)
-
 
 # =========================
 # ✅ GET ATTENDANCE LIST
@@ -488,18 +529,40 @@ def save_inventory(request):
             date=date
         )
 
+        print("INVENTORY SAVED TO DATABASE")
+
         # =========================
         # SAVE TO GOOGLE SHEET
+        # (DO NOT STOP DATABASE SAVE)
         # =========================
 
-        save_inventory_to_sheet(
+        try:
 
-            product=inventory.product_name,
+            save_inventory_to_sheet(
 
-            stock_in=inventory.stock_in,
+                product=inventory.product_name,
 
-            stock_out=inventory.stock_out
-        )
+                stock_in=inventory.stock_in,
+
+                stock_out=inventory.stock_out
+
+            )
+
+            print("INVENTORY SAVED TO GOOGLE SHEET")
+
+        except Exception as e:
+
+            import traceback
+
+            print("===================================")
+            print("INVENTORY GOOGLE SHEET FAILED")
+            print("===================================")
+
+            traceback.print_exc()
+
+            print(
+                "Inventory was saved successfully to the database."
+            )
 
     return Response({
 
@@ -657,16 +720,38 @@ def register_customer(request):
         phone=phone
     )
 
+    print("CUSTOMER SAVED TO DATABASE")
+
     # =========================
     # SAVE TO GOOGLE SHEET
+    # (DO NOT STOP DATABASE SAVE)
     # =========================
 
-    save_customer_to_sheet(
+    try:
 
-        customer_name=customer.name,
+        save_customer_to_sheet(
 
-        phone_number=customer.phone
-    )
+            customer_name=customer.name,
+
+            phone_number=customer.phone
+
+        )
+
+        print("CUSTOMER SAVED TO GOOGLE SHEET")
+
+    except Exception as e:
+
+        import traceback
+
+        print("===================================")
+        print("CUSTOMER GOOGLE SHEET FAILED")
+        print("===================================")
+
+        traceback.print_exc()
+
+        print(
+            "Customer was saved successfully to the database."
+        )
 
     # =========================
     # RESPONSE
@@ -683,7 +768,6 @@ def register_customer(request):
         "phone":
             customer.phone
     })
-
 
 
 @api_view(['GET'])
@@ -996,23 +1080,42 @@ def create_sale(request):
 
         product.save()
 
-
         # =========================
         # SAVE TO GOOGLE SHEET
+        # (DO NOT STOP SALE)
         # =========================
 
-        save_sale_to_sheet(
+        try:
 
-            invoice_number=invoice_number,
+            save_sale_to_sheet(
 
-            customer_name=customer.name,
+                invoice_number=invoice_number,
 
-            bread_type=product.name,
+                customer_name=customer.name,
 
-            quantity=quantity,
+                bread_type=product.name,
 
-            amount=total
-        )
+                quantity=quantity,
+
+                amount=total
+
+            )
+
+            print("SALE SAVED TO GOOGLE SHEET")
+
+        except Exception as e:
+
+            import traceback
+
+            print("===================================")
+            print("SALE GOOGLE SHEET FAILED")
+            print("===================================")
+
+            traceback.print_exc()
+
+            print(
+                "Sale was saved successfully to the database."
+            )
 
     # =========================
     # RESPONSE
@@ -1472,31 +1575,48 @@ def save_daily_production(request):
 
             # =========================
             # SAVE TO GOOGLE SHEET
+            # (DO NOT STOP DATABASE SAVE)
             # =========================
 
             print("CALLING GOOGLE SHEET FUNCTION")
 
-            save_production_to_sheet(
+            try:
 
-                bread_type=item['bread_type'],
+                save_production_to_sheet(
 
-                bags=item['bags'],
+                    bread_type=item['bread_type'],
 
-                expected=item['expected'],
+                    bags=item['bags'],
 
-                actual_yield=item['actual_yield'],
+                    expected=item['expected'],
 
-                packaged=item['packaged'],
+                    actual_yield=item['actual_yield'],
 
-                difference=item['difference'],
+                    packaged=item['packaged'],
 
-                dispatch_difference=item['dispatch_difference'],
+                    difference=item['difference'],
 
-                comment=item['comment']
+                    dispatch_difference=item['dispatch_difference'],
 
-            )
+                    comment=item['comment']
 
-            print("GOOGLE SHEET FUNCTION FINISHED")
+                )
+
+                print("GOOGLE SHEET UPDATED")
+
+            except Exception as e:
+
+                import traceback
+
+                print("===================================")
+                print("GOOGLE SHEET FAILED")
+                print("===================================")
+
+                traceback.print_exc()
+
+                print(
+                    "Production was saved to the database successfully."
+                )
 
         return Response({
 
@@ -1523,7 +1643,6 @@ def save_daily_production(request):
             "error": str(e)
 
         }, status=400)
-
 
 
 @api_view(['POST'])
@@ -1572,7 +1691,7 @@ def new_production(request):
         }, status=400)
     
 
-    
+
 @api_view(['GET'])
 def latest_production(request):
 
@@ -2774,10 +2893,6 @@ def give_bread(request):
 
         else:
 
-            # =========================
-            # OUT OF STOCK
-            # =========================
-
             if stock.quantity_remaining <= 0:
 
                 actual_given = 0
@@ -2840,25 +2955,44 @@ def give_bread(request):
 
         # =========================
         # SAVE TO GOOGLE SHEET
+        # (DO NOT STOP DISPATCH)
         # =========================
 
-        save_dispatch_to_sheet(
+        try:
 
-            invoice_number=
-                sale.invoice_number,
+            save_dispatch_to_sheet(
 
-            customer_name=
-                sale.customer.name,
+                invoice_number=
+                    sale.invoice_number,
 
-            bread_type=
-                sale_item.product_name,
+                customer_name=
+                    sale.customer.name,
 
-            quantity_given=
-                actual_given,
+                bread_type=
+                    sale_item.product_name,
 
-            receiver=
-                receiver
-        )
+                quantity_given=
+                    actual_given,
+
+                receiver=
+                    receiver
+            )
+
+            print("DISPATCH SAVED TO GOOGLE SHEET")
+
+        except Exception as e:
+
+            import traceback
+
+            print("===================================")
+            print("DISPATCH GOOGLE SHEET FAILED")
+            print("===================================")
+
+            traceback.print_exc()
+
+            print(
+                "Dispatch was saved successfully to the database."
+            )
 
         # =========================
         # CHECK IF SALE COMPLETE
@@ -2937,7 +3071,6 @@ def give_bread(request):
             "error": str(e)
 
         }, status=400)
- 
 
         
         

@@ -180,6 +180,10 @@ function Productions() {
  // ================= RESET FORM =================
 const handleNew = async () => {
 
+  
+  console.log("NEW BUTTON CLICKED");
+
+
   try {
 
     await axios.post(
