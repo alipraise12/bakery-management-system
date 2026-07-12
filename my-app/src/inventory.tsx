@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./inventory.css";
+import API_URL from "./api";
 
 function Inventory() {
   const today = new Date().toISOString().split("T")[0];
@@ -17,7 +18,7 @@ function Inventory() {
   // 🔷 FETCH HISTORY
   const fetchHistory = async () => {
     try {
-      const res = await axios.get("http://159.65.94.152/api/inventory/");
+      const res = await axios.get(`${API_URL}/api/inventory/`);
       
       // ✅ Force update (important)
       setHistory([...res.data]);
@@ -74,7 +75,7 @@ function Inventory() {
 
       console.log("Saving date:", formattedDate);
 
-      await axios.post("http://159.65.94.152/api/inventory/save/", {
+      await axios.post(`${API_URL}/api/inventory/save/`, {
         date: formattedDate,
         rows
       });

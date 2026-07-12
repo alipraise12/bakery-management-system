@@ -2,6 +2,7 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./ScannerQR.css";
+import API_URL from "./api";
 
 function ScanQR() {
 
@@ -46,7 +47,7 @@ function ScanQR() {
     try {
 
       const res = await axios.get(
-        "http://159.65.94.152/api/attendance/"
+        `${API_URL}/api/attendance/`
       );
 
       setRecords(res.data);
@@ -168,7 +169,7 @@ function ScanQR() {
                     startCooldown();
 
                     axios.post(
-                      "http://159.65.94.152/api/scan/",
+                       `${API_URL}/api/scan/`,
                       {
 
                         token:

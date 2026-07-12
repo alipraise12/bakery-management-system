@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Dispatch.css";
+import API_URL from "./api";
+
 
 function Dispatch() {
 
@@ -79,7 +81,7 @@ function Dispatch() {
 
       const res =
         await axios.get(
-          "http://159.65.94.152/api/dispatch-summary/"
+          `${API_URL}/api/dispatch-summary/`
         );
 
       setSummary(res.data);
@@ -102,7 +104,7 @@ function Dispatch() {
 
       const res =
         await axios.get(
-          "http://159.65.94.152/api/packaged-bread/"
+          `${API_URL}/api/packaged-bread/`
         );
 
       const merged: any = {};
@@ -170,7 +172,7 @@ function Dispatch() {
 
       const res =
         await axios.get(
-          "http://159.65.94.152/api/pending-dispatches/"
+          `${API_URL}/api/pending-dispatches/`
         );
 
       setPendingSales(
@@ -205,7 +207,7 @@ function Dispatch() {
 
       const res =
         await axios.get(
-          `http://159.65.94.152/api/customer-order/${saleId}/`
+          `${API_URL}/api/customer-order/${saleId}/`
         );
 
       const formatted =
@@ -247,7 +249,7 @@ function Dispatch() {
     try {
 
       await axios.post(
-        "http://159.65.94.152/api/confirm-packaged-bread/",
+        `${API_URL}/api/confirm-packaged-bread/`,
         {
 
           bread_type:
@@ -464,7 +466,7 @@ function Dispatch() {
         for (const item of validOrders) {
 
           await axios.post(
-            "http://159.65.94.152/api/give-bread/",
+            `${API_URL}/api/give-bread/`,
             {
 
               sale_item_id:
@@ -502,7 +504,7 @@ function Dispatch() {
 
                     const saveRes =
           await axios.post(
-            "http://159.65.94.152/api/save-dispatch/",
+            `${API_URL}/api/save-dispatch/`,
             {
 
               customer:
@@ -584,7 +586,7 @@ function Dispatch() {
         }
 
         await axios.post(
-          "http://159.65.94.152/api/complete-day-dispatch/"
+          `${API_URL}/api/complete-day-dispatch/`
         );
 
         setCustomerOrders([]);
@@ -1254,7 +1256,7 @@ export default Dispatch;
 //     try {
 
 //       const res = await axios.get(
-//         "http://159.65.94.152/api/packaged-bread/"
+//         "${API_URL}/api/packaged-bread/"
 //       )
 
 //       const merged: any = {}
@@ -1314,7 +1316,7 @@ export default Dispatch;
 //     try {
 
 //       const res = await axios.get(
-//         "http://159.65.94.152/api/pending-dispatches/"
+//         "${API_URL}/api/pending-dispatches/"
 //       )
 
 //       setPendingSales(res.data)
@@ -1343,7 +1345,7 @@ export default Dispatch;
 //     try {
 
 //       const res = await axios.get(
-//         `http://159.65.94.152/api/customer-order/${saleId}/`
+//         `${API_URL}/api/customer-order/${saleId}/`
 //       )
 
 //       const formatted =
@@ -1379,7 +1381,7 @@ export default Dispatch;
 //     try {
 
 //       await axios.post(
-//         "http://159.65.94.152/api/confirm-packaged-bread/",
+//         "${API_URL}/api/confirm-packaged-bread/",
 //         {
 
 //           bread_type:
@@ -1574,7 +1576,7 @@ export default Dispatch;
 //         for (const item of validOrders) {
 
 //           await axios.post(
-//             "http://159.65.94.152/api/give-bread/",
+//             "${API_URL}/api/give-bread/",
 //             {
 
 //               sale_item_id:
@@ -1609,7 +1611,7 @@ export default Dispatch;
 
 //         const saveRes =
 //           await axios.post(
-//             "http://159.65.94.152/api/save-dispatch/",
+//             "${API_URL}/api/save-dispatch/",
 //             {
 
 //               customer:
@@ -1681,7 +1683,7 @@ export default Dispatch;
 //       }
 
 //       await axios.post(
-//         "http://159.65.94.152/api/complete-day-dispatch/"
+//         "${API_URL}/api/complete-day-dispatch/"
 //       )
 
 //       setCustomerOrders([])

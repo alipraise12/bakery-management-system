@@ -2,6 +2,8 @@ import axios from "axios"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import "./login.css"
+import API_URL from "./api";
+
 
 function Login() {
   const [email, setEmail] = useState("")
@@ -23,7 +25,7 @@ function Login() {
     try {
       setLoading(true)
 
-      const res = await axios.post("http://159.65.94.152/api/login/", {
+      const res = await axios.post(`${API_URL}/api/login/`,  {
         email,
         password
       })

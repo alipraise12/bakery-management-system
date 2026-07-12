@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Customers.css";
+import API_URL from "./api";
 
 function Customers() {
 
@@ -19,7 +20,7 @@ function Customers() {
   const fetchCustomers = () => {
 
     axios
-      .get("http://159.65.94.152/api/customers/")
+      .get(`${API_URL}/api/customers/`)
       .then((res) => {
 
         console.log("CUSTOMERS API:", res.data);
@@ -63,7 +64,7 @@ function Customers() {
 
     axios
       .post(
-        "http://159.65.94.152/api/customers/register/",
+        `${API_URL}/api/customers/register/`,
         {
           name,
           phone,

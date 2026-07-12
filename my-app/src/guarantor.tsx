@@ -2,6 +2,7 @@ import axios from "axios"
 import { useState } from "react"
 import { useLocation, useNavigate, Link } from "react-router-dom"
 import "./guarantor.css"
+import API_URL from "./api"
 
 function Guarantor() {
 
@@ -60,7 +61,7 @@ function Guarantor() {
       formData.append("password", password)
 
       await axios.post(
-  "/api/staff/register/",
+  `${API_URL}/api/staff/register/`,
   formData,
   {
     headers: {

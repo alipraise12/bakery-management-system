@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./production.css";
+import API_URL from "./api";
 
 function Production() {
 
@@ -43,14 +44,14 @@ function Production() {
 
       const yieldRes =
         await axios.get(
-          "http://159.65.94.152/api/yields/"
+          `${API_URL}/api/yields/`
         );
 
       setStandards(yieldRes.data);
 
       const productionRes =
         await axios.get(
-          "http://159.65.94.152/api/latest-production/"
+          `${API_URL}/api/latest-production/`
         );
 
       const bagsData: any = {};
@@ -162,7 +163,7 @@ function Production() {
     try {
 
       await axios.post(
-        "http://159.65.94.152/api/confirm-production/"
+        `${API_URL}/api/confirm-production/`
       );
 
       alert(

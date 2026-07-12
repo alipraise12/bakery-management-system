@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import "./profile.css"
+import API_URL from "./api"
 
 function Profile() {
   const navigate = useNavigate()
@@ -31,7 +32,7 @@ function Profile() {
       // ✅ FIXED PROFILE PICTURE
       setPreview(
         parsed.picture
-          ? `http://159.65.94.152${parsed.picture}`
+          ? `${API_URL}${parsed.picture}`
           : null
       )
     }
@@ -57,7 +58,7 @@ function Profile() {
       }
 
       const res = await axios.post(
-        "http://159.65.94.152/api/profile/update/",
+        `${API_URL}/api/profile/update/`,
         formData
       )
 
@@ -76,7 +77,7 @@ function Profile() {
       // ✅ FIXED PROFILE IMAGE AFTER UPDATE
       if (updatedUser.picture) {
         setPreview(
-          `http://159.65.94.152${updatedUser.picture}`
+           `${API_URL}${updatedUser.picture}`
         )
       }
 
@@ -219,7 +220,7 @@ function Profile() {
 
               {/* FIXED QR IMAGE */}
               <img
-                src={`http://159.65.94.152${user.qr_code}`}
+                src={`${API_URL}${user.qr_code}`}
                 alt="QR Code"
               />
 
@@ -229,7 +230,7 @@ function Profile() {
   className="qr-download"
   onClick={() => {
     window.open(
-      `http://159.65.94.152/api/download-qr/${
+       `${API_URL}/api/download-qr/${
         user.qr_code.split("/").pop()
       }`,
       "_self"

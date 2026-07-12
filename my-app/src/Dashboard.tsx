@@ -1,28 +1,29 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import "./Dashboard.css"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Dashboard.css";
+import API_URL from "./api";
 
 function Dashboard() {
-  const navigate = useNavigate()
-  const [user, setUser] = useState<any>(null)
-  const [showMenu, setShowMenu] = useState(false)
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user")
+    const storedUser = localStorage.getItem("user");
 
     if (!storedUser) {
-      navigate("/")
+      navigate("/");
     } else {
-      setUser(JSON.parse(storedUser))
+      setUser(JSON.parse(storedUser));
     }
-  }, [navigate])
+  }, [navigate]);
 
   // 🔴 LOGOUT FUNCTION
   const handleLogout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    navigate("/")
-  }
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   // 🧠 ALL DEPARTMENTS
   const allDepartments = [
@@ -35,34 +36,29 @@ function Dashboard() {
     { name: "Payroll", path: "/payroll", admin: true },
     { name: "Accounting", path: "/accounting", admin: true },
     { name: "Customers", path: "/customers", admin: true },
-    {name:"Productions", path: "/productions", admin: false}
-    
-  ]
+    { name: "Productions", path: "/productions", admin: false },
+  ];
 
-  if (!user) return null
+  if (!user) return null;
 
   // ✅ FILTER BASED ON ROLE
   const departments = user.is_admin
     ? allDepartments
-    : allDepartments.filter(dept => !dept.admin)
+    : allDepartments.filter((dept) => !dept.admin);
 
   return (
     <div className="dashboard">
-
       {/* 🔷 HEADER */}
       <div className="topbar">
         <h2 className="title">Dashboard</h2>
 
         <div className="user-info">
-
           {/* TEXT */}
           <div className="user-text">
             <span className="name">
               {user.first_name} {user.last_name}
             </span>
-            <span className="phone">
-              {user.phone || "No phone"}
-            </span>
+            <span className="phone">{user.phone || "No phone"}</span>
           </div>
 
           {/* PROFILE + DROPDOWN */}
@@ -70,7 +66,7 @@ function Dashboard() {
             <img
               src={
                 user.picture
-                  ? `http://159.65.94.152${user.picture}`
+                  ? `${API_URL}${user.picture}`
                   : "https://via.placeholder.com/80"
               }
               alt="profile"
@@ -81,16 +77,13 @@ function Dashboard() {
             {/* 🔽 DROPDOWN */}
             {showMenu && (
               <div className="dropdown">
-                <p onClick={() => navigate("/profile")}>
-                  Profile
-                </p>
+                <p onClick={() => navigate("/profile")}>Profile</p>
                 <p onClick={handleLogout} className="logout">
                   Logout
                 </p>
               </div>
             )}
           </div>
-
         </div>
       </div>
 
@@ -110,23 +103,11 @@ function Dashboard() {
           ))}
         </div>
       </div>
-
     </div>
-  )
+  );
 }
 
-export default Dashboard
-
-
-
-
-
-
-
-
-
-
-
+export default Dashboard;
 
 // import { useEffect, useState } from "react"
 // import { useNavigate } from "react-router-dom"
@@ -220,15 +201,6 @@ export default Dashboard
 
 // export default Dashboard
 
-
-
-
-
-
-
-
-
-
 // import { useEffect, useState } from "react"
 // import { useNavigate } from "react-router-dom"
 // import "./Dashboard.css"
@@ -313,16 +285,6 @@ export default Dashboard
 // }
 
 // export default Dashboard
-
-
-
-
-
-
-
-
-
-
 
 // import { useEffect, useState } from "react"
 // import { useNavigate } from "react-router-dom"

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 import "./Productions.css"
+import API_URL from "./api";
 
 interface RowData {
   id: number
@@ -187,7 +188,7 @@ const handleNew = async () => {
   try {
 
     await axios.post(
-      "http://159.65.94.152/api/new-production/",
+      `${API_URL}/api/new-production/`,
       {}
     )
 
@@ -312,7 +313,7 @@ const handleNew = async () => {
       console.log(payload)
 
      await axios.post(
-    "http://159.65.94.152/api/daily-production/",
+   `${API_URL}/api/daily-production/`,
     payload
 )
       setIsSaved(true)

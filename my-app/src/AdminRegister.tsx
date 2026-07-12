@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import "./AdminRegister.css"
+import API_URL from "./api"
+
 
 function AdminRegister() {
 
@@ -54,8 +56,8 @@ function AdminRegister() {
       formData.append("picture", picture)
 
       await axios.post(
-        "http://159.65.94.152/api/admin/register/",
-        formData
+         `${API_URL}/api/admin/register/`,
+          formData
       )
 
       alert("Admin Registered Successfully ✅")

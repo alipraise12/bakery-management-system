@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "./CustomerInfo.css";
+import API_URL from "./api";
 
 function CustomerInfo() {
 
@@ -43,7 +44,7 @@ function CustomerInfo() {
     try {
 
       const response = await axios.get(
-        "http://159.65.94.152/api/customer-dispatch-list/"
+        `${API_URL}/api/customer-dispatch-list/`
       );
 
       setDispatches(response.data);
@@ -68,7 +69,7 @@ function CustomerInfo() {
       setLoading(true);
 
       const response = await axios.get(
-        `http://159.65.94.152/api/customer-ledger/${dispatchId}/`
+         `${API_URL}/api/customer-ledger/${dispatchId}/`
       );
 
       setCustomerData(response.data);
@@ -125,7 +126,7 @@ function CustomerInfo() {
     try {
 
       await axios.post(
-        "http://159.65.94.152/api/settle-customer-bread/",
+         `${API_URL}/api/settle-customer-bread/`,
         {
 
           customer_id:

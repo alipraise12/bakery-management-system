@@ -3,6 +3,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import { useNavigate } from "react-router-dom";
 import "./sales.css";
+import API_URL from "./api";
 
 function Sales() {
 
@@ -124,7 +125,7 @@ function Sales() {
 
     axios
       .get(
-        "http://159.65.94.152/api/products/"
+        `${API_URL}/api/products/`
       )
       .then((res) =>
         setProducts(res.data)
@@ -132,7 +133,7 @@ function Sales() {
 
     axios
       .get(
-        "http://159.65.94.152/api/customers/"
+         `${API_URL}/api/customers/`
       )
       .then((res) =>
         setCustomers(res.data)
@@ -344,7 +345,7 @@ function Sales() {
 
     axios
       .post(
-        "http://159.65.94.152/api/sales/",
+        `${API_URL}/api/sales/`,
         {
 
           customer_id:

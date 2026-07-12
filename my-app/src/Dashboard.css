@@ -63,7 +63,7 @@
 /* CARDS */
 .card-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 25px;
 }
 
@@ -135,4 +135,133 @@
 .dashboard .logout {
   color: red;
   font-weight: bold;
+}
+
+
+
+
+/* ===========================
+   MOBILE RESPONSIVE
+=========================== */
+
+@media (max-width: 768px) {
+
+  /* Top Bar */
+  .topbar {
+    padding: 15px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .user-info {
+    gap: 10px;
+  }
+
+  .user-text {
+    text-align: right;
+  }
+
+  .name {
+    font-size: 14px;
+  }
+
+  .phone {
+    font-size: 11px;
+  }
+
+  /* Profile Image */
+  .dashboard .avatar {
+    width: 50px;
+    height: 50px;
+    border-width: 2px;
+  }
+
+  /* Main Content */
+  .content {
+    padding: 20px;
+  }
+
+  .header {
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Cards */
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .card {
+    height: 100px;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  /* Dropdown */
+  .dashboard .dropdown {
+    width: 130px;
+    top: 55px;
+  }
+}
+
+
+/* ===========================
+   SMALL PHONES (iPhone SE)
+=========================== */
+
+@media (max-width: 400px) {
+
+  .topbar {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .name {
+    font-size: 13px;
+  }
+
+  .phone {
+    font-size: 10px;
+  }
+
+  .dashboard .avatar {
+    width: 45px;
+    height: 45px;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  .header {
+    font-size: 20px;
+  }
+
+  .card {
+    height: 90px;
+    font-size: 14px;
+  }
+}
+
+
+/* ===========================
+   TABLETS
+=========================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    height: 110px;
+  }
 }

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "./ledger.css";
+import API_URL from "./api";
 
 function CustomerLedger() {
 
@@ -41,10 +42,7 @@ function CustomerLedger() {
     customerId: any
   ) => {
 
-    axios
-      .get(
-        `/api/customer-sales/${customerId}/`
-      )
+    axios.get(`${API_URL}/api/customer-sales/${customerId}/`)
       .then((res) => {
 
         setSales(res.data);
@@ -63,7 +61,7 @@ function CustomerLedger() {
  useEffect(() => {
 
   axios
-    .get("http://159.65.94.152/api/customers/")
+     .get(`${API_URL}/api/customers/`)
     .then((res) => {
 
       setCustomers(res.data);
@@ -167,7 +165,7 @@ function CustomerLedger() {
     try {
 
       await axios.post(
-        `http://159.65.94.152/api/pay-debt/${selectedSale.id}/`,
+        `${API_URL}/api/pay-debt/${selectedSale.id}/`,
         {
           amount,
         }
