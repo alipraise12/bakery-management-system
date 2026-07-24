@@ -1,0 +1,360 @@
+/* ==========================================
+   EXPENSE ITEM PAGE
+========================================== */
+
+.expense-item-container {
+  padding: 25px;
+  background: #f4f6f9;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.expense-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.expense-item-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.add-btn,
+.edit-btn,
+.delete-btn,
+.save-btn,
+.cancel-btn {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: .25s;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 14px;
+}
+
+.add-btn {
+  background: #0d6efd;
+  color: white;
+}
+
+.add-btn:hover {
+  background: #0b5ed7;
+}
+
+.edit-btn {
+  background: #ffc107;
+}
+
+.edit-btn:hover {
+  background: #e0a800;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #bb2d3b;
+}
+
+.save-btn {
+  background: #198754;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #157347;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #5c636a;
+}
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+.search-box {
+  width: 100%;
+  max-width: 320px;
+  padding: 9px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* ==========================================
+   TABLE
+========================================== */
+
+.expense-item-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.expense-item-table th {
+  background: #0d6efd;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.expense-item-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.expense-item-table tr:hover {
+  background: #f8f9fa;
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.status-inactive {
+  color: red;
+  font-weight: bold;
+}
+
+/* ==========================================
+   MOBILE CARDS
+========================================== */
+
+.expense-item-cards {
+  display: none;
+}
+
+.expense-item-card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.expense-item-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #0d6efd;
+  font-size: 18px;
+}
+
+.expense-item-card p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+/* ==========================================
+   MODAL
+========================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  z-index: 999;
+}
+
+.modal {
+  width: 100%;
+  max-width: 430px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 22px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 9px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+/* ==========================================
+   RESPONSIVE TABLET
+========================================== */
+
+@media (max-width: 768px) {
+
+  .expense-item-container {
+    padding: 15px;
+  }
+
+  .expense-item-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .expense-item-header h1 {
+    font-size: 24px;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+
+  .expense-item-table {
+    display: none;
+  }
+
+  .expense-item-cards {
+    display: block;
+  }
+
+  .modal {
+    max-width: 400px;
+    padding: 18px;
+  }
+
+  .modal-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE MOBILE
+========================================== */
+
+@media (max-width: 480px) {
+
+  .expense-item-container {
+    padding: 10px;
+  }
+
+  .expense-item-header h1 {
+    font-size: 20px;
+  }
+
+  .expense-item-card {
+    padding: 14px;
+  }
+
+  .expense-item-card h3 {
+    font-size: 17px;
+  }
+
+  .modal {
+    max-width: 100%;
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .modal h2 {
+    font-size: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .add-btn,
+  .edit-btn,
+  .delete-btn,
+  .save-btn,
+  .cancel-btn {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .modal-buttons {
+    gap: 6px;
+  }
+}

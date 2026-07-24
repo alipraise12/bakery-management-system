@@ -1,7 +1,3 @@
-
-
-
-
 import { Routes, Route } from "react-router-dom"
 import Login from "./login"
 import Register from "./register"
@@ -19,6 +15,10 @@ import Productions from "./Productions"
 import CustomerLedger from "./ledger"
 import Dispatch from "./Dispatch"
 import CustomerInfo from "./CustomerInfo"
+import Accounting from "./Accounting"
+import Suppliers from "./Suppliers"
+import ExpenseItems from "./ExpenseItems";
+import Expenses from "./Expenses";
 
 function App() {
   return (
@@ -40,6 +40,12 @@ function App() {
       <Route path="/customer-ledger/:id" element={<CustomerLedger />}/>
       <Route path="/dispatch" element={<Dispatch />}/>
       <Route path="/customer-info" element={<CustomerInfo />}/>
+      <Route path="/accounting" element={<Accounting />} />
+      <Route path="/suppliers" element={<Suppliers />}/>
+      <Route path="/expense-items" element={<ExpenseItems />} />
+      
+      <Route path="/expenses" element={<Expenses />} />
+      
     
       <Route path="*" element={<h1>Page Not Found</h1>} />
 

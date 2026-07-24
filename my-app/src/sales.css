@@ -292,6 +292,17 @@ body{
     color:#1e3a8a;
 }
 
+
+.save-btn:disabled{
+
+    background:#9ca3af;
+
+    cursor:not-allowed;
+
+    opacity:.7;
+
+}
+
 /* ================= MOBILE ================= */
 
 @media (max-width:768px){
@@ -398,3 +409,5 @@ body{
         grid-template-columns:1fr;
     }
 }
+
+

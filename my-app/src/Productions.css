@@ -68,9 +68,12 @@
 /* ===== TABLE ===== */
 .table-wrapper {
   overflow-x: auto;
+  overflow-y: auto;
 }
 
+
 .production-table {
+  min-width: max-content;
   width: 100%;
   border-collapse: collapse;
   background: white;
@@ -78,6 +81,8 @@
   overflow: hidden;
   box-shadow: 0 4px 18px rgba(0,0,0,0.08);
 }
+
+
 
 .production-table th {
   background: #1e293b;
@@ -236,4 +241,108 @@ textarea {
   min-height: 130px;
   resize: vertical;
   background: white;
+}
+
+
+
+/* ===============================
+   BREAD TYPE MODAL
+================================ */
+
+.bread-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.bread-modal {
+  width: 95%;
+  max-width: 450px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+.bread-modal h2 {
+  margin: 0 0 10px;
+}
+
+.bread-modal-text {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.bread-modal-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.bread-modal-input:focus {
+  border-color: #2563eb;
+}
+
+.bread-modal-buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ===============================
+   CLICKABLE BREAD HEADER
+================================ */
+
+.column-name {
+  cursor: pointer;
+  padding: 8px;
+  text-align: center;
+  font-weight: 600;
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.column-name:hover {
+  color: #2563eb;
+}
+
+
+/* ===============================
+   STICKY TABLE COLUMNS
+================================ */
+
+.sticky-col {
+  position: sticky;
+  background: #fff;
+  z-index: 5;
+}
+
+.sticky-sn {
+  left: 0;
+  min-width: 70px;
+}
+
+.sticky-bags {
+  left: 70px;
+  min-width: 90px;
+}
+
+.production-table thead .sticky-col {
+  background: #1e293b;
+  color: white;
+  z-index: 20;
+}
+
+.production-table tfoot .sticky-col {
+  background: #f1f5f9;
+  z-index: 15;
 }

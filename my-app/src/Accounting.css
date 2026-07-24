@@ -1,0 +1,77 @@
+.accounting-container {
+    min-height: 100vh;
+    background: #f4f6f9;
+    padding: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.accounting-header {
+    margin-bottom: 30px;
+}
+
+.accounting-header h1 {
+    color: #1e3a5f;
+    margin-bottom: 8px;
+}
+
+.accounting-header p {
+    color: #666;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.summary-card h3 {
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.summary-card span {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1e3a5f;
+}
+
+.section-title {
+    margin-bottom: 20px;
+    color: #1e3a5f;
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 25px;
+}
+
+.module-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+}
+
+.module-card h3 {
+    color: #1e3a5f;
+    margin-bottom: 12px;
+}
+
+.module-card p {
+    color: #666;
+}

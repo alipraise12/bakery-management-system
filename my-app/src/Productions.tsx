@@ -43,6 +43,17 @@ function Productions() {
 
   const [comment, setComment] =
     useState("")
+  
+
+  // ================= BREAD TYPE MODAL =================
+const [showBreadModal, setShowBreadModal] =
+  useState(false)
+
+const [editingColumn, setEditingColumn] =
+  useState<number | null>(null)
+
+const [breadName, setBreadName] =
+  useState("")
 
   // ================= ADD ROW =================
   const addRow = () => {
@@ -125,6 +136,50 @@ function Productions() {
     setColumns(updated)
   }
 
+
+  // ================= OPEN BREAD TYPE MODAL =================
+const openBreadModal = (index: number) => {
+
+  setEditingColumn(index)
+
+  setBreadName(columns[index])
+
+  setShowBreadModal(true)
+}
+
+// ================= SAVE BREAD TYPE =================
+// ================= SAVE BREAD TYPE =================
+const saveBreadType = () => {
+
+  if (editingColumn === null) return
+
+  const updated = [...columns]
+
+  updated[editingColumn] =
+    breadName.trim() || `Bread Type ${editingColumn + 1}`
+
+  setColumns(updated)
+
+  setShowBreadModal(false)
+
+  setEditingColumn(null)
+
+  setBreadName("")
+}
+
+// ================= DELETE BREAD TYPE =================
+const deleteBreadType = () => {
+
+  if (editingColumn === null) return
+
+  removeColumn(editingColumn)
+
+  setShowBreadModal(false)
+
+  setEditingColumn(null)
+
+  setBreadName("")
+}
   // ================= UPDATE TABLE CELLS =================
   const updateCell = (
     rowId: number,
@@ -400,38 +455,29 @@ const handleNew = async () => {
 
             <tr>
 
-              <th>S/N</th>
+              <th className="sticky-col sticky-sn">
+              S/N
+              </th>
 
-              <th>Bags</th>
+              <th className="sticky-col sticky-bags">
+              Bags
+              </th>
 
               {columns.map((col, i) => (
 
                 <th key={i}>
 
-                  <div className="column-header">
+                 <div className="column-header">
 
-                    <input
-                      className="column-input"
-                      value={col}
-                      onChange={(e) =>
-                        updateColumnName(
-                          i,
-                          e.target.value
-                        )
-                      }
-                    />
+  <div
+    className="column-name"
+    onClick={() => openBreadModal(i)}
+    title="Click to edit bread type"
+  >
+    {col}
+  </div>
 
-                    <span
-                      className="remove-col"
-                      onClick={() =>
-                        removeColumn(i)
-                      }
-                    >
-                      ✕
-                    </span>
-
-                  </div>
-
+</div>
                 </th>
               ))}
 
@@ -447,11 +493,12 @@ const handleNew = async () => {
 
               <tr key={row.id}>
 
-                <td>{index + 1}</td>
-
+               <td className="sticky-col sticky-sn">
+                {index + 1}
+              </td>
                 {/* BAGS */}
-                <td>
-
+                <td className="sticky-col sticky-bags">
+                
                   <input
                     type="number"
                     value={row.bags}
@@ -515,9 +562,11 @@ const handleNew = async () => {
 
             <tr>
 
-              <td>Total</td>
+              <td className="sticky-col sticky-sn">
+              Total
+              </td>
 
-              <td>
+              <td className="sticky-col sticky-bags">
                 {breadBags.reduce(
                   (a, b) => a + b,
                   0
@@ -653,6 +702,75 @@ const handleNew = async () => {
         />
 
       </div>
+
+
+      {/* ================= BREAD TYPE MODAL ================= */}
+{showBreadModal && (
+
+  <div
+    className="bread-modal-overlay"
+    onClick={() => setShowBreadModal(false)}
+  >
+
+    <div
+      className="bread-modal"
+      onClick={(e) => e.stopPropagation()}
+    >
+
+      <h2>Edit Bread Type</h2>
+
+      <p className="bread-modal-text">
+        Enter the bread type name.
+      </p>
+
+      <input
+        className="bread-modal-input"
+        type="text"
+        value={breadName}
+        autoFocus
+        placeholder="Bread Type"
+        onChange={(e) =>
+          setBreadName(e.target.value)
+        }
+      />
+
+     <div className="bread-modal-buttons">
+
+  <button
+    className="btn danger"
+    onClick={deleteBreadType}
+  >
+    Delete
+  </button>
+
+  <button
+    className="btn secondary"
+    onClick={() => {
+
+      setShowBreadModal(false)
+
+      setEditingColumn(null)
+
+      setBreadName("")
+
+    }}
+  >
+    Cancel
+  </button>
+
+  <button
+    className="btn success"
+    onClick={saveBreadType}
+  >
+    Save
+  </button>
+
+</div>
+    </div>
+
+  </div>
+
+)}
 
     </div>
   )

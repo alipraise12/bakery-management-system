@@ -14,6 +14,8 @@ function Sales() {
   const [products, setProducts] = useState<any[]>([]);
   const [customers, setCustomers] = useState<any[]>([]);
   const [rows, setRows] = useState<any[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const [customer, setCustomer] =
     useState<any>(null);
@@ -319,105 +321,239 @@ function Sales() {
 
   // ================= SAVE SALES =================
 
+  // const saveSales = () => {
+
+  //   if (!customer) {
+
+  //     alert(
+  //       "Select customer"
+  //     );
+
+  //     return;
+
+  //   }
+
+  //   const validRows =
+  //     rows
+  //       .filter(
+  //         (r) =>
+  //           r.productId &&
+  //           r.quantity
+  //       )
+  //       .map((r) => ({
+  //         ...r,
+  //         price: Number(r.price)
+  //       }));
+
+  //   axios
+  //     .post(
+  //       `${API_URL}/api/sales/`,
+  //       {
+
+  //         customer_id:
+  //           customer.id,
+
+  //         rows: validRows,
+
+  //         total: finalTotal,
+
+  //         cash:
+  //           Number(cash) || 0,
+
+  //         transfer:
+  //           Number(
+  //             transfer
+  //           ) || 0,
+
+  //         paid:
+  //           totalAmountPaid,
+
+  //         balance:
+  //           balance,
+
+  //         payment_method:
+  //           paymentMethod,
+
+  //       }
+  //     )
+  //     .then((res) => {
+
+  //       alert(
+  //         "✅ Sale saved"
+  //       );
+
+  //       const realInvoice =
+  //         res.data.invoice_number;
+
+  //       setInvoiceNumber(
+  //         realInvoice
+  //       );
+
+  //     })
+  //     .catch((err) => {
+
+  //       console.log(err);
+
+  //       alert(
+  //         "Failed to save sale"
+  //       );
+
+  //     });
+
+  // };
+
+
+
   const saveSales = () => {
+
+    // Prevent duplicate save
+    if (isSaving || isSaved) {
+        return;
+    }
 
     if (!customer) {
 
-      alert(
-        "Select customer"
-      );
+        alert(
+            "Select customer"
+        );
 
-      return;
+        return;
 
     }
 
+    setIsSaving(true);
+
     const validRows =
-      rows
-        .filter(
-          (r) =>
-            r.productId &&
-            r.quantity
-        )
-        .map((r) => ({
-          ...r,
-          price: Number(r.price)
-        }));
+        rows
+            .filter(
+                (r) =>
+                    r.productId &&
+                    r.quantity
+            )
+            .map((r) => ({
+                ...r,
+                price: Number(r.price)
+            }));
 
     axios
-      .post(
-        `${API_URL}/api/sales/`,
-        {
+        .post(
+            `${API_URL}/api/sales/`,
+            {
 
-          customer_id:
-            customer.id,
+                customer_id:
+                    customer.id,
 
-          rows: validRows,
+                rows: validRows,
 
-          total: finalTotal,
+                total: finalTotal,
 
-          cash:
-            Number(cash) || 0,
+                cash:
+                    Number(cash) || 0,
 
-          transfer:
-            Number(
-              transfer
-            ) || 0,
+                transfer:
+                    Number(
+                        transfer
+                    ) || 0,
 
-          paid:
-            totalAmountPaid,
+                paid:
+                    totalAmountPaid,
 
-          balance:
-            balance,
+                balance:
+                    balance,
 
-          payment_method:
-            paymentMethod,
+                payment_method:
+                    paymentMethod,
 
-        }
-      )
-      .then((res) => {
+            }
+        )
+        .then((res) => {
 
-        alert(
-          "✅ Sale saved"
-        );
+            alert(
+                "✅ Sale saved"
+            );
 
-        const realInvoice =
-          res.data.invoice_number;
+            setInvoiceNumber(
+                res.data.invoice_number
+            );
 
-        setInvoiceNumber(
-          realInvoice
-        );
+            setIsSaving(false);
 
-      })
-      .catch((err) => {
+            setIsSaved(true);
 
-        console.log(err);
+        })
+        .catch((err) => {
 
-        alert(
-          "Failed to save sale"
-        );
+            console.log(err);
 
-      });
+            setIsSaving(false);
 
-  };
+            alert(
+                "Failed to save sale"
+            );
+
+        });
+
+};
 
   // ================= NEW SALE =================
+
+  // const newSale = () => {
+
+  //   if (
+  //     !window.confirm(
+  //       "Start new sale?"
+  //     )
+  //   )
+  //     return;
+
+  //   setRows([
+  //     {
+  //       productId: "",
+  //       name: "",
+  //       price: 0,
+  //       quantity: "",
+  //     },
+  //   ]);
+
+  //   setCustomer(null);
+
+  //   setCustomerSearch("");
+
+  //   setDiscount("");
+
+  //   setCash("");
+
+  //   setTransfer("");
+
+  //   setPaymentMethod(
+  //     "cash"
+  //   );
+
+  //   setInvoiceNumber(
+  //     generateTempInvoice()
+  //   );
+
+  // };
+
+
 
   const newSale = () => {
 
     if (
-      !window.confirm(
-        "Start new sale?"
-      )
-    )
-      return;
+        !window.confirm(
+            "Start new sale?"
+        )
+    ) {
+        return;
+    }
 
     setRows([
-      {
-        productId: "",
-        name: "",
-        price: 0,
-        quantity: "",
-      },
+        {
+            productId: "",
+            name: "",
+            price: 0,
+            quantity: "",
+        },
     ]);
 
     setCustomer(null);
@@ -430,16 +566,15 @@ function Sales() {
 
     setTransfer("");
 
-    setPaymentMethod(
-      "cash"
-    );
+    setPaymentMethod("cash");
 
-    setInvoiceNumber(
-      generateTempInvoice()
-    );
+    setInvoiceNumber(generateTempInvoice());
 
-  };
+    // Reset Save button
+    setIsSaved(false);
+    setIsSaving(false);
 
+};
   // ================= PDF =================
 
   const generateInvoice = () => {
@@ -1012,11 +1147,16 @@ function Sales() {
       <div className="button-group">
 
         <button
-          className="save-btn"
-          onClick={saveSales}
-        >
-          💾 Save
-        </button>
+    className="save-btn"
+    onClick={saveSales}
+    disabled={isSaving || isSaved}
+>
+    {isSaving
+        ? "⏳ Saving..."
+        : isSaved
+        ? "✅ Saved"
+        : "💾 Save"}
+</button>
 
         <button
           className="invoice-btn"
