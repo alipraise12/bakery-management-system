@@ -1,0 +1,156 @@
+/* ==========================================
+   EXPENSE DASHBOARD
+========================================== */
+
+.dashboard-container{
+
+    padding:25px;
+
+}
+
+.dashboard-container h1{
+
+    margin-bottom:25px;
+
+    color:#2c3e50;
+
+    font-size:30px;
+
+}
+
+.dashboard-container h2{
+
+    margin:35px 0 15px;
+
+    color:#34495e;
+
+    font-size:22px;
+
+}
+
+
+/* ==========================================
+   CARDS
+========================================== */
+
+.dashboard-cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+.card{
+
+    background:#fff;
+
+    border-radius:12px;
+
+    padding:25px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.card h3{
+
+    color:#777;
+
+    font-size:16px;
+
+    margin-bottom:15px;
+
+}
+
+.card h1{
+
+    color:#1976d2;
+
+    font-size:32px;
+
+    margin:0;
+
+}
+
+
+/* ==========================================
+   CHART
+========================================== */
+
+.chart-box{
+
+    background:#fff;
+
+    padding:25px;
+
+    margin-top:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.chart-box h2{
+
+    margin-bottom:20px;
+
+}
+
+.chart-box canvas{
+
+    width:100% !important;
+
+    height:400px !important;
+
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:992px){
+
+    .dashboard-container{
+
+        padding:15px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .dashboard-cards{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .card h1{
+
+        font-size:26px;
+
+    }
+
+    .chart-box canvas{
+
+        height:300px !important;
+
+    }
+
+}

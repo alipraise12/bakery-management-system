@@ -1,5 +1,13 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.db.models import Sum, Count
+from django.utils import timezone
+from datetime import timedelta
+from .models import Supplier
+from .models import ExpenseItem
+from .models import OldExpense
+from .models import PurchaseVoucher
+from .models import PurchaseItem
 
 from .models import (
     Staff,
@@ -40,6 +48,8 @@ admin.site.index_title = "Bakery Administration"
 
 @admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
+
+    
 
     list_display = (
         "photo",
@@ -91,6 +101,7 @@ class StaffAdmin(admin.ModelAdmin):
                 obj.picture.url
 
             )
+
 
         return "No Photo"
 
@@ -220,6 +231,7 @@ class ProductionSessionAdmin(admin.ModelAdmin):
     )
 
     list_per_page = 20
+
 
 
 # ==========================================================
@@ -387,6 +399,8 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Sale)
 class SaleAdmin(admin.ModelAdmin):
 
+    change_list_template = "admin/sale_change_list.html"
+
     list_display = (
         "invoice_number",
         "customer",
@@ -422,7 +436,155 @@ class SaleAdmin(admin.ModelAdmin):
 
     list_per_page = 30
 
+    def changelist_view(self, request, extra_context=None):
 
+        extra_context = extra_context or {}
+
+        today = timezone.localdate()
+        current_year = today.year
+        current_month = today.month
+
+        # ==========================================
+        # TODAY
+        # ==========================================
+
+        today_sales = Sale.objects.filter(
+            created_at__date=today
+        )
+
+        today_summary = today_sales.aggregate(
+            revenue=Sum("total"),
+            paid=Sum("paid"),
+            balance=Sum("balance"),
+            cash=Sum("cash"),
+            transfer=Sum("transfer"),
+            invoices=Count("id"),
+        )
+
+        # ==========================================
+        # THIS MONTH
+        # ==========================================
+
+        month_sales = Sale.objects.filter(
+            created_at__year=current_year,
+            created_at__month=current_month,
+        )
+
+        month_summary = month_sales.aggregate(
+            revenue=Sum("total"),
+            paid=Sum("paid"),
+            balance=Sum("balance"),
+            cash=Sum("cash"),
+            transfer=Sum("transfer"),
+            invoices=Count("id"),
+        )
+
+        # ==========================================
+        # THIS YEAR
+        # ==========================================
+
+        year_sales = Sale.objects.filter(
+            created_at__year=current_year,
+        )
+
+        year_summary = year_sales.aggregate(
+            revenue=Sum("total"),
+            paid=Sum("paid"),
+            balance=Sum("balance"),
+            cash=Sum("cash"),
+            transfer=Sum("transfer"),
+            invoices=Count("id"),
+        )
+
+        # ==========================================
+        # DASHBOARD SUMMARY
+        # ==========================================
+
+        extra_context["today"] = {
+            "date": today,
+            "revenue": today_summary["revenue"] or 0,
+            "paid": today_summary["paid"] or 0,
+            "balance": today_summary["balance"] or 0,
+            "cash": today_summary["cash"] or 0,
+            "transfer": today_summary["transfer"] or 0,
+            "invoices": today_summary["invoices"] or 0,
+        }
+
+        extra_context["month"] = {
+            "revenue": month_summary["revenue"] or 0,
+            "paid": month_summary["paid"] or 0,
+            "balance": month_summary["balance"] or 0,
+            "cash": month_summary["cash"] or 0,
+            "transfer": month_summary["transfer"] or 0,
+            "invoices": month_summary["invoices"] or 0,
+        }
+
+        extra_context["year"] = {
+            "revenue": year_summary["revenue"] or 0,
+            "paid": year_summary["paid"] or 0,
+            "balance": year_summary["balance"] or 0,
+            "cash": year_summary["cash"] or 0,
+            "transfer": year_summary["transfer"] or 0,
+            "invoices": year_summary["invoices"] or 0,
+        }
+
+        # ==========================================
+        # DAILY SALES TREND (LAST 7 DAYS)
+        # ==========================================
+
+        labels = []
+        revenues = []
+
+        for i in range(6, -1, -1):
+
+            day = today - timedelta(days=i)
+
+            total = (
+                Sale.objects.filter(
+                    created_at__date=day
+                ).aggregate(
+                    total=Sum("total")
+                )["total"] or 0
+            )
+
+            labels.append(day.strftime("%a"))
+            revenues.append(float(total))
+
+        extra_context["chart_labels"] = labels
+        extra_context["chart_revenue"] = revenues
+
+        # ==========================================
+        # MONTHLY REVENUE CHART
+        # ==========================================
+
+        month_labels = [
+            "Jan", "Feb", "Mar", "Apr",
+            "May", "Jun", "Jul", "Aug",
+            "Sep", "Oct", "Nov", "Dec"
+        ]
+
+        month_revenue = []
+
+        for month in range(1, 13):
+
+            total = (
+                Sale.objects.filter(
+                    created_at__year=current_year,
+                    created_at__month=month,
+                ).aggregate(
+                    total=Sum("total")
+                )["total"] or 0
+            )
+
+            month_revenue.append(float(total))
+
+        extra_context["month_labels"] = month_labels
+        extra_context["month_revenue"] = month_revenue
+
+        return super().changelist_view(
+            request,
+            extra_context=extra_context,
+        )
 # ==========================================================
 # SALE ITEM
 # ==========================================================
@@ -457,7 +619,6 @@ class SaleItemAdmin(admin.ModelAdmin):
     )
 
     list_per_page = 40
-
 
 # ==========================================================
 # DEBT PAYMENT
@@ -719,9 +880,354 @@ class CustomerBreadOwedAdmin(admin.ModelAdmin):
 
 
 
+@admin.register(Supplier)
+class SupplierAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "name",
+        "contact_person",
+        "phone",
+        "city",
+        "state",
+        "is_active",
+    )
+
+    search_fields = (
+        "name",
+        "contact_person",
+        "phone",
+        "email",
+    )
+
+    list_filter = (
+        "is_active",
+        "state",
+        "country",
+    )
+
+    ordering = ("name",)
+
+    fieldsets = (
+        ("Supplier Information", {
+            "fields": (
+                "name",
+                "contact_person",
+            )
+        }),
+
+        ("Contact Details", {
+            "fields": (
+                "phone",
+                "alternative_phone",
+                "email",
+                "website",
+            )
+        }),
+
+        ("Location", {
+            "fields": (
+                "address",
+                "city",
+                "state",
+                "country",
+            )
+        }),
+
+        ("Other Information", {
+            "fields": (
+                "notes",
+                "is_active",
+            )
+        }),
+    )
 
 
 
+@admin.register(ExpenseItem)
+class ExpenseItemAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "name",
+        "category",
+        "is_active",
+    )
+
+    search_fields = (
+        "name",
+    )
+
+    list_filter = (
+        "category",
+        "is_active",
+    )
+
+    ordering = (
+        "category",
+        "name",
+    )
+
+
+
+
+@admin.register(PurchaseVoucher)
+class PurchaseVoucherAdmin(admin.ModelAdmin):
+
+    change_list_template = "admin/purchasevoucher_change_list.html"
+
+    list_display = (
+        "voucher_number",
+        "purchase_date",
+        "grand_total",
+        "created_by",
+        "created_at",
+    )
+
+    search_fields = (
+        "voucher_number",
+    )
+
+    list_filter = (
+        "purchase_date",
+    )
+
+    ordering = (
+        "-purchase_date",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
+
+    list_per_page = 30
+
+    def changelist_view(self, request, extra_context=None):
+
+        extra_context = extra_context or {}
+
+        today = timezone.localdate()
+        current_year = today.year
+        current_month = today.month
+
+        # ==========================================================
+        # TODAY
+        # ==========================================================
+
+        today_vouchers = PurchaseVoucher.objects.filter(
+            purchase_date=today
+        )
+
+        today_items = PurchaseItem.objects.filter(
+            voucher__purchase_date=today
+        )
+
+        today_summary = {
+            "expenses": today_vouchers.aggregate(
+                total=Sum("grand_total")
+            )["total"] or 0,
+
+            "cash": today_items.aggregate(
+                total=Sum("cash_paid")
+            )["total"] or 0,
+
+            "transfer": today_items.aggregate(
+                total=Sum("transfer_paid")
+            )["total"] or 0,
+
+            "vouchers": today_vouchers.count(),
+        }
+
+        # ==========================================================
+        # THIS MONTH
+        # ==========================================================
+
+        month_vouchers = PurchaseVoucher.objects.filter(
+            purchase_date__year=current_year,
+            purchase_date__month=current_month,
+        )
+
+        month_items = PurchaseItem.objects.filter(
+            voucher__purchase_date__year=current_year,
+            voucher__purchase_date__month=current_month,
+        )
+
+        month_summary = {
+            "expenses": month_vouchers.aggregate(
+                total=Sum("grand_total")
+            )["total"] or 0,
+
+            "cash": month_items.aggregate(
+                total=Sum("cash_paid")
+            )["total"] or 0,
+
+            "transfer": month_items.aggregate(
+                total=Sum("transfer_paid")
+            )["total"] or 0,
+
+            "vouchers": month_vouchers.count(),
+        }
+
+        # ==========================================================
+        # THIS YEAR
+        # ==========================================================
+
+        year_vouchers = PurchaseVoucher.objects.filter(
+            purchase_date__year=current_year,
+        )
+
+        year_items = PurchaseItem.objects.filter(
+            voucher__purchase_date__year=current_year,
+        )
+
+        year_summary = {
+            "expenses": year_vouchers.aggregate(
+                total=Sum("grand_total")
+            )["total"] or 0,
+
+            "cash": year_items.aggregate(
+                total=Sum("cash_paid")
+            )["total"] or 0,
+
+            "transfer": year_items.aggregate(
+                total=Sum("transfer_paid")
+            )["total"] or 0,
+
+            "vouchers": year_vouchers.count(),
+        }
+
+        # ==========================================================
+        # SEND TO TEMPLATE
+        # ==========================================================
+
+        extra_context["today"] = today_summary
+        extra_context["month"] = month_summary
+        extra_context["year"] = year_summary
+
+        # ==========================================================
+        # DAILY EXPENSE TREND (LAST 7 DAYS)
+        # ==========================================================
+
+        labels = []
+        expenses = []
+
+        for i in range(6, -1, -1):
+
+            day = today - timedelta(days=i)
+
+            total = (
+                PurchaseVoucher.objects.filter(
+                    purchase_date=day
+                ).aggregate(
+                    total=Sum("grand_total")
+                )["total"] or 0
+            )
+
+            labels.append(day.strftime("%a"))
+            expenses.append(float(total))
+
+        extra_context["chart_labels"] = labels
+        extra_context["chart_expenses"] = expenses
+
+        # ==========================================================
+        # MONTHLY EXPENSE TREND
+        # ==========================================================
+
+        month_labels = [
+            "Jan", "Feb", "Mar", "Apr",
+            "May", "Jun", "Jul", "Aug",
+            "Sep", "Oct", "Nov", "Dec"
+        ]
+
+        month_expenses = []
+
+        for month in range(1, 13):
+
+            total = (
+                PurchaseVoucher.objects.filter(
+                    purchase_date__year=current_year,
+                    purchase_date__month=month,
+                ).aggregate(
+                    total=Sum("grand_total")
+                )["total"] or 0
+            )
+
+            month_expenses.append(float(total))
+
+        extra_context["month_labels"] = month_labels
+        extra_context["month_expenses"] = month_expenses
+
+        return super().changelist_view(
+            request,
+            extra_context=extra_context,
+        )
+
+
+    
+@admin.register(PurchaseItem)
+class PurchaseItemAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "voucher",
+        "supplier",
+        "expense_item",
+        "cash_paid",
+        "transfer_paid",
+        "total",
+        "discount",
+        "net_total",
+    )
+
+    search_fields = (
+        "voucher__voucher_number",
+        "supplier__name",
+        "expense_item__name",
+    )
+
+    list_filter = (
+        "supplier",
+        "expense_item",
+    )
+
+
+
+from django.contrib.admin import AdminSite
+from django.template.response import TemplateResponse
+from django.urls import path
+
+
+class BakeryAdminSite(AdminSite):
+    site_header = "Bakery ERP Administration"
+    site_title = "Bakery ERP"
+    index_title = "Welcome to Bakery ERP"
+
+    def get_urls(self):
+        urls = super().get_urls()
+
+        custom_urls = [
+            path(
+                "business-dashboard/",
+                self.admin_view(self.business_dashboard),
+                name="business-dashboard",
+            ),
+        ]
+
+        return custom_urls + urls
+
+    def business_dashboard(self, request):
+
+        context = {
+            **self.each_context(request),
+            "title": "Business Dashboard",
+        }
+
+        return TemplateResponse(
+            request,
+            "admin/business_dashboard.html",
+            context,
+        )
+
+
+admin_site = BakeryAdminSite(name="bakery_admin")
 
 
 

@@ -702,3 +702,245 @@ class CustomerBreadOwed(models.Model):
 
     def __str__(self):
         return f"{self.customer.name} - {self.bread_type}"
+
+
+
+
+
+
+
+class Supplier(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+
+    contact_person = models.CharField(max_length=200, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    alternative_phone = models.CharField(max_length=20, blank=True)
+
+    email = models.EmailField(blank=True)
+    website = models.URLField(blank=True)
+
+    address = models.TextField(blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    state = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, default="Nigeria")
+
+    notes = models.TextField(blank=True)
+
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+
+
+class ExpenseItem(models.Model):
+
+    CATEGORY_CHOICES = [
+        ("DIRECT", "Direct Cost"),
+        ("INDIRECT", "Indirect Cost"),
+    ]
+
+    name = models.CharField(
+        max_length=200,
+        unique=True
+    )
+
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES
+    )
+
+    description = models.TextField(blank=True)
+
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return self.name
+    
+
+
+
+class OldExpense(models.Model):
+
+    supplier = models.ForeignKey(
+        Supplier,
+        on_delete=models.PROTECT
+    )
+
+    expense_item = models.ForeignKey(
+        ExpenseItem,
+        on_delete=models.PROTECT
+    )
+
+    supplier_invoice = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    expense_date = models.DateField()
+
+    cash_paid = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    transfer_paid = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    total_expense = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    discount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    net_expense = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    receipt = models.FileField(
+        upload_to="expense_receipts/",
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+         return f"{self.supplier.name} - {self.expense_item.name}"
+
+
+
+class PurchaseVoucher(models.Model):
+
+    voucher_number = models.CharField(
+        max_length=30,
+        unique=True
+    )
+
+    purchase_date = models.DateField()
+
+    receipt = models.FileField(
+        upload_to="purchase_receipts/",
+        blank=True,
+        null=True
+    )
+
+    grand_total = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    created_by = models.ForeignKey(
+        Staff,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return self.voucher_number
+    
+
+
+class PurchaseItem(models.Model):
+
+    voucher = models.ForeignKey(
+        PurchaseVoucher,
+        on_delete=models.CASCADE,
+        related_name="items"
+    )
+
+    supplier = models.ForeignKey(
+        Supplier,
+        on_delete=models.PROTECT
+    )
+
+    expense_item = models.ForeignKey(
+        ExpenseItem,
+        on_delete=models.PROTECT
+    )
+
+    supplier_invoice = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    cash_paid = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    transfer_paid = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    total = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    discount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    net_total = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    def __str__(self):
+        return (
+            f"{self.voucher.voucher_number} - "
+            f"{self.supplier.name} - "
+            f"{self.expense_item.name}"
+        )
+
+
+

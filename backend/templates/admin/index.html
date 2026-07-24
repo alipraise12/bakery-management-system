@@ -1,0 +1,29 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+
+<link rel="stylesheet" href="{% static 'admin/index.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="business-dashboard-card">
+
+    <h2>📊 Business Dashboard</h2>
+
+    <p>
+        View Sales, Expenses, Profit and Business Performance.
+    </p>
+
+    <a href="{% url 'business-dashboard' %}" class="dashboard-button">
+        Open Business Dashboard
+    </a>
+
+</div>
+
+{{ block.super }}
+
+{% endblock %}

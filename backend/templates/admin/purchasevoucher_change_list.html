@@ -1,0 +1,184 @@
+{% extends "admin/change_list.html" %}
+{% load static humanize %}
+
+{% block extrahead %}
+{{ block.super }}
+
+<link rel="stylesheet" href="{% static 'admin/purchase_dashboard.css' %}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <h1>Expense Dashboard</h1>
+
+    <!-- ================= TODAY ================= -->
+
+    <h2>Today's Expenses</h2>
+
+    <div class="dashboard-cards">
+
+        <div class="card">
+            <h3>Total Expenses</h3>
+            <h1>₦{{ today.expenses|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Cash</h3>
+            <h1>₦{{ today.cash|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Transfer</h3>
+            <h1>₦{{ today.transfer|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Purchase Vouchers</h3>
+            <h1>{{ today.vouchers }}</h1>
+        </div>
+
+    </div>
+
+
+    <!-- ================= MONTH ================= -->
+
+    <h2>This Month</h2>
+
+    <div class="dashboard-cards">
+
+        <div class="card">
+            <h3>Total Expenses</h3>
+            <h1>₦{{ month.expenses|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Cash</h3>
+            <h1>₦{{ month.cash|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Transfer</h3>
+            <h1>₦{{ month.transfer|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Purchase Vouchers</h3>
+            <h1>{{ month.vouchers }}</h1>
+        </div>
+
+    </div>
+
+
+    <!-- ================= YEAR ================= -->
+
+    <h2>This Year</h2>
+
+    <div class="dashboard-cards">
+
+        <div class="card">
+            <h3>Total Expenses</h3>
+            <h1>₦{{ year.expenses|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Cash</h3>
+            <h1>₦{{ year.cash|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Transfer</h3>
+            <h1>₦{{ year.transfer|floatformat:2|intcomma }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Purchase Vouchers</h3>
+            <h1>{{ year.vouchers }}</h1>
+        </div>
+
+    </div>
+
+
+    <!-- ================= DAILY CHART ================= -->
+
+    <div class="chart-box">
+
+        <h2>Expense Trend (Last 7 Days)</h2>
+
+        <canvas id="expenseChart"></canvas>
+
+    </div>
+
+
+    <!-- ================= MONTHLY CHART ================= -->
+
+    <div class="chart-box">
+
+        <h2>Monthly Expense Trend</h2>
+
+        <canvas id="monthlyExpenseChart"></canvas>
+
+    </div>
+
+</div>
+
+
+{{ block.super }}
+
+<script>
+
+new Chart(document.getElementById("expenseChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: {{ chart_labels|safe }},
+
+        datasets: [{
+
+            label: "Expenses",
+
+            data: {{ chart_expenses|safe }},
+
+            borderWidth: 3,
+
+            tension: .4,
+
+            fill: false
+
+        }]
+
+    }
+
+});
+
+
+new Chart(document.getElementById("monthlyExpenseChart"), {
+
+    type: "bar",
+
+    data: {
+
+        labels: {{ month_labels|safe }},
+
+        datasets: [{
+
+            label: "Monthly Expenses",
+
+            data: {{ month_expenses|safe }}
+
+        }]
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

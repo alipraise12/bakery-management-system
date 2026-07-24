@@ -1,0 +1,310 @@
+{% extends "admin/base_site.html" %}
+{% load static humanize %}
+
+{% block extrahead %}
+{{ block.super }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet" href="{% static 'admin/business_dashboard.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <h1 class="dashboard-title">Business Dashboard</h1>
+
+    <!-- ==========================================
+         TODAY
+    ========================================== -->
+
+    <h2 class="section-title">Today's Summary</h2>
+
+    <div class="dashboard-cards">
+
+        <div class="card sales">
+            <h3>Sales</h3>
+            <h2>₦{{ today_sales|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card expenses">
+            <h3>Expenses</h3>
+            <h2>₦{{ today_expenses|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card profit">
+            <h3>Profit</h3>
+            <h2>₦{{ today_profit|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card margin">
+            <h3>Profit Margin</h3>
+            <h2>{{ today_margin }}%</h2>
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         MONTH
+    ========================================== -->
+
+    <h2 class="section-title">This Month</h2>
+
+    <div class="dashboard-cards">
+
+        <div class="card sales">
+            <h3>Sales</h3>
+            <h2>₦{{ month_sales|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card expenses">
+            <h3>Expenses</h3>
+            <h2>₦{{ month_expenses|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card profit">
+            <h3>Profit</h3>
+            <h2>₦{{ month_profit|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card margin">
+            <h3>Profit Margin</h3>
+            <h2>{{ month_margin }}%</h2>
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         YEAR
+    ========================================== -->
+
+    <h2 class="section-title">This Year</h2>
+
+    <div class="dashboard-cards">
+
+        <div class="card sales">
+            <h3>Sales</h3>
+            <h2>₦{{ year_sales|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card expenses">
+            <h3>Expenses</h3>
+            <h2>₦{{ year_expenses|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card profit">
+            <h3>Profit</h3>
+            <h2>₦{{ year_profit|floatformat:2|intcomma }}</h2>
+        </div>
+
+        <div class="card margin">
+            <h3>Profit Margin</h3>
+            <h2>{{ year_margin }}%</h2>
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         SALES VS EXPENSES
+    ========================================== -->
+
+    <h2 class="section-title">Sales vs Expenses (Last 7 Days)</h2>
+
+    <div class="chart-box">
+        <canvas id="salesExpenseChart"></canvas>
+    </div>
+
+
+    <!-- ==========================================
+         PROFIT TREND
+    ========================================== -->
+
+    <h2 class="section-title">Profit Trend (Last 7 Days)</h2>
+
+    <div class="chart-box">
+        <canvas id="profitChart"></canvas>
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     PASS DJANGO DATA TO JAVASCRIPT
+========================================== -->
+
+{{ labels|json_script:"chart-labels" }}
+{{ sales_data|json_script:"sales-data" }}
+{{ expense_data|json_script:"expense-data" }}
+{{ profit_data|json_script:"profit-data" }}
+
+<script>
+
+const labels = JSON.parse(
+    document.getElementById("chart-labels").textContent
+);
+
+const salesData = JSON.parse(
+    document.getElementById("sales-data").textContent
+);
+
+const expenseData = JSON.parse(
+    document.getElementById("expense-data").textContent
+);
+
+const profitData = JSON.parse(
+    document.getElementById("profit-data").textContent
+);
+
+
+/* ==========================================
+   SALES VS EXPENSES
+========================================== */
+
+new Chart(document.getElementById("salesExpenseChart"), {
+
+    type: "bar",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [
+
+            {
+
+                label: "Sales",
+
+                data: salesData,
+
+                backgroundColor: "#16a34a",
+
+                borderColor: "#16a34a",
+
+                borderWidth: 1
+
+            },
+
+            {
+
+                label: "Expenses",
+
+                data: expenseData,
+
+                backgroundColor: "#dc2626",
+
+                borderColor: "#dc2626",
+
+                borderWidth: 1
+
+            }
+
+        ]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+
+                position: "top"
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+
+/* ==========================================
+   PROFIT TREND
+========================================== */
+
+new Chart(document.getElementById("profitChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [
+
+            {
+
+                label: "Profit",
+
+                data: profitData,
+
+                borderColor: "#2563eb",
+
+                backgroundColor: "#2563eb",
+
+                fill: false,
+
+                tension: 0.35,
+
+                borderWidth: 3
+
+            }
+
+        ]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+
+                position: "top"
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

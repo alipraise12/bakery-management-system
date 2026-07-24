@@ -2,7 +2,9 @@ from rest_framework import serializers
 from .models import Staff, ExpectedYield, YieldRecord, DispatchRecord
 from django.contrib.auth.hashers import make_password
 from .models import DailyProduction
-
+from .models import Supplier
+from .models import ExpenseItem
+from .models import OldExpense, PurchaseVoucher, PurchaseItem
 
 # =========================
 # STAFF SERIALIZER
@@ -136,6 +138,53 @@ class CustomerBreadOwedSerializer(
         model = CustomerBreadOwed
 
         fields = "__all__"
+
+
+
+class SupplierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supplier
+        fields = "__all__"
+
+
+
+
+class ExpenseItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ExpenseItem
+        fields = "__all__"
+
+
+
+class PurchaseItemSerializer(serializers.ModelSerializer):
+
+    supplier_name = serializers.CharField(
+        source="supplier.name",
+        read_only=True
+    )
+
+    expense_item_name = serializers.CharField(
+        source="expense_item.name",
+        read_only=True
+    )
+
+    class Meta:
+        model = PurchaseItem
+        fields = "__all__"
+
+
+class PurchaseVoucherSerializer(serializers.ModelSerializer):
+
+    items = PurchaseItemSerializer(
+        many=True,
+        read_only=True
+    )
+
+    class Meta:
+        model = PurchaseVoucher
+        fields = "__all__"
+
 # from rest_framework import serializers
 # from .models import Staff
 # from django.contrib.auth.hashers import make_password

@@ -1,0 +1,63 @@
+.business-dashboard-card{
+
+    background:#ffffff;
+
+    border-radius:14px;
+
+    padding:30px;
+
+    margin-bottom:30px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.10);
+
+    border-left:7px solid #2563eb;
+
+}
+
+.business-dashboard-card h2{
+
+    margin:0 0 15px;
+
+    color:#111827;
+
+    font-size:28px;
+
+}
+
+.business-dashboard-card p{
+
+    color:#6b7280;
+
+    font-size:16px;
+
+    margin-bottom:25px;
+
+}
+
+.dashboard-button{
+
+    display:inline-block;
+
+    background:#2563eb;
+
+    color:#ffffff !important;
+
+    padding:12px 28px;
+
+    border-radius:8px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.dashboard-button:hover{
+
+    background:#1d4ed8;
+
+    color:#ffffff;
+
+}

@@ -81,6 +81,12 @@ from .views import (
     settle_customer_bread,
     download_qr,
     new_production,
+    supplier_list,
+    supplier_detail,
+    expense_item_list,
+    expense_item_detail,
+    purchase_voucher_list,
+    purchase_voucher_detail,
 )
 
 # =========================
@@ -363,6 +369,33 @@ path(
      new_production,
 ),
 
+# =========================
+# SUPPLIERS
+# =========================
 
+path(
+    "suppliers/",
+    supplier_list,
+),
+
+path(
+    "suppliers/<int:pk>/",
+    supplier_detail,
+),
+
+
+
+path(
+    "expense-items/",
+    expense_item_list,
+),
+
+path(
+    "expense-items/<int:pk>/",
+    expense_item_detail,
+),
+
+path("purchase-vouchers/", purchase_voucher_list),
+path("purchase-vouchers/<int:pk>/", purchase_voucher_detail),
 ]
 

@@ -22,6 +22,17 @@ from django.shortcuts import get_object_or_404
 from .models import SalesDispatch
 from .models import DispatchStock
 from .models import CustomerDispatch
+from .models import Supplier
+from .serializers import SupplierSerializer
+from .models import ExpenseItem
+from .serializers import ExpenseItemSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
+from .serializers import (
+    PurchaseVoucherSerializer,
+    PurchaseItemSerializer,
+)
+from .models import OldExpense, PurchaseVoucher, PurchaseItem
+
 
 from .google_sheet import (
     save_sale_to_sheet,
@@ -3840,3 +3851,320 @@ def settle_customer_bread(request):
             },
             status=status.HTTP_404_NOT_FOUND
         )
+    
+
+
+
+
+
+
+@api_view(["GET", "POST"])
+def supplier_list(request):
+
+    if request.method == "GET":
+        suppliers = Supplier.objects.all().order_by("name")
+        serializer = SupplierSerializer(suppliers, many=True)
+        return Response(serializer.data)
+
+    serializer = SupplierSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET", "PUT", "DELETE"])
+def supplier_detail(request, pk):
+
+    supplier = get_object_or_404(Supplier, pk=pk)
+
+    if request.method == "GET":
+        serializer = SupplierSerializer(supplier)
+        return Response(serializer.data)
+
+    elif request.method == "PUT":
+        serializer = SupplierSerializer(
+            supplier,
+            data=request.data
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    supplier.delete()
+
+    return Response(
+        {"message": "Supplier deleted successfully."},
+        status=status.HTTP_200_OK
+    )
+
+
+
+@api_view(["GET", "POST"])
+def expense_item_list(request):
+
+    if request.method == "GET":
+        items = ExpenseItem.objects.all().order_by(
+            "category",
+            "name"
+        )
+
+        serializer = ExpenseItemSerializer(
+            items,
+            many=True
+        )
+
+        return Response(serializer.data)
+
+    serializer = ExpenseItemSerializer(
+        data=request.data
+    )
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
+
+    return Response(
+        serializer.errors,
+        status=status.HTTP_400_BAD_REQUEST
+    )
+
+
+@api_view(["GET", "PUT", "DELETE"])
+def expense_item_detail(request, pk):
+
+    item = get_object_or_404(
+        ExpenseItem,
+        pk=pk
+    )
+
+    if request.method == "GET":
+        serializer = ExpenseItemSerializer(item)
+        return Response(serializer.data)
+
+    elif request.method == "PUT":
+
+        serializer = ExpenseItemSerializer(
+            item,
+            data=request.data
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    item.delete()
+
+    return Response(
+        {"message": "Expense item deleted successfully."},
+        status=status.HTTP_200_OK
+    )
+
+
+
+
+
+from decimal import Decimal
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+import json
+
+
+@api_view(["GET", "POST"])
+@parser_classes([MultiPartParser, FormParser])
+def purchase_voucher_list(request):
+
+    # ==========================================
+    # GET PURCHASE VOUCHERS
+    # ==========================================
+    if request.method == "GET":
+
+        vouchers = PurchaseVoucher.objects.prefetch_related(
+            "items"
+        ).order_by("-purchase_date", "-id")
+
+        serializer = PurchaseVoucherSerializer(
+            vouchers,
+            many=True
+        )
+
+        return Response(serializer.data)
+
+    # ==========================================
+    # CREATE PURCHASE VOUCHER
+    # ==========================================
+    try:
+
+        with transaction.atomic():
+
+            # ==========================================
+            # CREATE VOUCHER
+            # ==========================================
+
+            voucher = PurchaseVoucher.objects.create(
+
+                voucher_number=request.data.get(
+                    "voucher_number"
+                ),
+
+                purchase_date=request.data.get(
+                    "purchase_date"
+                ),
+
+                receipt=request.FILES.get(
+                    "receipt"
+                ),
+
+                grand_total=Decimal(
+                    request.data.get(
+                        "grand_total",
+                        "0"
+                    )
+                ),
+
+                # Replace with logged-in staff later
+                created_by=Staff.objects.first(),
+            )
+
+            # ==========================================
+            # GET ITEMS FROM FRONTEND
+            # ==========================================
+
+            items = json.loads(
+                request.data.get(
+                    "items",
+                    "[]"
+                )
+            )
+
+            # ==========================================
+            # SAVE PURCHASE ITEMS
+            # ==========================================
+
+            for item in items:
+
+                supplier = get_object_or_404(
+                    Supplier,
+                    pk=int(item["supplier"])
+                )
+
+                expense_item = get_object_or_404(
+                    ExpenseItem,
+                    pk=int(item["expenseItem"])
+                )
+
+                PurchaseItem.objects.create(
+
+                    voucher=voucher,
+
+                    supplier=supplier,
+
+                    expense_item=expense_item,
+
+                    supplier_invoice=item.get(
+                        "supplierInvoice",
+                        ""
+                    ),
+
+                    cash_paid=Decimal(
+                        str(
+                            item.get(
+                                "cashPaid",
+                                0
+                            )
+                        )
+                    ),
+
+                    transfer_paid=Decimal(
+                        str(
+                            item.get(
+                                "transferPaid",
+                                0
+                            )
+                        )
+                    ),
+
+                    total=Decimal(
+                        str(
+                            item.get(
+                                "total",
+                                0
+                            )
+                        )
+                    ),
+
+                    discount=Decimal(
+                        str(
+                            item.get(
+                                "discount",
+                                0
+                            )
+                        )
+                    ),
+
+                    net_total=Decimal(
+                        str(
+                            item.get(
+                                "netTotal",
+                                0
+                            )
+                        )
+                    ),
+                )
+
+            # ==========================================
+            # RETURN SAVED VOUCHER
+            # ==========================================
+
+            serializer = PurchaseVoucherSerializer(
+                voucher
+            )
+
+            return Response(
+                {
+                    "success": True,
+                    "message": "Purchase Voucher saved successfully.",
+                    "data": serializer.data,
+                },
+                status=status.HTTP_201_CREATED,
+            )
+
+    except Exception as e:
+
+        return Response(
+            {
+                "success": False,
+                "message": str(e),
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+@api_view(["GET"])
+def purchase_voucher_detail(request, pk):
+
+    voucher = get_object_or_404(
+        PurchaseVoucher,
+        pk=pk
+    )
+
+    serializer = PurchaseVoucherSerializer(voucher)
+
+    return Response(serializer.data)

@@ -1,0 +1,344 @@
+{% extends "admin/change_list.html" %}
+{% load static humanize %}
+
+{% block extrahead %}
+{{ block.super }}
+
+<link rel="stylesheet" href="{% static 'admin/sales_dashboard.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-title">
+    📊 Sales Dashboard
+</div>
+
+<!-- =========================
+     TODAY
+========================= -->
+
+<div class="section-title">
+    Today's Sales
+</div>
+
+<div class="cards">
+
+    <div class="card revenue">
+        <h4>💰 Revenue</h4>
+        <h2>₦{{ today.revenue|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card cash">
+        <h4>💵 Cash</h4>
+        <h2>₦{{ today.cash|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card transfer">
+        <h4>🏦 Transfer</h4>
+        <h2>₦{{ today.transfer|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card paid">
+        <h4>✅ Amount Paid</h4>
+        <h2>₦{{ today.paid|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card balance">
+        <h4>⚠ Outstanding</h4>
+        <h2>₦{{ today.balance|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card invoices">
+        <h4>🧾 Invoices</h4>
+        <h2>{{ today.invoices }}</h2>
+    </div>
+
+</div>
+
+<!-- =========================
+     MONTH
+========================= -->
+
+<div class="section-title">
+    This Month
+</div>
+
+<div class="cards">
+
+    <div class="card revenue">
+        <h4>💰 Revenue</h4>
+        <h2>₦{{ month.revenue|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card cash">
+        <h4>💵 Cash</h4>
+        <h2>₦{{ month.cash|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card transfer">
+        <h4>🏦 Transfer</h4>
+        <h2>₦{{ month.transfer|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card paid">
+        <h4>✅ Amount Paid</h4>
+        <h2>₦{{ month.paid|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card balance">
+        <h4>⚠ Outstanding</h4>
+        <h2>₦{{ month.balance|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card invoices">
+        <h4>🧾 Invoices</h4>
+        <h2>{{ month.invoices }}</h2>
+    </div>
+
+</div>
+
+<!-- =========================
+     YEAR
+========================= -->
+
+<div class="section-title">
+    This Year
+</div>
+
+<div class="cards">
+
+    <div class="card revenue">
+        <h4>💰 Revenue</h4>
+        <h2>₦{{ year.revenue|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card cash">
+        <h4>💵 Cash</h4>
+        <h2>₦{{ year.cash|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card transfer">
+        <h4>🏦 Transfer</h4>
+        <h2>₦{{ year.transfer|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card paid">
+        <h4>✅ Amount Paid</h4>
+        <h2>₦{{ year.paid|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card balance">
+        <h4>⚠ Outstanding</h4>
+        <h2>₦{{ year.balance|floatformat:2|intcomma }}</h2>
+    </div>
+
+    <div class="card invoices">
+        <h4>🧾 Invoices</h4>
+        <h2>{{ year.invoices }}</h2>
+    </div>
+
+</div>
+
+<!-- =========================
+     DAILY SALES
+========================= -->
+
+<hr style="margin:50px 0;">
+
+<div class="section-title">
+    📈 Daily Sales Trend (Last 7 Days)
+</div>
+
+<div class="card">
+    <canvas id="salesChart" height="140"></canvas>
+</div>
+
+<!-- =========================
+     MONTHLY REVENUE
+========================= -->
+
+<hr style="margin:60px 0;">
+
+<div class="section-title">
+    📊 Monthly Revenue
+</div>
+
+<div class="card">
+    <canvas id="monthlyChart" height="120"></canvas>
+</div>
+
+{{ block.super }}
+
+<script>
+
+// ==========================
+// DAILY SALES
+// ==========================
+
+const labels = {{ chart_labels|safe }};
+const revenue = {{ chart_revenue|safe }};
+
+new Chart(document.getElementById("salesChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [{
+
+            data: revenue,
+
+            borderColor: "#2563eb",
+
+            backgroundColor: "rgba(37,99,235,0.15)",
+
+            borderWidth: 5,
+
+            fill: true,
+
+            tension: 0.45,
+
+            pointRadius: 6,
+
+            pointHoverRadius: 8
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+                display: false
+            },
+
+            tooltip: {
+
+                callbacks: {
+
+                    label: function(context){
+
+                        return "₦" + context.raw.toLocaleString();
+
+                    }
+
+                }
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                ticks: {
+
+                    callback: function(value){
+
+                        return "₦" + value.toLocaleString();
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+// ==========================
+// MONTHLY REVENUE
+// ==========================
+
+const monthLabels = {{ month_labels|safe }};
+const monthRevenue = {{ month_revenue|safe }};
+
+new Chart(document.getElementById("monthlyChart"), {
+
+    type: "bar",
+
+    data: {
+
+        labels: monthLabels,
+
+        datasets: [{
+
+            data: monthRevenue,
+
+            backgroundColor: "#2563eb",
+
+            borderRadius: 8,
+
+            borderSkipped: false
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+                display: false
+            },
+
+            tooltip: {
+
+                callbacks: {
+
+                    label: function(context){
+
+                        return "₦" + context.raw.toLocaleString();
+
+                    }
+
+                }
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                ticks: {
+
+                    callback: function(value){
+
+                        return "₦" + value.toLocaleString();
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}
