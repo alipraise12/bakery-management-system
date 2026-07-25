@@ -1,3 +1,3 @@
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://bakery-management-system-production-ece0.up.railway.app";
 
 export default API_URL;
