@@ -33,6 +33,7 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     "bakery-management-system-production-ece0.up.railway.app",
+    "bakery-management-system-theta.vercel.app",
     "localhost",
     "127.0.0.1",
 ]
@@ -182,7 +183,9 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://bakery-management-system-theta.vercel.app",
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -197,6 +200,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 CSRF_TRUSTED_ORIGINS = [
     "https://bakery-management-system-production-ece0.up.railway.app",
+
+    "https://bakery-management-system-theta.vercel.app"
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
