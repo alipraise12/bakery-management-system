@@ -674,24 +674,7 @@ def get_products(request):
 
 
 
-# @api_view(['POST'])
-# def register_customer(request):
-#     name = request.data.get("name")
-#     phone = request.data.get("phone")
 
-#     if not name or not phone:
-#         return Response({"error": "Name and phone required"}, status=400)
-
-#     if Customer.objects.filter(phone=phone).exists():
-#         return Response({"error": "Customer already exists"}, status=400)
-
-#     customer = Customer.objects.create(name=name, phone=phone)
-
-#     return Response({
-#         "id": customer.id,
-#         "name": customer.name,
-#         "phone": customer.phone
-#     })
 
 @api_view(['POST'])
 def register_customer(request):
@@ -804,151 +787,6 @@ def get_customer_by_phone(request):
 
 
 from datetime import datetime
-
-
-# @api_view(['POST'])
-# def create_sale(request):
-
-#     data = request.data
-
-#     customer_id = data.get("customer_id")
-
-#     rows = data.get("rows", [])
-
-#     # =========================
-#     # VALIDATE CUSTOMER
-#     # =========================
-
-#     if not customer_id:
-
-#         return Response(
-#             {"error": "Customer required"},
-#             status=400
-#         )
-
-#     customer = get_object_or_404(
-#         Customer,
-#         id=customer_id
-#     )
-
-#     # =========================
-#     # GENERATE INVOICE NUMBER
-#     # =========================
-
-#     current_year = datetime.now().year
-
-#     last_sale = Sale.objects.filter(
-#         invoice_number__startswith=f"INV-{current_year}-"
-#     ).order_by("-id").first()
-
-#     if last_sale:
-
-#         try:
-
-#             last_number = int(
-#                 last_sale.invoice_number.split("-")[-1]
-#             )
-
-#         except:
-
-#             last_number = 0
-
-#     else:
-
-#         last_number = 0
-
-#     new_number = last_number + 1
-
-#     invoice_number = (
-#         f"INV-{current_year}-{new_number:04d}"
-#     )
-
-#     # =========================
-#     # CREATE SALE
-#     # =========================
-
-#     sale = Sale.objects.create(
-
-#         invoice_number=invoice_number,
-
-#         customer=customer,
-
-#         total=data.get("total", 0),
-
-#         paid=data.get("paid", 0),
-
-#         balance=data.get("balance", 0),
-
-#         cash=data.get("cash", 0),
-
-#         transfer=data.get(
-#             "transfer",
-#             0
-#         ),
-
-#         payment_method=data.get(
-#             "payment_method"
-#         )
-#     )
-
-#     # =========================
-#     # SAVE SALE ITEMS
-#     # =========================
-
-#     for row in rows:
-
-#         product = get_object_or_404(
-#             Product,
-#             id=row["productId"]
-#         )
-
-#         quantity = int(
-#             row.get("quantity", 0)
-#         )
-
-#         total = (
-#             float(product.price)
-#             * quantity
-#         )
-
-#         SaleItem.objects.create(
-
-#             sale=sale,
-
-#             product=product,
-
-#             product_name=product.name,
-
-#             quantity=quantity,
-
-#             price=product.price,
-
-#             total=total
-#         )
-
-#         # =========================
-#         # REDUCE PRODUCT STOCK
-#         # =========================
-
-#         product.quantity -= quantity
-
-#         product.save()
-
-#     # =========================
-#     # RESPONSE
-#     # =========================
-
-#     return Response({
-
-#         "success": True,
-
-#         "message": "Sale saved successfully",
-
-#         "invoice_number": invoice_number,
-
-#         "sale_id": sale.id
-#     })
-
 @api_view(['POST'])
 def create_sale(request):
 
@@ -1759,6 +1597,7 @@ def customer_sales(request, customer_id):
 
             payments.append({
                 "amount": payment.amount,
+                "payment_method": payment.payment_method,
                 "date": payment.created_at
             })
 
@@ -1789,7 +1628,6 @@ def customer_sales(request, customer_id):
         })
 
     return Response(data)
-
 
 
 
@@ -1879,6 +1717,7 @@ def pay_debt(request, sale_id):
         )
 
     amount = request.data.get("amount")
+    payment_method = request.data.get("payment_method", "Cash")
 
     if not amount:
 
@@ -1922,7 +1761,8 @@ def pay_debt(request, sale_id):
 
     DebtPayment.objects.create(
         sale=sale,
-        amount=amount
+        amount=amount,
+        payment_method=payment_method
     )
 
     # =========================
@@ -1930,18 +1770,23 @@ def pay_debt(request, sale_id):
     # =========================
 
     sale.paid = float(sale.paid) + amount
-
     sale.balance = float(sale.balance) - amount
 
     sale.save()
 
-    return Response({
-        "success": True,
-        "message": "Payment recorded successfully",
-        "paid": sale.paid,
-        "balance": sale.balance
-    })
+    # =========================
+    # RESPONSE
+    # =========================
 
+    return Response(
+        {
+            "success": True,
+            "message": "Payment recorded successfully",
+            "paid": sale.paid,
+            "balance": sale.balance,
+            "payment_method": payment_method,
+        }
+    )
 
 
 

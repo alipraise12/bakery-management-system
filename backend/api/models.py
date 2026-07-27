@@ -471,6 +471,12 @@ class SaleItem(models.Model):
 
 class DebtPayment(models.Model):
 
+    PAYMENT_METHODS = [
+        ("Cash", "Cash"),
+        ("Transfer", "Transfer"),
+        ("Cash/Transfer", "Cash/Transfer"),
+    ]
+
     sale = models.ForeignKey(
         "Sale",
         on_delete=models.CASCADE,
@@ -482,13 +488,21 @@ class DebtPayment(models.Model):
         decimal_places=2
     )
 
+    payment_method = models.CharField(
+        max_length=20,
+        choices=PAYMENT_METHODS,
+        default="Cash"
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
 
     def __str__(self):
-
-        return f"{self.sale.invoice_number} - ₦{self.amount}"
+        return (
+            f"{self.sale.invoice_number} - "
+            f"₦{self.amount} ({self.payment_method})"
+        )
     
 
 

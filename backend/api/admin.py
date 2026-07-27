@@ -624,13 +624,20 @@ class SaleItemAdmin(admin.ModelAdmin):
 # DEBT PAYMENT
 # ==========================================================
 
+from django.contrib import admin
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
+
 @admin.register(DebtPayment)
 class DebtPaymentAdmin(admin.ModelAdmin):
+
+    change_list_template = "admin/api/debtpayment/change_list.html"
 
     list_display = (
         "sale",
         "customer_name",
         "invoice",
+        "payment_method",
         "amount",
         "created_at",
     )
@@ -660,6 +667,52 @@ class DebtPaymentAdmin(admin.ModelAdmin):
 
     invoice.short_description = "Invoice"
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related(
+            "sale",
+            "sale__customer"
+        )
+
+    def changelist_view(self, request, extra_context=None):
+
+        extra_context = extra_context or {}
+
+        queryset = self.get_queryset(request)
+
+        total_cash = queryset.filter(
+            payment_method="Cash"
+        ).aggregate(
+            total=Coalesce(Sum("amount"), 0)
+        )["total"]
+
+        total_transfer = queryset.filter(
+            payment_method="Transfer"
+        ).aggregate(
+            total=Coalesce(Sum("amount"), 0)
+        )["total"]
+
+        total_cash_transfer = queryset.filter(
+            payment_method="Cash/Transfer"
+        ).aggregate(
+            total=Coalesce(Sum("amount"), 0)
+        )["total"]
+
+        grand_total = queryset.aggregate(
+            total=Coalesce(Sum("amount"), 0)
+        )["total"]
+
+        transaction_count = queryset.count()
+
+        extra_context["total_cash"] = total_cash
+        extra_context["total_transfer"] = total_transfer
+        extra_context["total_cash_transfer"] = total_cash_transfer
+        extra_context["grand_total"] = grand_total
+        extra_context["transaction_count"] = transaction_count
+
+        return super().changelist_view(
+            request,
+            extra_context=extra_context
+        )
 
 # ==========================================================
 # SALES DISPATCH
