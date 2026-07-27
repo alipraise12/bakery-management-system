@@ -1605,30 +1605,20 @@ def customer_sales(request, customer_id):
 
             "id": sale.id,
 
-            "invoice_number":
-                sale.invoice_number,
+            "invoice_number": sale.invoice_number,
 
-            "total":
-                sale.total,
+            "total": sale.total,
 
-            "paid":
-                sale.paid,
+            "paid": sale.paid,
 
-            "balance":
-                sale.balance,
+            "balance": sale.balance,
 
-            "payment_method":
-                sale.payment_method,
+            "created_at": sale.created_at,
 
-            "created_at":
-                sale.created_at,
-
-            "payments":
-                payments
+            "payments": payments
         })
 
     return Response(data)
-
 
 
 
