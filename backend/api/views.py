@@ -1591,35 +1591,21 @@ def customer_sales(request, customer_id):
 
     for sale in sales:
 
-        payments = []
-
-        for payment in sale.payments.all():
-
-            payments.append({
-                "amount": payment.amount,
-                "payment_method": payment.payment_method,
-                "date": payment.created_at
-            })
-
         data.append({
 
             "id": sale.id,
-
             "invoice_number": sale.invoice_number,
-
             "total": sale.total,
-
             "paid": sale.paid,
-
             "balance": sale.balance,
-
             "created_at": sale.created_at,
 
-            "payments": payments
+            # Temporarily remove payment history
+            "payments": []
+
         })
 
     return Response(data)
-
 
 
 
