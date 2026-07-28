@@ -1614,59 +1614,59 @@ def customer_sales(request, customer_id):
 
 
 
-@api_view(["POST"])
-def pay_debt(request, sale_id):
+# @api_view(["POST"])
+# def pay_debt(request, sale_id):
 
-    try:
+#     try:
 
-        sale = Sale.objects.get(id=sale_id)
+#         sale = Sale.objects.get(id=sale_id)
 
-    except Sale.DoesNotExist:
+#     except Sale.DoesNotExist:
 
-        return Response(
-            {"error": "Sale not found"},
-            status=status.HTTP_404_NOT_FOUND
-        )
+#         return Response(
+#             {"error": "Sale not found"},
+#             status=status.HTTP_404_NOT_FOUND
+#         )
 
-    amount = float(request.data.get("amount", 0))
+#     amount = float(request.data.get("amount", 0))
 
-    if amount <= 0:
+#     if amount <= 0:
 
-        return Response(
-            {"error": "Invalid amount"},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+#         return Response(
+#             {"error": "Invalid amount"},
+#             status=status.HTTP_400_BAD_REQUEST
+#         )
 
-    if amount > sale.balance:
+#     if amount > sale.balance:
 
-        return Response(
-            {"error": "Amount exceeds balance"},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+#         return Response(
+#             {"error": "Amount exceeds balance"},
+#             status=status.HTTP_400_BAD_REQUEST
+#         )
 
-    # ================= CREATE PAYMENT =================
+#     # ================= CREATE PAYMENT =================
 
-    payment = Payment.objects.create(
-        sale=sale,
-        amount=amount
-    )
+#     payment = Payment.objects.create(
+#         sale=sale,
+#         amount=amount
+#     )
 
-    # ================= UPDATE SALE =================
+#     # ================= UPDATE SALE =================
 
-    sale.paid += amount
-    sale.balance -= amount
+#     sale.paid += amount
+#     sale.balance -= amount
 
-    sale.save()
+#     sale.save()
 
-    return Response({
-        "message": "Payment successful",
-        "paid": sale.paid,
-        "balance": sale.balance,
-        "payment": {
-            "amount": payment.amount,
-            "date": payment.created_at
-        }
-    })
+#     return Response({
+#         "message": "Payment successful",
+#         "paid": sale.paid,
+#         "balance": sale.balance,
+#         "payment": {
+#             "amount": payment.amount,
+#             "date": payment.created_at
+#         }
+#     })
 
 
 
@@ -1676,94 +1676,198 @@ def pay_debt(request, sale_id):
 # PAY DEBT
 # =========================
 
+# @api_view(["POST"])
+# def pay_debt(request, sale_id):
+
+#     try:
+#         sale = Sale.objects.get(id=sale_id)
+
+#     except Sale.DoesNotExist:
+
+#         return Response(
+#             {
+#                 "success": False,
+#                 "message": "Sale not found"
+#             },
+#             status=404
+#         )
+
+#     amount = request.data.get("amount")
+#     payment_method = request.data.get("payment_method", "Cash")
+
+#     if not amount:
+
+#         return Response(
+#             {
+#                 "success": False,
+#                 "message": "Amount is required"
+#             },
+#             status=400
+#         )
+
+#     amount = float(amount)
+
+#     # =========================
+#     # VALIDATE AMOUNT
+#     # =========================
+
+#     if amount <= 0:
+
+#         return Response(
+#             {
+#                 "success": False,
+#                 "message": "Invalid amount"
+#             },
+#             status=400
+#         )
+
+#     if amount > float(sale.balance):
+
+#         return Response(
+#             {
+#                 "success": False,
+#                 "message": "Amount exceeds balance"
+#             },
+#             status=400
+#         )
+
+#     # =========================
+#     # SAVE PAYMENT HISTORY
+#     # =========================
+
+#     DebtPayment.objects.create(
+#         sale=sale,
+#         amount=amount,
+#         payment_method=payment_method
+#     )
+
+#     # =========================
+#     # UPDATE SALE
+#     # =========================
+
+#     sale.paid = float(sale.paid) + amount
+#     sale.balance = float(sale.balance) - amount
+
+#     sale.save()
+
+#     # =========================
+#     # RESPONSE
+#     # =========================
+
+#     return Response(
+#         {
+#             "success": True,
+#             "message": "Payment recorded successfully",
+#             "paid": sale.paid,
+#             "balance": sale.balance,
+#             "payment_method": payment_method,
+#         }
+#     )
+
+
 @api_view(["POST"])
 def pay_debt(request, sale_id):
 
     try:
-        sale = Sale.objects.get(id=sale_id)
 
-    except Sale.DoesNotExist:
+        # =========================
+        # GET SALE
+        # =========================
+
+        try:
+            sale = Sale.objects.get(id=sale_id)
+
+        except Sale.DoesNotExist:
+
+            return Response(
+                {
+                    "success": False,
+                    "message": "Sale not found"
+                },
+                status=404
+            )
+
+        amount = request.data.get("amount")
+        payment_method = request.data.get("payment_method", "Cash")
+
+        if not amount:
+
+            return Response(
+                {
+                    "success": False,
+                    "message": "Amount is required"
+                },
+                status=400
+            )
+
+        amount = float(amount)
+
+        # =========================
+        # VALIDATE AMOUNT
+        # =========================
+
+        if amount <= 0:
+
+            return Response(
+                {
+                    "success": False,
+                    "message": "Invalid amount"
+                },
+                status=400
+            )
+
+        if amount > float(sale.balance):
+
+            return Response(
+                {
+                    "success": False,
+                    "message": "Amount exceeds balance"
+                },
+                status=400
+            )
+
+        # =========================
+        # SAVE PAYMENT HISTORY
+        # =========================
+
+        DebtPayment.objects.create(
+            sale=sale,
+            amount=amount,
+            payment_method=payment_method
+        )
+
+        # =========================
+        # UPDATE SALE
+        # =========================
+
+        sale.paid = float(sale.paid) + amount
+        sale.balance = float(sale.balance) - amount
+
+        sale.save()
+
+        # =========================
+        # RESPONSE
+        # =========================
+
+        return Response(
+            {
+                "success": True,
+                "message": "Payment recorded successfully",
+                "paid": sale.paid,
+                "balance": sale.balance,
+                "payment_method": payment_method,
+            }
+        )
+
+    except Exception as e:
 
         return Response(
             {
                 "success": False,
-                "message": "Sale not found"
+                "error": str(e)
             },
-            status=404
+            status=500
         )
-
-    amount = request.data.get("amount")
-    payment_method = request.data.get("payment_method", "Cash")
-
-    if not amount:
-
-        return Response(
-            {
-                "success": False,
-                "message": "Amount is required"
-            },
-            status=400
-        )
-
-    amount = float(amount)
-
-    # =========================
-    # VALIDATE AMOUNT
-    # =========================
-
-    if amount <= 0:
-
-        return Response(
-            {
-                "success": False,
-                "message": "Invalid amount"
-            },
-            status=400
-        )
-
-    if amount > float(sale.balance):
-
-        return Response(
-            {
-                "success": False,
-                "message": "Amount exceeds balance"
-            },
-            status=400
-        )
-
-    # =========================
-    # SAVE PAYMENT HISTORY
-    # =========================
-
-    DebtPayment.objects.create(
-        sale=sale,
-        amount=amount,
-        payment_method=payment_method
-    )
-
-    # =========================
-    # UPDATE SALE
-    # =========================
-
-    sale.paid = float(sale.paid) + amount
-    sale.balance = float(sale.balance) - amount
-
-    sale.save()
-
-    # =========================
-    # RESPONSE
-    # =========================
-
-    return Response(
-        {
-            "success": True,
-            "message": "Payment recorded successfully",
-            "paid": sale.paid,
-            "balance": sale.balance,
-            "payment_method": payment_method,
-        }
-    )
-
 
 
 
