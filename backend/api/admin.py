@@ -623,7 +623,6 @@ class SaleItemAdmin(admin.ModelAdmin):
 # ==========================================================
 # DEBT PAYMENT
 # ==========================================================
-
 from django.contrib import admin
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
@@ -673,168 +672,12 @@ class DebtPaymentAdmin(admin.ModelAdmin):
             "sale__customer"
         )
 
+    # TEMPORARY TEST
     def changelist_view(self, request, extra_context=None):
-
-        extra_context = extra_context or {}
-
-        queryset = self.get_queryset(request)
-
-        total_cash = queryset.filter(
-            payment_method="Cash"
-        ).aggregate(
-            total=Coalesce(Sum("amount"), 0)
-        )["total"]
-
-        total_transfer = queryset.filter(
-            payment_method="Transfer"
-        ).aggregate(
-            total=Coalesce(Sum("amount"), 0)
-        )["total"]
-
-        total_cash_transfer = queryset.filter(
-            payment_method="Cash/Transfer"
-        ).aggregate(
-            total=Coalesce(Sum("amount"), 0)
-        )["total"]
-
-        grand_total = queryset.aggregate(
-            total=Coalesce(Sum("amount"), 0)
-        )["total"]
-
-        transaction_count = queryset.count()
-
-        extra_context["total_cash"] = total_cash
-        extra_context["total_transfer"] = total_transfer
-        extra_context["total_cash_transfer"] = total_cash_transfer
-        extra_context["grand_total"] = grand_total
-        extra_context["transaction_count"] = transaction_count
-
         return super().changelist_view(
             request,
             extra_context=extra_context
         )
-
-# ==========================================================
-# SALES DISPATCH
-# ==========================================================
-
-@admin.register(SalesDispatch)
-class SalesDispatchAdmin(admin.ModelAdmin):
-
-    list_display = (
-        "sale",
-        "sale_item",
-        "bread_type",
-        "quantity",
-        "confirmed",
-        "receiver",
-        "dispatched_by",
-        "created_at",
-    )
-
-    search_fields = (
-        "sale__invoice_number",
-        "bread_type",
-        "receiver",
-    )
-
-    list_filter = (
-        "confirmed",
-        "created_at",
-    )
-
-    ordering = (
-        "-created_at",
-    )
-
-    readonly_fields = (
-        "created_at",
-    )
-
-    list_per_page = 30
-
-
-# ==========================================================
-# DISPATCH STOCK
-# ==========================================================
-
-@admin.register(DispatchStock)
-class DispatchStockAdmin(admin.ModelAdmin):
-
-    list_display = (
-        "bread_type",
-        "quantity_received",
-        "quantity_remaining",
-        "confirmed",
-        "created_at",
-    )
-
-    search_fields = (
-        "bread_type",
-    )
-
-    list_filter = (
-        "confirmed",
-    )
-
-    ordering = (
-        "bread_type",
-    )
-
-    readonly_fields = (
-        "created_at",
-    )
-
-    list_per_page = 25
-
-
-# ==========================================================
-# CUSTOMER DISPATCH
-# ==========================================================
-
-@admin.register(CustomerDispatch)
-class CustomerDispatchAdmin(admin.ModelAdmin):
-
-    list_display = (
-        "invoice_number",
-        "customer_name",
-        "bread_type",
-        "quantity_given",
-        "receiver",
-        "created_at",
-    )
-
-    search_fields = (
-        "sale_item__sale__invoice_number",
-        "sale_item__sale__customer__name",
-        "bread_type",
-        "receiver",
-    )
-
-    list_filter = (
-        "created_at",
-    )
-
-    ordering = (
-        "-created_at",
-    )
-
-    readonly_fields = (
-        "created_at",
-    )
-
-    list_per_page = 30
-
-    def invoice_number(self, obj):
-        return obj.sale_item.sale.invoice_number
-
-    invoice_number.short_description = "Invoice"
-
-    def customer_name(self, obj):
-        return obj.sale_item.sale.customer.name
-
-    customer_name.short_description = "Customer"
-
 
 # ==========================================================
 # DISPATCH
