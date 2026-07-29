@@ -625,7 +625,6 @@ class SaleItemAdmin(admin.ModelAdmin):
 # ==========================================================
 from django.contrib import admin
 from django.db.models import Sum
-from django.db.models.functions import Coalesce
 
 @admin.register(DebtPayment)
 class DebtPaymentAdmin(admin.ModelAdmin):
@@ -672,8 +671,39 @@ class DebtPaymentAdmin(admin.ModelAdmin):
             "sale__customer"
         )
 
-    # TEMPORARY TEST
     def changelist_view(self, request, extra_context=None):
+
+        extra_context = extra_context or {}
+
+        queryset = self.get_queryset(request)
+
+        total_cash = (
+            queryset.filter(payment_method="Cash")
+            .aggregate(total=Sum("amount"))["total"] or 0
+        )
+
+        total_transfer = (
+            queryset.filter(payment_method="Transfer")
+            .aggregate(total=Sum("amount"))["total"] or 0
+        )
+
+        total_cash_transfer = (
+            queryset.filter(payment_method="Cash/Transfer")
+            .aggregate(total=Sum("amount"))["total"] or 0
+        )
+
+        grand_total = (
+            queryset.aggregate(total=Sum("amount"))["total"] or 0
+        )
+
+        transaction_count = queryset.count()
+
+        extra_context["total_cash"] = total_cash
+        extra_context["total_transfer"] = total_transfer
+        extra_context["total_cash_transfer"] = total_cash_transfer
+        extra_context["grand_total"] = grand_total
+        extra_context["transaction_count"] = transaction_count
+
         return super().changelist_view(
             request,
             extra_context=extra_context

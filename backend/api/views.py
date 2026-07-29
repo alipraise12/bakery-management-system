@@ -1600,13 +1600,18 @@ def customer_sales(request, customer_id):
             "balance": sale.balance,
             "created_at": sale.created_at,
 
-            # Temporarily remove payment history
-            "payments": []
+            "payments": [
+                {
+                    "amount": payment.amount,
+                    "payment_method": payment.payment_method,
+                    "date": payment.created_at,
+                }
+                for payment in sale.payments.all().order_by("-created_at")
+            ]
 
         })
 
     return Response(data)
-
 
 
 
@@ -1859,15 +1864,7 @@ def pay_debt(request, sale_id):
             }
         )
 
-    except Exception as e:
-
-        return Response(
-            {
-                "success": False,
-                "error": str(e)
-            },
-            status=500
-        )
+    
 
 
 
