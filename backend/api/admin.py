@@ -651,9 +651,10 @@ class SaleAdmin(admin.ModelAdmin):
 
         today_invoices = today_sales.count()
 
-        extra_context.update(
+        extra_context["today"]= (
             {
                 "revenue": today_revenue,
+                "paid": today_revenue,
                 "cash": today_cash,
                 "transfer": today_transfer,
                 "balance": today_balance,
@@ -734,9 +735,10 @@ class SaleAdmin(admin.ModelAdmin):
 
         month_invoices = month_sales.count()
 
-        extra_context.update(
+        extra_context["month"] =(
             {
                 "revenue": month_revenue,
+                "paid": month_revenue,
                 "cash": month_cash,
                 "transfer": month_transfer,
                 "balance": month_balance,
@@ -812,9 +814,10 @@ class SaleAdmin(admin.ModelAdmin):
 
         year_invoices = year_sales.count()
 
-        extra_context.update(
+        extra_context["year"] =(
             {
                 "revenue": year_revenue,
+                "paid": year_revenue,
                 "cash": year_cash,
                 "transfer": year_transfer,
                 "balance": year_balance,
