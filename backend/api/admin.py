@@ -607,7 +607,7 @@ class SaleAdmin(admin.ModelAdmin):
             )
         )["total"]
 
-        today_revenue = today_total + today_debt_total
+        today_revenue = today_total
 
         today_cash = today_sales.aggregate(
             total=Coalesce(
@@ -691,7 +691,7 @@ class SaleAdmin(admin.ModelAdmin):
             )
         )["total"]
 
-        month_revenue = month_total + month_debt_total
+        month_revenue = month_total 
 
         month_cash = month_sales.aggregate(
             total=Coalesce(
@@ -770,7 +770,7 @@ class SaleAdmin(admin.ModelAdmin):
             )
         )["total"]
 
-        year_revenue = year_total + year_debt_total
+        year_revenue = year_total
 
         year_cash = year_sales.aggregate(
             total=Coalesce(
@@ -859,7 +859,7 @@ class SaleAdmin(admin.ModelAdmin):
             )["total"]
 
             chart_labels.append(day.strftime("%a"))
-            chart_revenue.append(float(sales_total + debt_total))
+            chart_revenue.append(float(sales_total))
 
         extra_context["chart_labels"] = chart_labels
         extra_context["chart_revenue"] = chart_revenue
@@ -919,7 +919,7 @@ class SaleAdmin(admin.ModelAdmin):
                 "total"
             ]
 
-            month_revenue.append(float(sales_total + debt_total))
+            month_revenue.append(float(sales_total))
 
         extra_context["month_labels"] = month_labels
         extra_context["month_revenue"] = month_revenue
