@@ -653,11 +653,11 @@ class SaleAdmin(admin.ModelAdmin):
 
         extra_context.update(
             {
-                "today_revenue": today_revenue,
-                "today_cash": today_cash,
-                "today_transfer": today_transfer,
-                "today_balance": today_balance,
-                "today_invoices": today_invoices,
+                "revenue": today_revenue,
+                "cash": today_cash,
+                "transfer": today_transfer,
+                "balance": today_balance,
+                "invoices": today_invoices,
             }
         )
 
@@ -736,11 +736,11 @@ class SaleAdmin(admin.ModelAdmin):
 
         extra_context.update(
             {
-                "month_revenue": month_revenue,
-                "month_cash": month_cash,
-                "month_transfer": month_transfer,
-                "month_balance": month_balance,
-                "month_invoices": month_invoices,
+                "revenue": month_revenue,
+                "cash": month_cash,
+                "transfer": month_transfer,
+                "balance": month_balance,
+                "invoices": month_invoices,
             }
         )
 
@@ -814,11 +814,11 @@ class SaleAdmin(admin.ModelAdmin):
 
         extra_context.update(
             {
-                "year_revenue": year_revenue,
-                "year_cash": year_cash,
-                "year_transfer": year_transfer,
-                "year_balance": year_balance,
-                "year_invoices": year_invoices,
+                "revenue": year_revenue,
+                "cash": year_cash,
+                "transfer": year_transfer,
+                "balance": year_balance,
+                "invoices": year_invoices,
             }
         )
 
