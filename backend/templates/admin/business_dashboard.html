@@ -36,13 +36,8 @@
         </div>
 
         <div class="card profit">
-            <h3>Profit</h3>
-            <h2>₦{{ today_profit|floatformat:2|intcomma }}</h2>
-        </div>
-
-        <div class="card margin">
-            <h3>Profit Margin</h3>
-            <h2>{{ today_margin }}%</h2>
+            <h3>Available Balance</h3>
+            <h2>₦{{ today_available_balance|floatformat:2|intcomma }}</h2>
         </div>
 
     </div>
@@ -67,13 +62,8 @@
         </div>
 
         <div class="card profit">
-            <h3>Profit</h3>
-            <h2>₦{{ month_profit|floatformat:2|intcomma }}</h2>
-        </div>
-
-        <div class="card margin">
-            <h3>Profit Margin</h3>
-            <h2>{{ month_margin }}%</h2>
+            <h3>Available Balance</h3>
+            <h2>₦{{ month_available_balance|floatformat:2|intcomma }}</h2>
         </div>
 
     </div>
@@ -98,13 +88,8 @@
         </div>
 
         <div class="card profit">
-            <h3>Profit</h3>
-            <h2>₦{{ year_profit|floatformat:2|intcomma }}</h2>
-        </div>
-
-        <div class="card margin">
-            <h3>Profit Margin</h3>
-            <h2>{{ year_margin }}%</h2>
+            <h3>Available Balance</h3>
+            <h2>₦{{ year_available_balance|floatformat:2|intcomma }}</h2>
         </div>
 
     </div>
@@ -122,10 +107,10 @@
 
 
     <!-- ==========================================
-         PROFIT TREND
+         AVAILABLE BALANCE TREND
     ========================================== -->
 
-    <h2 class="section-title">Profit Trend (Last 7 Days)</h2>
+    <h2 class="section-title">Available Balance Trend (Last 7 Days)</h2>
 
     <div class="chart-box">
         <canvas id="profitChart"></canvas>
@@ -240,7 +225,7 @@ new Chart(document.getElementById("salesExpenseChart"), {
 
 
 /* ==========================================
-   PROFIT TREND
+   AVAILABLE BALANCE TREND
 ========================================== */
 
 new Chart(document.getElementById("profitChart"), {
@@ -255,7 +240,7 @@ new Chart(document.getElementById("profitChart"), {
 
             {
 
-                label: "Profit",
+                label: "Available Balance",
 
                 data: profitData,
 
