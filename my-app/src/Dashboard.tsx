@@ -64,15 +64,17 @@ function Dashboard() {
           {/* PROFILE + DROPDOWN */}
           <div className="profile-wrapper">
             <img
-              src={
-                user.picture
-                  ? `${API_URL}${user.picture}`
-                  : "https://via.placeholder.com/80"
-              }
-              alt="profile"
-              className="avatar"
-              onClick={() => setShowMenu(!showMenu)}
-            />
+  src={
+    user.picture
+      ? user.picture.startsWith("http")
+        ? user.picture
+        : `${API_URL}${user.picture}`
+      : "https://via.placeholder.com/80"
+  }
+  alt="profile"
+  className="avatar"
+  onClick={() => setShowMenu(!showMenu)}
+/>
 
             {/* 🔽 DROPDOWN */}
             {showMenu && (
