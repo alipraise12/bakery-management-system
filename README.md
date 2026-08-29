@@ -15,5 +15,5 @@ A full-stack web application built to manage bakery operations, order processing
 
 ## 💻 Local Setup
 1. Clone the repository:
-   ```bash
- https://github.com/alipraise12/bakery-management-system.git
+```bash
+git clone [https://github.com/alipraise12/bakery-management-system.git](https://github.com/alipraise12/bakery-management-system.git)
