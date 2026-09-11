@@ -132,10 +132,10 @@ CORS_ALLOWED_ORIGINS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.onrender.com",
-    "https://*.koyeb.app",
-    "https://bakery-management-system-production-ece0.up.railway.app",
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://bakery-management-system-1-vi2z.onrender.com",  # Added your Render frontend
     "https://bakery-management-system-theta.vercel.app",
     "https://bakery-management-system-git-main-pjcreative.vercel.app",
     "https://pjcreativehouse.com",
